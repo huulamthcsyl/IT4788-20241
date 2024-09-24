@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             routes: {
-              '/login': (context) => LoginView(),
-              '/sign-up': (context) => SignUpView(),
+              '/login': (context) => const LoginView(),
+              '/sign-up': (context) => const SignUpView(),
             },
-            home: LoginView()
+            home: const LoginView()
         )
     );
   }
