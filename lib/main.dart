@@ -8,6 +8,11 @@ import 'package:it4788_20241/class/views/class_register_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_register_viewmodel.dart';
 import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
+// Quan ly lop cua giang vien
+import 'package:it4788_20241/classCtrl//views/classCtrl_view.dart';
+import 'package:it4788_20241/classCtrl//viewmodels/classCtrl_viewmodel.dart';
+import 'package:it4788_20241/classCtrl//views/classCtrlForm_view.dart';
+import 'package:it4788_20241/classCtrl//viewmodels/classCtrlForm_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +29,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SignUpViewModel()),
           ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassCtrlViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassCtrlFormViewModel()),
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -37,9 +44,11 @@ class MyApp extends StatelessWidget {
               '/sign-up': (context) => const SignUpView(),
               '/class-register': (context) => RegisterClassPage(),
               '/class-list': (context) => ClassListPage(),
+              '/class-control': (context) => ClassCtrlPage(),
+              '/class-form': (context) => ClassCtrlFormPage(onSave: (ClassData ) {  },),
             },
             //home: const LoginView()
-            home: RegisterClassPage()
+            home: ClassCtrlPage()
         )
     );
   }
