@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
             },
             //home: const LoginView()
-            home: ClassMaterialUploadFilePage()
+            home: ClassMaterialPage()
         )
     );
   }

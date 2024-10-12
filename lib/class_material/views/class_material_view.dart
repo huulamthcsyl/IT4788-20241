@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 
 class ClassMaterialPage extends StatelessWidget{
   @override
@@ -13,7 +14,9 @@ class ClassMaterialPage extends StatelessWidget{
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
+            },
           ),
         ],
         bottom: TabBar(
