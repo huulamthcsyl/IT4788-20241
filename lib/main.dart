@@ -8,6 +8,8 @@ import 'package:it4788_20241/class/views/class_register_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_register_viewmodel.dart';
 import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
+import 'package:it4788_20241/class_material/views/class_material_view.dart';
+import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,9 +39,11 @@ class MyApp extends StatelessWidget {
               '/sign-up': (context) => const SignUpView(),
               '/class-register': (context) => RegisterClassPage(),
               '/class-list': (context) => ClassListPage(),
+              '/class-material': (context) => ClassMaterialPage(),
+              '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
             },
             //home: const LoginView()
-            home: RegisterClassPage()
+            home: ClassMaterialUploadFilePage()
         )
     );
   }
