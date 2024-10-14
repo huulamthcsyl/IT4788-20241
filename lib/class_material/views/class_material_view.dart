@@ -3,12 +3,19 @@ import 'package:provider/provider.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 
 class ClassMaterialPage extends StatelessWidget{
-  final List<Map<String, String>> items = [
+  final List<Map<String, String>> Class_Materials = [
   {'title': 'picture.png', 'subtitle': 'PNG'},
   {'title': 'picture.jpg', 'subtitle': 'JPG'},
   {'title': 'lecture.docx', 'subtitle': 'WORD DOCUMENT'},
   {'title': 'baocao.pdf', 'subtitle': 'PDF'},
   {'title': 'thongke.xlsx', 'subtitle': 'EXCEL'},
+  ];
+  final List<Map<String, String>> Class_Tests = [
+    {'title': 'Test 1', 'subtitle': 'Week 1 Exam'},
+    {'title': 'Test 2', 'subtitle': 'Week 2 Exam'},
+    {'title': 'Test 3', 'subtitle': 'Week 3 Exam'},
+    {'title': 'Test 4', 'subtitle': 'Week 4 Exam'},
+    {'title': 'Test 5', 'subtitle': 'Week 5 Exam'},
   ];
   @override
   Widget build(BuildContext context) {
@@ -27,6 +34,9 @@ class ClassMaterialPage extends StatelessWidget{
           ),
         ],
         bottom: TabBar(
+            indicatorColor: Colors.red,
+            labelColor: Colors.black,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
           tabs: [
             Tab(
                 text: "Kiểm tra"),
@@ -34,15 +44,16 @@ class ClassMaterialPage extends StatelessWidget{
                 text: "Tài liệu")
           ],
       ),
+
       ),
   body: TabBarView(children: <Widget>[
-        _buildListViewWithName('Test Week'),
-        _buildListViewWithName('File Material')
+    _buildListView(Class_Tests),
+    _buildListView(Class_Materials)
   ] )
     ));
   }
 
-  ListView _buildListViewWithName(String s) {
+  ListView _buildListView(List<Map<String, String>> items) {
 
     Widget column = Expanded(
       child: Column(
