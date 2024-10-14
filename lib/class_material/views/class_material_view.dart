@@ -47,13 +47,13 @@ class ClassMaterialPage extends StatelessWidget{
 
       ),
   body: TabBarView(children: <Widget>[
-    _buildListView(Class_Tests),
-    _buildListView(Class_Materials)
+    _buildListView(Class_Tests, "class_tests"),
+    _buildListView(Class_Materials, "class_materials")
   ] )
     ));
   }
 
-  ListView _buildListView(List<Map<String, String>> items) {
+  ListView _buildListView(List<Map<String, String>> items, String type) {
 
     Widget column = Expanded(
       child: Column(
@@ -87,7 +87,7 @@ class ClassMaterialPage extends StatelessWidget{
                   IconButton(
                     icon: Icon(Icons.more_vert),
                     onPressed: () {
-                      _showFileOptions(context, item['title']!);
+                      _showFileOptions(context, item['title']!, type);
                     },
                   )
                 ],
@@ -97,72 +97,69 @@ class ClassMaterialPage extends StatelessWidget{
         });
   }
 
-  void _showFileOptions(BuildContext context, String fileName) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                fileName,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              ListTile(
-                leading: Icon(Icons.open_in_new),
-                title: Text('Mở'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.offline_pin),
-                title: Text('Làm có sẵn ngoại tuyến'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.drive_file_rename_outline),
-                title: Text('Đổi tên'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.delete),
-                title: Text('Xóa'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.share),
-                title: Text('Chia sẻ'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.link),
-                title: Text('Sao chép liên kết'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.send),
-                title: Text('Gửi một bản'),
-                onTap: () {
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.open_in_browser),
-                title: Text('Mở trong ứng dụng'),
-                onTap: () {
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  void _showFileOptions(BuildContext context, String fileName, String type) {
+    if (type == "class_materials") {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  fileName,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                ListTile(
+                  leading: Icon(Icons.open_in_new),
+                  title: Text('Mở'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.offline_pin),
+                  title: Text('Làm có sẵn ngoại tuyến'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.drive_file_rename_outline),
+                  title: Text('Đổi tên'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.delete),
+                  title: Text('Xóa'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.share),
+                  title: Text('Chia sẻ'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.link),
+                  title: Text('Sao chép liên kết'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.send),
+                  title: Text('Gửi một bản'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.open_in_browser),
+                  title: Text('Mở trong ứng dụng'),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+    else {
+      // Chỗ này là hiển thị những cái tùy chọn khi ấn vào bài kiểm tra, làm tương tự ở dưới
+    }
   }
 
 }
