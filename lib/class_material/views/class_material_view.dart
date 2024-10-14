@@ -3,6 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 
 class ClassMaterialPage extends StatelessWidget{
+  final List<Map<String, String>> items = [
+  {'title': 'picture.png', 'subtitle': 'PNG'},
+  {'title': 'picture.jpg', 'subtitle': 'JPG'},
+  {'title': 'lecture.docx', 'subtitle': 'WORD DOCUMENT'},
+  {'title': 'baocao.pdf', 'subtitle': 'PDF'},
+  {'title': 'thongke.xlsx', 'subtitle': 'EXCEL'},
+  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -34,18 +41,49 @@ class ClassMaterialPage extends StatelessWidget{
   ] )
     ));
   }
+
   ListView _buildListViewWithName(String s) {
-    return ListView.builder(
-      itemBuilder: (context, index) => ListTile(
-        title: Text(s + ' $index'),
-        trailing: IconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {
-            _showFileOptions(context, s + ' $index');
-          },
-        ),
+
+    Widget column = Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Title', style: TextStyle(fontSize: 16),),
+          Text('subtitle'),
+        ],
       ),
     );
+    return ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index)
+        {
+          final item = items[index];
+          Widget column = Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // align text to the left
+              children: <Widget>[
+                Text(item['title']!, style: TextStyle(fontSize: 16)),
+                Text(item['subtitle']!),
+              ],
+            ),
+          );
+          return Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  column,
+                  IconButton(
+                    icon: Icon(Icons.more_vert),
+                    onPressed: () {
+                      _showFileOptions(context, item['title']!);
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   void _showFileOptions(BuildContext context, String fileName) {
