@@ -8,6 +8,7 @@ class ClassMaterialViewModel extends ChangeNotifier
   late List<ClassMaterial> _classes;
 
   List<ClassMaterial> getClassMaterials(String classCode) {
+    // Trong trường hợp có Database rồi thì truy vấn database để lấy file dựa trên classCode
     List<ClassMaterial> listMaterial = List.generate(10, (index) => ClassMaterial(
         fileName: 'class_material${index + 1}.docx',
         fileDescription: 'class Materials',
