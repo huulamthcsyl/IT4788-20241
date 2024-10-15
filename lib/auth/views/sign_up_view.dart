@@ -6,6 +6,7 @@ import 'package:it4788_20241/auth/widgets/password_field.dart';
 import 'package:it4788_20241/auth/widgets/submit_button.dart';
 import 'package:it4788_20241/main.dart';
 import 'package:it4788_20241/utils/validate_email.dart';
+import 'package:it4788_20241/utils/validate_password.dart';
 import 'package:provider/provider.dart';
 
 class SignUpView extends StatefulWidget {
@@ -40,7 +41,7 @@ class _SignUpViewState extends State<SignUpView> {
                       InputField(
                         hint: "Họ và tên",
                         prefixIcon: const Icon(Icons.person),
-                        update: viewModel.updateEmail,
+                        update: viewModel.updateName,
                         validate: validateEmail,
                         controller: viewModel.nameController,
                       ),
@@ -56,14 +57,14 @@ class _SignUpViewState extends State<SignUpView> {
                       PasswordField(
                         hint: "Mật khẩu",
                         update: viewModel.updatePassword,
-                        validate: validateEmail,
+                        validate: validatePassword,
                         controller: viewModel.passwordController,
                       ),
                       const SizedBox(height: 20),
                       PasswordField(
                         hint: "Nhập lại mật khẩu",
                         update: viewModel.updatePassword,
-                        validate: validateEmail,
+                        validate: validatePassword,
                         controller: viewModel.confirmPasswordController,
                       ),
                       const SizedBox(height: 20),
