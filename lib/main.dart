@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
 import 'package:it4788_20241/class/views/class_register_view.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SignUpViewModel()),
           ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassMaterialViewModel())
         ],
         child: MaterialApp(
             title: 'QLDT',

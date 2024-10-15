@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/class_model.dart';
-
 class ClassListViewModel extends ChangeNotifier {
   late List<ClassInfo> _classes;
   List<ClassInfo> filteredClasses = [];
@@ -32,3 +31,4 @@ class ClassListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+

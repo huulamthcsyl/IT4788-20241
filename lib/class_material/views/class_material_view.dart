@@ -1,80 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
+import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
+import 'package:provider/provider.dart';
+class ClassMaterialPage extends StatefulWidget {
+  @override
+  _ClassMaterialPageState createState() => _ClassMaterialPageState();
+}
 
-class ClassMaterialPage extends StatelessWidget{
-  final List<Map<String, String>> Class_Materials = [
-  {'title': 'picture.png', 'subtitle': 'PNG'},
-  {'title': 'picture.jpg', 'subtitle': 'JPG'},
-  {'title': 'lecture.docx', 'subtitle': 'WORD DOCUMENT'},
-  {'title': 'baocao.pdf', 'subtitle': 'PDF'},
-  {'title': 'thongke.xlsx', 'subtitle': 'EXCEL'},
-  ];
-  final List<Map<String, String>> Class_Tests = [
-    {'title': 'Test 1', 'subtitle': 'Week 1 Exam'},
-    {'title': 'Test 2', 'subtitle': 'Week 2 Exam'},
-    {'title': 'Test 3', 'subtitle': 'Week 3 Exam'},
-    {'title': 'Test 4', 'subtitle': 'Week 4 Exam'},
-    {'title': 'Test 5', 'subtitle': 'Week 5 Exam'},
-  ];
+class _ClassMaterialPageState extends State<ClassMaterialPage>
+{
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<ClassMaterialViewModel>(context);
     return DefaultTabController(
-        length: 2
-        , child: Scaffold(
-      appBar: AppBar(
-              leading: BackButton(),
-        title: Text("OOP 2024.1"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: (){
-              Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
-            },
+        length: 2,
+        initialIndex: 1,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: BackButton(),
+            title: Text("OOP 2024.1"),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
+                },
+              ),
+            ],
+            bottom: TabBar(
+              onTap: (int index)
+                  {
+                    setState(()
+                  {
+                      viewModel.onClickTabBar(index, context);
+                  });
+              },
+              indicatorColor: Colors.red,
+              labelColor: Colors.black,
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              tabs: [
+                Tab(text: "Kiểm tra"),
+                Tab(text: "Tài liệu")
+              ],
+            ),
           ),
-        ],
-        bottom: TabBar(
-            indicatorColor: Colors.red,
-            labelColor: Colors.black,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          tabs: [
-            Tab(
-                text: "Kiểm tra"),
-            Tab(
-                text: "Tài liệu")
-          ],
-      ),
-
-      ),
-  body: TabBarView(children: <Widget>[
-    _buildListView(Class_Tests, "class_tests"),
-    _buildListView(Class_Materials, "class_materials")
-  ] )
-    ));
+          body: _buildListView(viewModel.getClassMaterials("127822")), // Use the current tab index to control the list view
+        ));
   }
 
-  ListView _buildListView(List<Map<String, String>> items, String type) {
-
-    Widget column = Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Title', style: TextStyle(fontSize: 16),),
-          Text('subtitle'),
-        ],
-      ),
-    );
+  ListView _buildListView(List<ClassMaterial> listMaterials) {
     return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index)
-        {
-          final item = items[index];
+      itemCount: listMaterials.length,
+        itemBuilder: (context, index) {
+          final viewModel = Provider.of<ClassMaterialViewModel>(context);
+          final item = listMaterials[index];
           Widget column = Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // align text to the left
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(item['title']!, style: TextStyle(fontSize: 16)),
-                Text(item['subtitle']!),
+                Text(item.fileName!, style: TextStyle(fontSize: 16)),
+                Text(item.fileDescription!),
               ],
             ),
           );
@@ -87,7 +73,7 @@ class ClassMaterialPage extends StatelessWidget{
                   IconButton(
                     icon: Icon(Icons.more_vert),
                     onPressed: () {
-                      _showFileOptions(context, item['title']!, type);
+                      showFileOptions(context, item.fileName!);
                     },
                   )
                 ],
@@ -96,70 +82,63 @@ class ClassMaterialPage extends StatelessWidget{
           );
         });
   }
-
-  void _showFileOptions(BuildContext context, String fileName, String type) {
-    if (type == "class_materials") {
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  fileName,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                ListTile(
-                  leading: Icon(Icons.open_in_new),
-                  title: Text('Mở'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.offline_pin),
-                  title: Text('Làm có sẵn ngoại tuyến'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.drive_file_rename_outline),
-                  title: Text('Đổi tên'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.delete),
-                  title: Text('Xóa'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.share),
-                  title: Text('Chia sẻ'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.link),
-                  title: Text('Sao chép liên kết'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.send),
-                  title: Text('Gửi một bản'),
-                  onTap: () {},
-                ),
-                ListTile(
-                  leading: Icon(Icons.open_in_browser),
-                  title: Text('Mở trong ứng dụng'),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-    else {
-      // Chỗ này là hiển thị những cái tùy chọn khi ấn vào bài kiểm tra, làm tương tự ở dưới
-    }
+  void showFileOptions(BuildContext context, String fileName) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                fileName,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              ListTile(
+                leading: Icon(Icons.open_in_new),
+                title: Text('Mở'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.offline_pin),
+                title: Text('Làm có sẵn ngoại tuyến'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.drive_file_rename_outline),
+                title: Text('Đổi tên'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.delete),
+                title: Text('Xóa'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.share),
+                title: Text('Chia sẻ'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.link),
+                title: Text('Sao chép liên kết'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.send),
+                title: Text('Gửi một bản'),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(Icons.open_in_browser),
+                title: Text('Mở trong ứng dụng'),
+                onTap: () {},
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
-
 }
