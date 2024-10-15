@@ -12,7 +12,8 @@ class ClassMaterialViewModel extends ChangeNotifier
         fileName: 'class_material${index + 1}.docx',
         fileDescription: 'class Materials',
         dateModified: DateTime.now(),
-        classCode: classCode  // Use the classCode parameter here
+        classCode: classCode,// Use the classCode parameter here
+      filePath: ""
     ));
     return listMaterial;
   }
