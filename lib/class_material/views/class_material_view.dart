@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +12,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
+    final classMaterials = viewModel.getClassMaterials("199289");
     return DefaultTabController(
         length: 2,
         initialIndex: 1,
@@ -45,42 +45,39 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
               ],
             ),
           ),
-          body: _buildListView(viewModel.getClassMaterials("127822")), // Use the current tab index to control the list view
+          body:
+            ListView.builder(
+            itemCount: classMaterials.length,
+            itemBuilder: (context, index) {
+              final viewModel = Provider.of<ClassMaterialViewModel>(context);
+              final item = classMaterials[index];
+              Widget column = Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(item.fileName!, style: TextStyle(fontSize: 16)),
+                    Text(item.fileDescription!),
+                  ],
+                ),
+              );
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      column,
+                      IconButton(
+                        icon: Icon(Icons.more_vert),
+                        onPressed: () {
+                          showFileOptions(context, item.fileName!);
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }) // Use the current tab index to control the list view
         ));
-  }
-
-  ListView _buildListView(List<ClassMaterial> listMaterials) {
-    return ListView.builder(
-      itemCount: listMaterials.length,
-        itemBuilder: (context, index) {
-          final viewModel = Provider.of<ClassMaterialViewModel>(context);
-          final item = listMaterials[index];
-          Widget column = Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(item.fileName!, style: TextStyle(fontSize: 16)),
-                Text(item.fileDescription!),
-              ],
-            ),
-          );
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  column,
-                  IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () {
-                      showFileOptions(context, item.fileName!);
-                    },
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
   void showFileOptions(BuildContext context, String fileName) {
     showModalBottomSheet(
