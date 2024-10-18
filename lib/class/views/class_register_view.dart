@@ -167,7 +167,7 @@ class RegisterClassPage extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Chọn', style: TextStyle(color: Colors.white))),
+                                child: Center(child: Text('Xóa', style: TextStyle(color: Colors.white))),
                               ),
                             ],
                           ),
@@ -213,10 +213,10 @@ class RegisterClassPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(0.0),
                                   child: Center(
-                                    child: Checkbox(
-                                      value: viewModel.registeredClasses[i].isSelected,
-                                      onChanged: (bool? value) {
-                                        viewModel.toggleClassSelection(i, value);
+                                    child: IconButton(
+                                      icon: Icon(Icons.delete, color: Colors.red),
+                                      onPressed: () {
+                                        viewModel.deleteClassTemporarily(i);  // Xóa tạm thời
                                       },
                                     ),
                                   ),
@@ -249,21 +249,6 @@ class RegisterClassPage extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     ),
                     child: Text('Gửi đăng ký',
-                      style: TextStyle(color: Colors.white, fontSize: 20.0),
-                    ),
-                  ),
-
-                  // Nút "Xóa lớp"
-                  ElevatedButton(
-                    onPressed: viewModel.deleteSelectedClasses, // Xóa lớp đã chọn
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Màu nền đỏ
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0), // Viền ít cong hơn
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                    ),
-                    child: Text('Xóa lớp',
                       style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
                   ),
