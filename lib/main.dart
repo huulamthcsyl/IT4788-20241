@@ -66,8 +66,10 @@ class MyApp extends StatelessWidget {
               '/class-control': (context) => ClassCtrlPage(),
               '/class-form': (context) => ClassCtrlFormPage(onSave: (ClassData ) {  },),
             },
-            //home: const LoginView()
+            // home: const LoginView()
+            // home: ClassCtrlFormPage(onSave: (ClassData){})
             home: ClassCtrlPage()
+            // home: RegisterClassPage()
         )
     );
   }
