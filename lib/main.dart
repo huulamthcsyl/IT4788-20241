@@ -8,6 +8,8 @@ import 'package:it4788_20241/class/views/class_register_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_register_viewmodel.dart';
 import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
+import 'package:it4788_20241/leave/views/leave_request_view.dart';
+import 'package:it4788_20241/leave/viewmodels/leave_request_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SignUpViewModel()),
           ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
+          ChangeNotifierProvider(create: (context) => LeaveRequestViewModel()),
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -37,9 +40,10 @@ class MyApp extends StatelessWidget {
               '/sign-up': (context) => const SignUpView(),
               '/class-register': (context) => RegisterClassPage(),
               '/class-list': (context) => ClassListPage(),
+              '/leave-request': (context) => LeaveRequestPage(),
             },
             //home: const LoginView()
-            home: RegisterClassPage()
+            home: LeaveRequestPage()
         )
     );
   }
