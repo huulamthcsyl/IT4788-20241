@@ -61,67 +61,29 @@ class _ClassListPageState extends State<ClassListPage> {
             ),
             SizedBox(height: 16.0),
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Table(
-                  border: TableBorder.all(color: Colors.black),
-                  columnWidths: const <int, TableColumnWidth>{
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(1),
-                    2: FlexColumnWidth(2),
-                    3: FlexColumnWidth(1),
-                  },
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  children: [
-                    TableRow(
-                      decoration: BoxDecoration(color: Colors.red),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 3.0),
-                          child: Center(child: Text('Mã lớp', style: TextStyle(color: Colors.white))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 3.0),
-                          child: Center(child: Text('Mã HP', style: TextStyle(color: Colors.white))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 3.0),
-                          child: Center(child: Text('Tên lớp', style: TextStyle(color: Colors.white))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 3.0),
-                          child: Center(child: Text('Chi tiết', style: TextStyle(color: Colors.white))),
-                        ),
-                      ],
-                    ),
-                    for (var classInfo in displayedClasses)
-                      TableRow(
+              child: ListView.builder(
+                itemCount: displayedClasses.length,
+                itemBuilder: (context, index) {
+                  final classInfo = displayedClasses[index];
+                  return Card(
+                    elevation: 2,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(classInfo.className),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Center(child: Text(classInfo.classCode)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Center(child: Text(classInfo.courseCode)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Center(child: Text(classInfo.className)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Center(
-                              child: TextButton(
-                                onPressed: () => classListViewModel.showClassDetails(context, classInfo),
-                                child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
-                              ),
-                            ),
-                          ),
+                          Text('Mã lớp: ${classInfo.classCode}'),
+                          Text('Mã học phần: ${classInfo.courseCode}'),
                         ],
                       ),
-                  ],
-                ),
+                      trailing: TextButton(
+                        onPressed: () => classListViewModel.showClassDetails(context, classInfo),
+                        child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Row(

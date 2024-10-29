@@ -4,7 +4,6 @@ import '../viewmodels/class_register_viewmodel.dart';
 
 class RegisterClassPage extends StatelessWidget {
   final TextEditingController _classCodeController = TextEditingController();
-  ScrollController _horizontalScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +22,17 @@ class RegisterClassPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        // Sử dụng Container để kiểm soát kích thước của giao diện
         width: double.infinity,
-        height: MediaQuery.of(context).size.height, // Đặt chiều cao bằng chiều cao màn hình
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             Container(
-              color: Colors.red, // Màu nền đỏ cho toàn bộ phần
-              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0), // Giảm khoảng cách trên và dưới
-              child: Center( // Đặt ảnh vào giữa
+              color: Colors.red,
+              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+              child: Center(
                 child: Image(
                   image: AssetImage('assets/img/logo_hust_white.png'),
-                  width: MediaQuery.of(context).size.width * 0.4, // Chiều rộng bằng một nửa màn hình
+                  width: MediaQuery.of(context).size.width * 0.4,
                 ),
               ),
             ),
@@ -44,25 +42,25 @@ class RegisterClassPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.5, // Chiều rộng tương ứng với khoảng 10 ký tự
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: TextField(
                         controller: _classCodeController,
                         decoration: InputDecoration(
                           labelText: 'Nhập mã lớp học',
-                          labelStyle: TextStyle(color: Colors.red), // Màu chữ cho label
+                          labelStyle: TextStyle(color: Colors.red),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red), // Màu viền trắng
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi focus
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi không focus
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
-                          hintStyle: TextStyle(color: Colors.red, fontSize: 20.0,), // Màu chữ khi nhập
+                          hintStyle: TextStyle(color: Colors.red, fontSize: 20.0),
                         ),
-                        style: TextStyle(color: Colors.red), // Màu chữ nhập
+                        style: TextStyle(color: Colors.red),
                       ),
                     ),
                   ),
@@ -70,23 +68,22 @@ class RegisterClassPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       viewModel.addClass(_classCodeController.text);
-                      _classCodeController.clear(); // Xóa nội dung sau khi đăng ký
+                      _classCodeController.clear();
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Màu nền đỏ
+                      backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0), // Viền ít cong hơn
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     ),
                     child: Text('Đăng ký',
-                      style: TextStyle(color: Colors.white, fontSize: 20.0,),
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
                   ),
                 ],
               ),
             ),
-
             viewModel.registeredClasses.isEmpty
                 ? Padding(
               padding: const EdgeInsets.all(16.0),
@@ -95,156 +92,88 @@ class RegisterClassPage extends StatelessWidget {
                 style: TextStyle(color: Colors.red, fontSize: 18.0),
               ),
             )
-                :
-            Expanded(
-              child: SingleChildScrollView(
-               child: Column(
-                children: [
-                 Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0), // Đặt khoảng cách lề cho bảng
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal, // Đảm bảo cuộn ngang
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical, // Đảm bảo cuộn dọc
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 2.5, // Rộng hơn màn hình để có thể cuộn ngang
-                      child: Table(
-                        border: TableBorder.all(color: Colors.black), // Viền bảng màu đen
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: FixedColumnWidth(80),
-                          1: FixedColumnWidth(80),
-                          2: FixedColumnWidth(80),
-                          3: FixedColumnWidth(150),
-                          4: FixedColumnWidth(150),
-                          5: FixedColumnWidth(100),
-                          6: FixedColumnWidth(50),
-                          7: FixedColumnWidth(80),
-                          8: FixedColumnWidth(100),
-                          9: FixedColumnWidth(50),
-                        },
-                        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                        children: [
-                          TableRow(
-                            decoration: BoxDecoration(
-                              color: Colors.red, // Nền màu đỏ cho hàng tiêu đề
+                : Expanded(
+              child: ListView.builder(
+                itemCount: viewModel.registeredClasses.length,
+                itemBuilder: (context, index) {
+                  final classItem = viewModel.registeredClasses[index];
+                  return Card(
+                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                      child: ListTile(
+                        title: Text(classItem.className),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Mã lớp: ${classItem.classCode}'),
+                            Text('Mã học phần: ${classItem.courseCode}'),
+                          ],
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min, // Chỉ sử dụng không gian cần thiết
+                          children: [
+                            ElevatedButton(
+                              onPressed: () { // Mở modal hoặc trang chi tiết cho lớp học
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('Chi tiết lớp học', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                                            SizedBox(height: 16),
+                                            Text('Mã lớp: ${classItem.classCode}'),
+                                            Text('Mã lớp kèm: ${classItem.linkedClassCode}'),
+                                            Text('Mã HP: ${classItem.courseCode}'),
+                                            Text('Tên lớp: ${classItem.className}'),
+                                            Text('Lịch học: ${classItem.schedule}'),
+                                            Text('Phòng học: ${classItem.classroom}'),
+                                            Text('Số TC: ${classItem.credits}'),
+                                            Text('Loại lớp: ${classItem.classType}'),
+                                            Text('Trạng thái: ${classItem.status}'),
+                                            SizedBox(height: 16),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(); // Đóng modal
+                                              },
+                                              child: Text('Đóng', style: TextStyle(color: Colors.red)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                             ),
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Mã lớp', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Mã lớp kèm', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Mã HP', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Tên lớp', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Lịch học', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Phòng học', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Số TC', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Loại lớp', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Trạng thái', style: TextStyle(color: Colors.white))),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
-                                child: Center(child: Text('Xóa', style: TextStyle(color: Colors.white))),
-                              ),
-                            ],
-                          ),
-                          for (int i = 0; i < viewModel.registeredClasses.length; i++)
-                            TableRow(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0), // Thêm padding cho chữ trong bảng
-                                  child: Center(child: Text(viewModel.registeredClasses[i].classCode)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].linkedClassCode)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].courseCode)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].className)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].schedule)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].classroom)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].credits.toString())),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].classType)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(child: Text(viewModel.registeredClasses[i].status)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Center(
-                                    child: IconButton(
-                                      icon: Icon(Icons.delete, color: Colors.red),
-                                      onPressed: () {
-                                        viewModel.deleteClassTemporarily(i);  // Xóa tạm thời
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            SizedBox(width: 8), // Khoảng cách giữa các nút
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                viewModel.deleteClassTemporarily(index);
+                              },
                             ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                          ],
+                        ),
+                      )
+                  );
+                },
               ),
-
-
-
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-              child: Column(
-                children: [ Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Nút "Gửi đăng ký"
                   ElevatedButton(
-                    onPressed: viewModel.submitRegistration, // Gửi đăng ký
+                    onPressed: viewModel.submitRegistration,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Màu nền đỏ
+                      backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0), // Viền ít cong hơn
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     ),
@@ -252,36 +181,26 @@ class RegisterClassPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
                   ),
-                  ],
-                ),
-
                 ],
               ),
-
             ),
-
-          ],
-        ),
-      ),
-    ),
-            // Dòng chữ "Thông tin danh sách các lớp mở"
-            SizedBox(height: 10.0), // Khoảng cách giữa nút và dòng chữ
+            SizedBox(height: 10.0),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/class-list');  // Sử dụng route name để điều hướng
+                Navigator.pushNamed(context, '/class-list');
               },
               child: Text(
                 'Thông tin danh sách các lớp mở',
                 style: TextStyle(
-                  color: Colors.red, // Màu đỏ
-                  fontStyle: FontStyle.italic, // In nghiêng
-                  decoration: TextDecoration.underline, // Gạch chân
+                  color: Colors.red,
+                  fontStyle: FontStyle.italic,
+                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
-        ]
+          ],
+        ),
       ),
-    ),
     );
   }
 }
