@@ -37,12 +37,21 @@ class LeaveRequestPage extends StatelessWidget {
             TextField(
               controller: leaveRequestViewModel.titleController,
               decoration: InputDecoration(
-                hintText: 'Tiêu đề',
-                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black), // Màu viền khi focus
+                labelText: 'Tiêu đề',
+                labelStyle: TextStyle(color: Colors.red), // Màu chữ cho label
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi focus
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi không focus
+                ),
+                //contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                hintStyle: TextStyle(color: Colors.red, fontSize: 20.0,), // Màu chữ khi nhập
               ),
+              style: TextStyle(color: Colors.black), // Màu chữ nhập
             ),
             SizedBox(height: 16.0),
             TextField(
@@ -50,11 +59,20 @@ class LeaveRequestPage extends StatelessWidget {
               maxLines: 8,
               decoration: InputDecoration(
                 hintText: 'Lý do',
-                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black), // Màu viền khi focus
+                labelStyle: TextStyle(color: Colors.red), // Màu chữ cho label
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi focus
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi không focus
+                ),
+                //contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                hintStyle: TextStyle(color: Colors.red, fontSize: 16.0,), // Màu chữ khi nhập
               ),
+              style: TextStyle(color: Colors.black), // Màu chữ nhập
             ),
             SizedBox(height: 16.0),
             ElevatedButton.icon(
@@ -76,12 +94,21 @@ class LeaveRequestPage extends StatelessWidget {
               controller: leaveRequestViewModel.dateController,
               readOnly: true,
               decoration: InputDecoration(
-                hintText: 'Ngày nghỉ phép',
-                border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black), // Màu viền khi focus
+                labelText: 'Ngày nghỉ phép',
+                labelStyle: TextStyle(color: Colors.red), // Màu chữ cho label
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi focus
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red), // Màu viền trắng khi không focus
+                ),
+                //contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+                hintStyle: TextStyle(color: Colors.red, fontSize: 20.0,), // Màu chữ khi nhập
               ),
+              style: TextStyle(color: Colors.black), // Màu chữ nhập
               onTap: () => leaveRequestViewModel.pickDate(context),
             ),
             SizedBox(height: 16.0),

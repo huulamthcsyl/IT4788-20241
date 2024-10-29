@@ -25,7 +25,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
     );
 
     if (pickedDate != null) {
-      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      dateController.text = DateFormat('dd-MM-yyyy').format(pickedDate);
       notifyListeners();
     }
   }
