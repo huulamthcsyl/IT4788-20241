@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
               '/leave-request': (context) => LeaveRequestPage(),
             },
             //home: const LoginView()
-            home: LeaveRequestPage()
+            home: RegisterClassPage()
         )
     );
   }
