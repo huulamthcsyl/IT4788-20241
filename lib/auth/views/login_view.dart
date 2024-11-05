@@ -51,6 +51,15 @@ class _LoginViewState extends State<LoginView> {
                       controller: viewModel.passwordController,
                     ),
                     const SizedBox(height: 20),
+                    if (viewModel.errorMessage.isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        color: Colors.red,
+                        child: Text(
+                          viewModel.errorMessage,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     SubmitButton(
                       title: 'Đăng nhập',
                       action: () => viewModel.login(context),

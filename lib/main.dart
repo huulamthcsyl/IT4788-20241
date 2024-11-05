@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               '/class-list': (context) => ClassListPage(),
             },
             //home: const LoginView()
-            home: RegisterClassPage()
+            home: LoginView()
         )
     );
   }
