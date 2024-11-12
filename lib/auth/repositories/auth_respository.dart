@@ -13,7 +13,8 @@ class AuthRepository {
       'Content-Type': 'application/json',
     });
     if(response.statusCode == 200) {
-      return UserData.fromJson(jsonDecode(response.body));
+      final body = jsonDecode(response.body);
+      return UserData.fromJson(body['data']);
     } else {
       throw Exception("Tài khoản hoặc mật khẩu không đúng");
     }

@@ -6,13 +6,13 @@ String userDataToJson(UserData data) => json.encode(data.toJson());
 
 class UserData {
   int id;
-  dynamic ho;
-  dynamic ten;
+  String ho;
+  String ten;
   String username;
   String token;
-  String active;
+  String status;
   String role;
-  dynamic avatar;
+  String? avatar;
 
   UserData({
     required this.id,
@@ -20,7 +20,7 @@ class UserData {
     required this.ten,
     required this.username,
     required this.token,
-    required this.active,
+    required this.status,
     required this.role,
     required this.avatar,
   });
@@ -29,9 +29,9 @@ class UserData {
     id: json["id"],
     ho: json["ho"],
     ten: json["ten"],
-    username: json["username"],
+    username: json["user_name"],
     token: json["token"],
-    active: json["active"],
+    status: json["status"],
     role: json["role"],
     avatar: json["avatar"],
   );
@@ -40,9 +40,9 @@ class UserData {
     "id": id,
     "ho": ho,
     "ten": ten,
-    "username": username,
+    "user_name": username,
     "token": token,
-    "active": active,
+    "status": status,
     "role": role,
     "avatar": avatar,
   };
