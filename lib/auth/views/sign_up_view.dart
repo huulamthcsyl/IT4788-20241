@@ -39,11 +39,29 @@ class _SignUpViewState extends State<SignUpView> {
                           style: TextStyle(fontSize: 20, color: Colors.white)),
                       const SizedBox(height: 20),
                       InputField(
-                        hint: "Họ và tên",
+                        hint: "Họ",
                         prefixIcon: const Icon(Icons.person),
-                        update: viewModel.updateName,
-                        validate: validateEmail,
-                        controller: viewModel.nameController,
+                        update: viewModel.updateSecondName,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Họ không được để trống';
+                          }
+                          return null;
+                        },
+                        controller: viewModel.secondNameController,
+                      ),
+                      const SizedBox(height: 20),
+                      InputField(
+                        hint: "Tên",
+                        prefixIcon: const Icon(Icons.person),
+                        update: viewModel.updateFirstName,
+                        validate: (value) {
+                          if (value.isEmpty) {
+                            return 'Tên không được để trống';
+                          }
+                          return null;
+                        },
+                        controller: viewModel.firstNameController,
                       ),
                       const SizedBox(height: 20),
                       InputField(
@@ -111,12 +129,12 @@ class _SignUpViewState extends State<SignUpView> {
                               color: Colors.white),
                           items: const [
                             DropdownMenuItem(
-                              value: 'Sinh viên',
+                              value: 'STUDENT',
                               child: Text('Sinh viên',
                                   style: TextStyle(color: Colors.white)),
                             ),
                             DropdownMenuItem(
-                              value: 'Giảng viên',
+                              value: 'LECTURE',
                               child: Text('Giảng viên',
                                   style: TextStyle(color: Colors.white)),
                             ),
@@ -125,6 +143,16 @@ class _SignUpViewState extends State<SignUpView> {
                               viewModel.updateRole(value.toString()),
                         ),
                       ),
+                      const SizedBox(height: 20),
+                      if (viewModel.errorMessage.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          color: Colors.red,
+                          child: Text(
+                            viewModel.errorMessage,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
                       const SizedBox(height: 20),
                       SubmitButton(
                           title: 'ĐĂNG KÝ',

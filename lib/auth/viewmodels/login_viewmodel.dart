@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/models/login_data.dart';
+import 'package:it4788_20241/exceptions/GlobalException.dart';
 
 import '../services/auth_service.dart';
 
@@ -33,7 +34,7 @@ class LoginViewModel extends ChangeNotifier {
       try {
         await _authService.login(loginData);
         Navigator.pushNamed(context, '/class-list');
-      } catch (e) {
+      } on GlobalException catch (e) {
         errorMessage = e.toString();
       }
     }
