@@ -4,6 +4,7 @@ import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
+import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
 import 'package:it4788_20241/class/views/class_register_view.dart';
@@ -14,6 +15,7 @@ import 'package:it4788_20241/class_material/views/class_material_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 
 import 'class_attendance/views/class_attendance_view.dart';
+import 'home/views/home_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
           ChangeNotifierProvider(create: (context) => SignUpViewModel()),
+          ChangeNotifierProvider(create: (context) => HomeViewModel()),
           ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
@@ -37,19 +40,20 @@ class MyApp extends StatelessWidget {
             title: 'QLDT',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              scaffoldBackgroundColor: const Color(0xFFF8F8FF),
               useMaterial3: true,
             ),
             routes: {
               '/login': (context) => const LoginView(),
               '/sign-up': (context) => const SignUpView(),
+              '/home': (context) => const HomeView(),
               '/class-register': (context) => RegisterClassPage(),
               '/class-list': (context) => ClassListPage(),
               '/class-material': (context) => ClassMaterialPage(),
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
               '/class-attendance': (context) => ClassAttendancePage()
             },
-            home: LoginView()
+            home: const LoginView()
         )
     );
   }

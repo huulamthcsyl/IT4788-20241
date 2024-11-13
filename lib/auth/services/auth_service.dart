@@ -15,7 +15,7 @@ class AuthService {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     loginData.deviceId = androidInfo.id;
     final response = await _authRepository.login(loginData);
-    storage.write(key: "token", value: response.token);
+    storage.write(key: 'user', value: response.toJson().toString());
   }
 
   Future<void> signUp(SignUpData signUpData) async {
