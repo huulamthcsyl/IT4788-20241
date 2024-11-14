@@ -34,7 +34,8 @@ class _HomeViewState extends State<HomeView> {
       body: Column(
         children: [
           const SizedBox(height: 20),
-          // Profile(userData: homeViewModel.userData),
+          Profile(userData: homeViewModel.userData),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
