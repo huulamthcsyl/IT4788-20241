@@ -16,8 +16,8 @@ class AuthRepository {
       'Content-Type': 'application/json',
     });
     if(response.statusCode == 200) {
-      final body = jsonDecode(response.body);
-      if (body['status_code'] == 1000) {
+      final body = jsonDecode(utf8.decode(response.bodyBytes));
+      if (body['code'] == 1000) {
         return UserData.fromJson(body['data']);
       } else {
         throw GlobalException(body['message']);

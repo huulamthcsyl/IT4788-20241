@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/models/user_data.dart';
 
 class Profile extends StatelessWidget {
@@ -11,7 +12,13 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('Name: ${userData.ho} + ${userData.ten}'),
+        Text(
+          'Xin chào, ${userData.ho} ${userData.ten}',
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          )
+        ),
       ],
     );
   }
