@@ -21,66 +21,78 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       backgroundColor: Colors.red,
       body: SafeArea(
-        child: Form(
-            key: viewModel.formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Image(
-                      image: AssetImage('assets/img/logo_hust_white.png')),
-                  const SizedBox(height: 20),
-                  const Text("Đăng nhập với QLDT",
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                  const SizedBox(height: 20),
-                  InputField(
-                    hint: 'Email hoặc mã số SV/CB',
-                    prefixIcon: const Icon(Icons.person),
-                    update: viewModel.updateEmail,
-                    validate: validateEmail,
-                    controller: viewModel.emailController,
-                  ),
-                  const SizedBox(height: 20),
-                  PasswordField(
-                    hint: 'Mật khẩu',
-                    update: viewModel.updatePassword,
-                    validate: validatePassword,
-                    controller: viewModel.passwordController,
-                  ),
-                  const SizedBox(height: 20),
-                  SubmitButton(
-                    title: 'Đăng nhập',
-                    action: () => viewModel.login(context),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Quên mật khẩu?',
-                      style: TextStyle(color: Colors.white),
+        child: SingleChildScrollView(
+          child: Form(
+              key: viewModel.formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 120),
+                    const Image(
+                        image: AssetImage('assets/img/logo_hust_white.png')),
+                    const SizedBox(height: 20),
+                    const Text("Đăng nhập với QLDT",
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                    const SizedBox(height: 20),
+                    InputField(
+                      hint: 'Email hoặc mã số SV/CB',
+                      prefixIcon: const Icon(Icons.person),
+                      update: viewModel.updateEmail,
+                      validate: validateEmail,
+                      controller: viewModel.emailController,
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Chưa có tài khoản?',
+                    const SizedBox(height: 20),
+                    PasswordField(
+                      hint: 'Mật khẩu',
+                      update: viewModel.updatePassword,
+                      validate: validatePassword,
+                      controller: viewModel.passwordController,
+                    ),
+                    const SizedBox(height: 20),
+                    if (viewModel.errorMessage.isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        color: Colors.red,
+                        child: Text(
+                          viewModel.errorMessage,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    SubmitButton(
+                      title: 'Đăng nhập',
+                      action: () => viewModel.login(context),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Quên mật khẩu?',
                         style: TextStyle(color: Colors.white),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/sign-up');
-                        },
-                        child: const Text(
-                          'Đăng ký',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Chưa có tài khoản?',
                           style: TextStyle(color: Colors.white),
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/sign-up');
+                          },
+                          child: const Text(
+                            'Đăng ký',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
