@@ -17,7 +17,7 @@ class AuthRepository {
     });
     if(response.statusCode == 200) {
       final body = jsonDecode(utf8.decode(response.bodyBytes));
-      if (body['code'] == 1000) {
+      if (body['code'] == "1000") {
         return UserData.fromJson(body['data']);
       } else {
         throw GlobalException(body['message']);
@@ -34,7 +34,7 @@ class AuthRepository {
     });
     final body = jsonDecode(response.body);
     if(response.statusCode == 200) {
-      if (body['status_code'] == 1000) {
+      if (body['code'] == "1000") {
         final verifyData = VerifyData(email: signUpData.email, verifyCode: body['verify_code']);
         verifyAccount(verifyData);
       } else {
@@ -52,7 +52,7 @@ class AuthRepository {
     });
     final body = jsonDecode(response.body);
     if(response.statusCode == 200) {
-      if (body['code'] == 1000) {
+      if (body['code'] == "1000") {
         return;
       } else {
         throw GlobalException(body['message']);

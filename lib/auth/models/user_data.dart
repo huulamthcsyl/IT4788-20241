@@ -5,31 +5,31 @@ UserData userDataFromJson(String str) => UserData.fromJson(json.decode(str));
 String userDataToJson(UserData data) => json.encode(data.toJson());
 
 class UserData {
-  int? id;
-  String? ho;
-  String? ten;
-  String? username;
-  String? token;
-  String? status;
-  String? role;
+  String id;
+  String ho;
+  String ten;
+  String name;
+  String token;
+  String status;
+  String role;
   String? avatar;
 
   UserData({
-    this.id,
-    this.ho,
-    this.ten,
-    this.username,
-    this.token,
-    this.status,
-    this.role,
-    this.avatar,
+    required this.id,
+    required this.ho,
+    required this.ten,
+    required this.name,
+    required this.token,
+    required this.status,
+    required this.role,
+    required this.avatar,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
     id: json["id"],
     ho: json["ho"],
     ten: json["ten"],
-    username: json["user_name"],
+    name: json["name"],
     token: json["token"],
     status: json["status"],
     role: json["role"],
@@ -40,7 +40,7 @@ class UserData {
     "id": id,
     "ho": ho,
     "ten": ten,
-    "user_name": username,
+    "name": name,
     "token": token,
     "status": status,
     "role": role,
