@@ -18,12 +18,12 @@ class LoginData {
   factory LoginData.fromJson(Map<String, dynamic> json) => LoginData(
     email: json["email"],
     password: json["password"],
-    deviceId: json["deviceId"],
+    deviceId: json["device_id"],
   );
 
   Map<String, dynamic> toJson() => {
     "email": email,
     "password": password,
-    "deviceId": deviceId,
+    "device_id": deviceId,
   };
 }
