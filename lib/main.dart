@@ -5,6 +5,7 @@ import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
+import 'package:it4788_20241/layout/views/layout_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               '/': (context) => const SplashView(),
+              '/layout': (context) => const AppLayout(),
               '/login': (context) => const LoginView(),
               '/sign-up': (context) => const SignUpView(),
               '/home': (context) => const HomeView(),

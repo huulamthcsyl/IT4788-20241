@@ -13,7 +13,7 @@ class _SplashViewState extends State<SplashView> {
     FlutterSecureStorage storage = const FlutterSecureStorage();
     final user = await storage.read(key: 'user');
     if (user != null) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/layout');
     } else {
       Navigator.pushReplacementNamed(context, '/login');
     }
