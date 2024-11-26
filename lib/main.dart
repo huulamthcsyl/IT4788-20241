@@ -42,7 +42,6 @@ class MyApp extends StatelessWidget {
               '/class-list': (context) => ClassListPage(),
               '/leave-request': (context) => LeaveRequestPage(),
             },
-            //home: const LoginView()
             home: RegisterClassPage()
         )
     );

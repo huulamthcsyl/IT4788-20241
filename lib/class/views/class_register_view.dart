@@ -66,8 +66,8 @@ class RegisterClassPage extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
-                    onPressed: () {
-                      viewModel.addClass(_classCodeController.text);
+                    onPressed: () async {
+                      await viewModel.addClass(_classCodeController.text);
                       _classCodeController.clear();
                     },
                     style: ElevatedButton.styleFrom(
@@ -77,10 +77,12 @@ class RegisterClassPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     ),
-                    child: Text('Đăng ký',
+                    child: Text(
+                      'Đăng ký',
                       style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -169,7 +171,12 @@ class RegisterClassPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    onPressed: viewModel.submitRegistration,
+                    onPressed: () async {
+                      await viewModel.submitRegistration();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Gửi đăng ký thành công!')),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
@@ -177,10 +184,12 @@ class RegisterClassPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     ),
-                    child: Text('Gửi đăng ký',
+                    child: Text(
+                      'Gửi đăng ký',
                       style: TextStyle(color: Colors.white, fontSize: 20.0),
                     ),
                   ),
+
                 ],
               ),
             ),

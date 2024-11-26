@@ -8,7 +8,6 @@ class ClassInfo {
   int credits;
   String classType;
   String status;
-  bool isSelected;
 
   ClassInfo({
     required this.classCode,
@@ -20,6 +19,35 @@ class ClassInfo {
     required this.credits,
     required this.classType,
     required this.status,
-    this.isSelected = false,
   });
+
+  // Factory constructor to create a ClassInfo object from JSON
+  factory ClassInfo.fromJson(Map<String, dynamic> json) {
+    return ClassInfo(
+      classCode: json['classCode'] ?? '',
+      linkedClassCode: json['linkedClassCode'] ?? '',
+      courseCode: json['courseCode'] ?? '',
+      className: json['className'] ?? '',
+      schedule: json['schedule'] ?? '',
+      classroom: json['classroom'] ?? '',
+      credits: json['credits'] ?? 0,
+      classType: json['classType'] ?? '',
+      status: json['status'] ?? '',
+    );
+  }
+
+  // Method to convert ClassInfo object to JSON (optional, for sending data to API)
+  Map<String, dynamic> toJson() {
+    return {
+      'classCode': classCode,
+      'linkedClassCode': linkedClassCode,
+      'courseCode': courseCode,
+      'className': className,
+      'schedule': schedule,
+      'classroom': classroom,
+      'credits': credits,
+      'classType': classType,
+      'status': status,
+    };
+  }
 }

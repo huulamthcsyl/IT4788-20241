@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../models/class_model.dart';
+import '../repositories/class_repository.dart';
 
 class ClassListViewModel extends ChangeNotifier {
+  final ClassRepository _classRepository = ClassRepository();
   late List<ClassInfo> _originalClasses;
   List<ClassInfo> _classes = [];
   List<ClassInfo> get classes => _classes;
@@ -12,22 +14,18 @@ class ClassListViewModel extends ChangeNotifier {
   int get currentPage => _currentPage;
 
   ClassListViewModel() {
-    _originalClasses = _fetchClasses();
-    _classes = List.from(_originalClasses);
+    fetchClasses();
   }
 
-  List<ClassInfo> _fetchClasses() {
-    return List.generate(100, (index) => ClassInfo(
-      classCode: '${index + 1}',
-      linkedClassCode: '${index + 1}',
-      courseCode: 'IT${index + 1}',
-      className: 'Môn ${index + 1}',
-      schedule: '06:45-10:05 T3',
-      classroom: 'TC-${index + 1}',
-      credits: 3,
-      classType: 'LT+BT',
-      status: 'Đang mở',
-    ));
+  Future<void> fetchClasses() async {
+    try {
+      _originalClasses = await _classRepository.getClassList();
+      _classes = List.from(_originalClasses);
+      notifyListeners();
+    } catch (e) {
+      // Handle API error (e.g., show a toast)
+      print(e);
+    }
   }
 
   void searchClasses(String code) {
@@ -65,39 +63,45 @@ class ClassListViewModel extends ChangeNotifier {
     }
   }
 
-  void showClassDetails(BuildContext context, ClassInfo classInfo) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Chi tiết lớp học', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                SizedBox(height: 16),
-                Text('Mã lớp: ${classInfo.classCode}'),
-                Text('Mã lớp kèm: ${classInfo.linkedClassCode}'),
-                Text('Mã học phần: ${classInfo.courseCode}'),
-                Text('Tên lớp: ${classInfo.className}'),
-                Text('Lịch học: ${classInfo.schedule}'),
-                Text('Phòng học: ${classInfo.classroom}'),
-                Text('Số tín chỉ: ${classInfo.credits}'),
-                Text('Loại lớp: ${classInfo.classType}'),
-                Text('Trạng thái: ${classInfo.status}'),
-                SizedBox(height: 16),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Đóng', style: TextStyle(color: Colors.red)),
-                ),
-              ],
+  Future<void> showClassDetails(BuildContext context, String classCode) async {
+    try {
+      final classInfo = await _classRepository.getClassInfo(classCode);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Chi tiết lớp học', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                  SizedBox(height: 16),
+                  Text('Mã lớp: ${classInfo.classCode}'),
+                  Text('Mã lớp kèm: ${classInfo.linkedClassCode}'),
+                  Text('Mã học phần: ${classInfo.courseCode}'),
+                  Text('Tên lớp: ${classInfo.className}'),
+                  Text('Lịch học: ${classInfo.schedule}'),
+                  Text('Phòng học: ${classInfo.classroom}'),
+                  Text('Số tín chỉ: ${classInfo.credits}'),
+                  Text('Loại lớp: ${classInfo.classType}'),
+                  Text('Trạng thái: ${classInfo.status}'),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Đóng', style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } catch (e) {
+      // Handle error (e.g., show a toast)
+      print(e);
+    }
   }
 }

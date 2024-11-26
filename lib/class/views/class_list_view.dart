@@ -78,7 +78,7 @@ class _ClassListPageState extends State<ClassListPage> {
                         ],
                       ),
                       trailing: TextButton(
-                        onPressed: () => classListViewModel.showClassDetails(context, classInfo),
+                        onPressed: () => classListViewModel.showClassDetails(context, classInfo.classCode),
                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                       ),
                     ),
