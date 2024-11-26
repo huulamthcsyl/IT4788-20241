@@ -1,12 +1,10 @@
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/services/class_material_service.dart';
-import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/class_survey/views/class_survey_view.dart';
 import '../../auth/models/user_data.dart';
 import '../../utils/get_data_user.dart';
 import '../views/class_material_view.dart';
-import '../repositories/class_material_repository.dart';
 class ClassMaterialViewModel extends ChangeNotifier
 {
   ClassMaterialViewModel() {
@@ -35,6 +33,10 @@ class ClassMaterialViewModel extends ChangeNotifier
   }
   List<ClassMaterial> getMaterialList(){
     return _listClassMaterial;
+  }
+  Future<void> deleteMaterial(ClassMaterial classMaterial) async{
+
+      await _materialService.deleteMaterial(token: userData.token, material_id: classMaterial.ID.toString());
   }
   void onClickTabBar(int index, BuildContext context){
       if (index == 0)

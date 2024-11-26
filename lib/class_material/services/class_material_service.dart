@@ -1,10 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:it4788_20241/auth/models/login_data.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:it4788_20241/auth/models/sign_up_data.dart';
-import 'package:it4788_20241/auth/models/user_data.dart';
+import 'dart:io';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/repositories/class_material_repository.dart';
 
@@ -13,5 +7,18 @@ class MaterialService {
   Future<List<ClassMaterial>> getClassMaterials(String token, String classCode) async
   {
       return await _materialRepository.getClassMaterial(token, classCode);
+  }
+  Future<void> deleteMaterial({required String token, required String material_id}) async{
+    await _materialRepository.deleteMaterial(token: token, material_id: material_id);
+  }
+  Future<void> uploadFile({
+    required String token,
+    required String classId,
+    required String title,
+    required String description,
+    required String materialType,
+    required File file,
+  }) async{
+    await _materialRepository.uploadFile(token: token, classId: classId, title: title, description: description, materialType: materialType, file: file);
   }
 }
