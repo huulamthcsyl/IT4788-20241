@@ -5,6 +5,7 @@ import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
+import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
 import 'package:it4788_20241/class/views/class_register_view.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             routes: {
+              '/': (context) => const SplashView(),
               '/login': (context) => const LoginView(),
               '/sign-up': (context) => const SignUpView(),
               '/home': (context) => const HomeView(),
@@ -53,7 +55,7 @@ class MyApp extends StatelessWidget {
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
               '/class-attendance': (context) => ClassAttendancePage()
             },
-            home: const LoginView()
+            initialRoute: "/",
         )
     );
   }
