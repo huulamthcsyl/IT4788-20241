@@ -10,8 +10,8 @@ import 'package:it4788_20241/class_material/repositories/class_material_reposito
 
 class MaterialService {
   final _materialRepository = MaterialRepository();
-  Future<List<ClassMaterial>> getClassMaterials(String classCode) async
+  Future<List<ClassMaterial>> getClassMaterials(String token, String classCode) async
   {
-      return await _materialRepository.getClassMaterial(classCode);
+      return await _materialRepository.getClassMaterial(token, classCode);
   }
 }

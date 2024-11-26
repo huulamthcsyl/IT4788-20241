@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
+
+import '../models/class_material_model.dart';
 class ClassMaterialPage extends StatefulWidget {
   @override
   _ClassMaterialPageState createState() => _ClassMaterialPageState();
@@ -12,7 +14,8 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
-    final classMaterials = viewModel.getClassMaterials("199289");
+    viewModel.getClassMaterials("000010");
+    List<ClassMaterial> classMaterials = viewModel.getMaterialList();
     return DefaultTabController(
         length: 2,
         initialIndex: 1,
@@ -55,8 +58,8 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(item.fileName!, style: TextStyle(fontSize: 16)),
-                    Text(item.fileDescription!),
+                    Text(item.material_name!, style: TextStyle(fontSize: 16)),
+                    Text(item.description!),
                   ],
                 ),
               );
@@ -69,7 +72,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                       IconButton(
                         icon: Icon(Icons.more_vert),
                         onPressed: () {
-                          showFileOptions(context, item.fileName!);
+                          showFileOptions(context, item.material_name!);
                         },
                       )
                     ],

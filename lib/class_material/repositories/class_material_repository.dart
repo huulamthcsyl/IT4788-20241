@@ -8,11 +8,10 @@ import '../../utils/get_data_user.dart';
 
 class MaterialRepository {
 
-  final UserData _userData = getUserData() as UserData;
-  Future<List<ClassMaterial>> getClassMaterial(String classCode) async {
+  Future<List<ClassMaterial>> getClassMaterial(String token, String classCode) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_material_list');
     final Map<String, dynamic> body = {
-      "token": _userData.token,
+      "token": token,
       "class_id": classCode,
     };
     try {

@@ -16,7 +16,7 @@ class ClassMaterial{
   });
   factory ClassMaterial.fromJson(Map<String, dynamic> json){
     return ClassMaterial(
-      ID: json['id'],
+      ID: int.parse(json['id']),
       class_id: json['class_id'],
       material_name: json['material_name'],
       description: json['description'],
