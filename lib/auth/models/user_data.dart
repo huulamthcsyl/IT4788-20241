@@ -35,7 +35,6 @@ class UserData {
     role: json["role"],
     avatar: json["avatar"],
   );
-
   Map<String, dynamic> toJson() => {
     "id": id,
     "ho": ho,
