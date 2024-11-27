@@ -88,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/class-material');
+                  Navigator.pushNamed(context, '/profile-student');
                 },
               ),
             ],
