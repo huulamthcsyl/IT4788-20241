@@ -10,8 +10,6 @@ class StudentProfilePage extends StatefulWidget {
 class _StudentProfilePageState extends State<StudentProfilePage>
 {
   Future<void> _pickImage() async {
-    // Mở hộp thoại chọn ảnh
-
   }
   @override
   Widget build(BuildContext context) {
@@ -75,30 +73,16 @@ class _StudentProfilePageState extends State<StudentProfilePage>
                                     height: 100.0,
                                     width: 100.0,
                                     decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/img/profile_wallpaper.jpg'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                                      image: DecorationImage(image: AssetImage('assets/img/profile_wallpaper.jpg'), fit: BoxFit.cover))
                                   ),
                                 ),
-                                Positioned(
-                                  right: -5,
-                                  bottom: -5,
+                                Positioned(right: -5, bottom: -5,
                                   child: Container(
                                     padding: EdgeInsets.all(2.5),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white.withOpacity(0.0),
-                                      ),
-                                      borderRadius: BorderRadius.circular(45.0),
-                                      color: Colors.white.withOpacity(0.0),
-                                    ),
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.orange,
-                                    ),
+                                    decoration: BoxDecoration(border: Border.all(width: 2, color: Colors.white.withOpacity(0.0)),
+                                        borderRadius: BorderRadius.circular(45.0),
+                                        color: Colors.white.withOpacity(0.0)),
+                                      child: Icon(Icons.edit, color: Colors.orange)
                                   ),
                                 ),
                                 ],
@@ -108,47 +92,20 @@ class _StudentProfilePageState extends State<StudentProfilePage>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          'Lê Hà Anh Đức',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
+                                        Text('Lê Hà Anh Đức', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                                         Text.rich(
                                           TextSpan(
                                             children: [
-                                              TextSpan(
-                                                text: 'SĐT: ',
-                                                style: TextStyle(fontSize: 14),
-                                              ),
-                                              TextSpan(
-                                                text: '0966950761',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.blue,
-                                                  decorationColor: Colors.blue,
-                                                  decoration: TextDecoration.underline,
-                                                ),
-                                              ),
+                                              TextSpan(text: 'SĐT: ', style: TextStyle(fontSize: 14)),
+                                              TextSpan(text: '0966950761', style: TextStyle(fontSize: 14, color: Colors.blue, decorationColor: Colors.blue, decoration: TextDecoration.underline))
                                             ],
                                           ),
                                         ),
                                         Text.rich(
                                           TextSpan(
                                             children: [
-                                              TextSpan(
-                                                text: 'Email: ',
-                                                style: TextStyle(fontSize: 14),
-                                              ),
-                                              TextSpan(
-                                                text: 'duc.lha215351@sis.hust.edu.vn',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  decorationColor: Colors.blue,
-                                                  color: Colors.blue,
-                                                  decoration: TextDecoration.underline,
-                                                ),
+                                              TextSpan(text: 'Email: ', style: TextStyle(fontSize: 14),),
+                                              TextSpan(text: 'duc.lha215351@sis.hust.edu.vn', style: TextStyle(fontSize: 14, decorationColor: Colors.blue, color: Colors.blue, decoration: TextDecoration.underline)
                                               ),
                                             ],
                                           ),
@@ -173,79 +130,36 @@ class _StudentProfilePageState extends State<StudentProfilePage>
               padding: const EdgeInsets.all(16.0),
               child: Container(
                 padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 10,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                width: MediaQuery.of(context).size.width * 1, // Sửa lại tỷ lệ chiều rộng
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 2, blurRadius: 10, offset: Offset(0, 3))]),
+                width: MediaQuery.of(context).size.width * 1,
                 child: Column(
                   children: [
-                    // Dòng đầu tiên chia thành 2 cột
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: ProfileRow(title: 'Mã sinh viên:', value: '20215351'),
-                        ),
-                        SizedBox(width: 10), // Khoảng cách giữa 2 cột
-                        Expanded(
-                          child: ProfileRow(title: 'Ngày sinh:', value: '17/02/2003'),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10), // Khoảng cách giữa các hàng
-                    // Dòng thứ hai
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: ProfileRow(title: 'Email cá nhân:', value: 'fantasys3142@gmail.com'),
-                        ),
-                        SizedBox(width: 10), // Khoảng cách giữa 2 cột
-                        Expanded(
-                          child: ProfileRow(title: 'Số điện thoại:', value: '0966950761'),
-                        ),
+                        Expanded(child: ProfileRow(title: 'Mã sinh viên:', value: '20215351')),
+                        SizedBox(width: 10),
+                        Expanded(child: ProfileRow(title: 'Ngày sinh:', value: '17/02/2003')),
                       ],
                     ),
                     SizedBox(height: 10),
-                    // Các hàng còn lại
-                    ProfileRow(
-                        title: 'Khoa/Viện:',
-                        value: 'Trường Công nghệ Thông tin và Truyền thông'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: ProfileRow(title: 'Email cá nhân:', value: 'fantasys3142@gmail.com')),
+                        SizedBox(width: 10), Expanded(child: ProfileRow(title: 'Số điện thoại:', value: '0966950761'))
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    ProfileRow(title: 'Khoa/Viện:', value: 'Trường Công nghệ Thông tin và Truyền thông'),
                     ProfileRow(title: 'Hệ:', value: 'Kỹ sư chính quy - K66'),
                     ProfileRow(title: 'Lớp:', value: 'Khoa học máy tính 04-K66'),
                     SizedBox(height: 20),
-
-                    // Nút Log out
-                    SizedBox(
-                      width: double.infinity, // Đặt độ rộng bằng với Card
+                    SizedBox(width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          // Thêm logic để đăng xuất ở đây
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red, // Màu nền của nút
-                          padding: EdgeInsets.symmetric(vertical: 15), // Khoảng cách bên trong nút
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10), // Bo tròn các góc
-                          ),
-                        ),
-                        child: Text(
-                          'ĐĂNG XUẤT',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red, padding: EdgeInsets.symmetric(vertical: 15), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        child: Text('ĐĂNG XUẤT', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))
                       ),
                     ),
                   ],
@@ -255,54 +169,26 @@ class _StudentProfilePageState extends State<StudentProfilePage>
           ],
         ),
       ),
-
     );
   }
 }
-class ProfileRow extends StatelessWidget {
+class ProfileRow extends StatelessWidget
+{
   final String title;
   final String value;
-
   ProfileRow({required this.title, required this.value});
-
   @override
-  Widget build(BuildContext context) {
-    // Kiểm tra xem value có chứa "@gmail" không
+  Widget build(BuildContext context)
+  {
     bool isGmail = value.contains('@gmail');
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
-          ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+        children: [ Text( title, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
           isGmail
-              ? Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.blue.withOpacity(0.6),
-              decoration: TextDecoration.underline,
-              decorationColor: Colors.blue,
-              fontWeight: FontWeight.bold
-            ),
-          )
-              : Text(
-            value,
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.black, // Màu chữ khi không có @gmail
-              fontWeight: FontWeight.bold, // Không đậm
-            ),
-          ),
-          Divider(
-            color: Colors.grey,
-            thickness: 1,
-            height: 20,
-          ),
+              ? Text(value, style: TextStyle(fontSize: 18,color: Colors.blue.withOpacity(0.6),decoration: TextDecoration.underline, decorationColor: Colors.blue, fontWeight: FontWeight.bold),)
+              : Text(value, style: TextStyle( fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)),
+          Divider( color: Colors.grey, thickness: 1, height: 20),
         ],
       ),
     );

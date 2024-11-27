@@ -41,8 +41,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               HomeButton(
                 title: 'Đăng ký lớp học',
-                icon: const ImageIcon(
-                  AssetImage('assets/img/class_registration_icon.png'),
+                icon: const ImageIcon( AssetImage('assets/img/class_registration_icon.png'),
                   size: 50,
                   color: Colors.red,
                 ),
