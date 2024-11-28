@@ -13,6 +13,7 @@ class ClassMaterialUploadViewModel extends ChangeNotifier
     ho: '',
     ten: '',
     name: '',
+    email: '',
     token: '',
     status: '',
     role: '',

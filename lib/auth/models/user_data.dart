@@ -13,14 +13,15 @@ class UserData {
   String status;
   String role;
   String? avatar;
-
+  String email;
   UserData({
     required this.id,
     required this.ho,
     required this.ten,
     required this.name,
-    required this.token,
+    required this.email,
     required this.status,
+    required this.token,
     required this.role,
     required this.avatar,
   });
@@ -30,6 +31,7 @@ class UserData {
     ho: json["ho"],
     ten: json["ten"],
     name: json["name"],
+    email: json["email"],
     token: json["token"],
     status: json["status"],
     role: json["role"],
@@ -40,6 +42,7 @@ class UserData {
     "ho": ho,
     "ten": ten,
     "name": name,
+    "email": email,
     "token": token,
     "status": status,
     "role": role,
