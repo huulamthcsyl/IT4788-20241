@@ -3,8 +3,11 @@ import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
+import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
+import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
+import 'package:it4788_20241/profile/views/profile_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -35,7 +38,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel())
+          ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
+          ChangeNotifierProvider(create: (context) => ProfileViewModel())
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -53,9 +58,10 @@ class MyApp extends StatelessWidget {
               '/class-list': (context) => ClassListPage(),
               '/class-material': (context) => ClassMaterialPage(),
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
-              '/class-attendance': (context) => ClassAttendancePage()
+              '/class-attendance': (context) => ClassAttendancePage(),
+              '/user/profile': (context) => ProfilePage()
             },
-            initialRoute: "/",
+            initialRoute: "/user/profile",
         )
     );
   }
