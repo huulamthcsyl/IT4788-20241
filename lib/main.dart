@@ -59,9 +59,9 @@ class MyApp extends StatelessWidget {
               '/class-material': (context) => ClassMaterialPage(),
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
               '/class-attendance': (context) => ClassAttendancePage(),
-              '/profile-student': (context) => StudentProfilePage()
+              '/user/profile': (context) => ProfilePage()
             },
-            initialRoute: "/profile-student",
+            initialRoute: "/user/profile",
         )
     );
   }

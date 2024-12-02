@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
-class ProfilePage extends StatefulWidget {
+class viewProfilePage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ViewProfilePageState createState() => _ViewProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage>
+class _ViewProfilePageState extends State<viewProfilePage>
 {
   Future<void> _pickImage() async {
   }
@@ -19,10 +20,10 @@ class _ProfilePageState extends State<ProfilePage>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(
-          child: Text((_profileviewmodel.userData.role == "LECTURER" ? "THÔNG TIN GIẢNG VIÊN" : "THÔNG TIN SINH VIÊN"), style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),)
+            child: Text((_profileviewmodel.userData.role == "LECTURER" ? "THÔNG TIN GIẢNG VIÊN" : "THÔNG TIN SINH VIÊN"), style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),)
         ),
         backgroundColor: Colors.red,
       ),
@@ -55,66 +56,66 @@ class _ProfilePageState extends State<ProfilePage>
                   left: 16,
                   right: 16,
                   child: Card(
-                    color: Colors.white.withOpacity(0.9),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: Column(
-                        children: [
-                          Stack(
-                             children: [
-                               Row(
+                      color: Colors.white.withOpacity(0.9),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(7.0),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Row(
                                   children: [
-                                  Stack(
-                                  children: [
-                                  ClipRRect(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  child: Container(
-                                    height: 100.0,
-                                    width: 100.0,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(image: AssetImage(_profileviewmodel.userData.avatar.toString().isNotEmpty ? 'assets/img/profile_wallpaper.jpg' : _profileviewmodel.userData.avatar.toString()), fit: BoxFit.cover))
-                                  ),
-                                ),
-                                Positioned(right: -5, bottom: -5,
-                                  child: Container(
-                                    padding: EdgeInsets.all(2.5),
-                                    decoration: BoxDecoration(border: Border.all(width: 2, color: Colors.white.withOpacity(0.0)),
-                                        borderRadius: BorderRadius.circular(45.0),
-                                        color: Colors.white.withOpacity(0.0)),
-                                      child: Icon(Icons.edit, color: Colors.orange)
-                                  ),
-                                ),
-                                ],
-                              ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    Stack(
                                       children: [
-                                        Text(_profileviewmodel.userData.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                        Text.rich(
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(text: 'Email: ', style: TextStyle(fontSize: 14),),
-                                              TextSpan(text: _profileviewmodel.userData.email, style: TextStyle(fontSize: 14, decorationColor: Colors.blue, color: Colors.blue, decoration: TextDecoration.underline)
-                                              ),
-                                            ],
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(15.0),
+                                          child: Container(
+                                              height: 100.0,
+                                              width: 100.0,
+                                              decoration: BoxDecoration(
+                                                  image: DecorationImage(image: AssetImage(_profileviewmodel.userData.avatar.toString().isNotEmpty ? 'assets/img/profile_wallpaper.jpg' : _profileviewmodel.userData.avatar.toString()), fit: BoxFit.cover))
+                                          ),
+                                        ),
+                                        Positioned(right: -5, bottom: -5,
+                                          child: Container(
+                                              padding: EdgeInsets.all(2.5),
+                                              decoration: BoxDecoration(border: Border.all(width: 2, color: Colors.white.withOpacity(0.0)),
+                                                  borderRadius: BorderRadius.circular(45.0),
+                                                  color: Colors.white.withOpacity(0.0)),
+                                              child: Icon(Icons.edit, color: Colors.orange)
                                           ),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(_profileviewmodel.userData.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                          Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(text: 'Email: ', style: TextStyle(fontSize: 14),),
+                                                TextSpan(text: _profileviewmodel.userData.email, style: TextStyle(fontSize: 14, decorationColor: Colors.blue, color: Colors.blue, decoration: TextDecoration.underline)
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
 
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
                   ),
                 ),
               ],
