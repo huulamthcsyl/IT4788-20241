@@ -5,26 +5,26 @@ NotificationData notificationDataFromJson(String str) => NotificationData.fromJs
 String notificationDataToJson(NotificationData data) => json.encode(data.toJson());
 
 class NotificationData {
-    int? id;
-    String? message;
-    String? status;
-    int? fromUser;
-    int? toUser;
-    String? type;
-    DateTime? sentTime;
-    Data? data;
-    String? titlePushNotification;
+    int id;
+    String message;
+    String status;
+    int fromUser;
+    int toUser;
+    String type;
+    DateTime sentTime;
+    Data data;
+    String titlePushNotification;
 
     NotificationData({
-        this.id,
-        this.message,
-        this.status,
-        this.fromUser,
-        this.toUser,
-        this.type,
-        this.sentTime,
-        this.data,
-        this.titlePushNotification,
+      required this.id,
+      required this.message,
+      required this.status,
+      required this.fromUser,
+      required this.toUser,
+      required this.type,
+      required this.sentTime,
+      required this.data,
+      required this.titlePushNotification,
     });
 
     factory NotificationData.fromJson(Map<String, dynamic> json) => NotificationData(
@@ -34,8 +34,8 @@ class NotificationData {
         fromUser: json["from_user"],
         toUser: json["to_user"],
         type: json["type"],
-        sentTime: json["sent_time"] == null ? null : DateTime.parse(json["sent_time"]),
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        sentTime: DateTime.parse(json["sent_time"]),
+        data: Data.fromJson(json["data"]),
         titlePushNotification: json["title_push_notification"],
     );
 
@@ -46,8 +46,8 @@ class NotificationData {
         "from_user": fromUser,
         "to_user": toUser,
         "type": type,
-        "sent_time": sentTime?.toIso8601String(),
-        "data": data?.toJson(),
+        "sent_time": sentTime.toIso8601String(),
+        "data": data.toJson(),
         "title_push_notification": titlePushNotification,
     };
 }

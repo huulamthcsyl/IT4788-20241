@@ -36,8 +36,8 @@ class _NotificationViewState extends State<NotificationView> {
           pagingController: viewModel.pagingController,
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => ListTile(
-              title: Text(item.titlePushNotification ?? ''),
-              subtitle: Text(item.message ?? ''),
+              title: Text(item.titlePushNotification),
+              subtitle: Text(item.message),
             ),
           ),
         ),

@@ -4,11 +4,11 @@ import 'package:it4788_20241/notification/repositories/notification_repository.d
 import 'package:it4788_20241/utils/get_data_user.dart';
 
 class NotificationServices {
-
   final _notificationRepository = NotificationRepository();
 
   Future<int> getUnreadNotificationCount() async {
     final token = (await getUserData()).token;
+    if (token == null) return 0;
     final unreadNotificationCount = await _notificationRepository.getUnreadNotificationCount(token);
     return unreadNotificationCount;
   }

@@ -4,11 +4,11 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:it4788_20241/auth/models/login_data.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:it4788_20241/auth/models/sign_up_data.dart';
+import 'package:it4788_20241/auth/models/user_data.dart';
 
 import '../repositories/auth_respository.dart';
 
 class AuthService {
-
   final _authRepository = AuthRepository();
   final storage = const FlutterSecureStorage();
 
@@ -26,5 +26,9 @@ class AuthService {
 
   Future<void> logout() async {
     await storage.delete(key: "token");
+  }
+
+  Future<UserData> getUserInfo(int id) async {
+    return await _authRepository.getUserInfo(id);
   }
 }
