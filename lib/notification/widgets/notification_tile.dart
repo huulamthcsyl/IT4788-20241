@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/notification/models/notification_data.dart';
 import 'package:it4788_20241/types/notification_type.dart';
 import 'package:it4788_20241/utils/time_from_now.dart';
 
 class NotificationTile extends StatelessWidget {
   final NotificationData notificationData;
+  final UserData? senderInfo;
 
   const NotificationTile({
     super.key,
     required this.notificationData,
+    required this.senderInfo
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        notificationTypeLabel[notificationData.type] ?? '',
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+      title: RichText(
+        text: TextSpan(
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black
+          ),
+          children: <TextSpan>[
+            TextSpan(text: senderInfo?.name),
+            const TextSpan(text: " đã gửi một thông báo ", style: TextStyle(fontWeight: FontWeight.normal)),
+            TextSpan(text: notificationTypeLabel[notificationData.type])
+          ]
+        )
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
