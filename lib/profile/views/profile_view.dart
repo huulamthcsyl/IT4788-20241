@@ -19,7 +19,7 @@ class _StudentProfilePageState extends State<StudentProfilePage>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(
-          child: Text('Thông tin sinh viên', style: TextStyle(
+          child: Text((_profileviewmodel.userData.role == "LECTURER" ? "THÔNG TIN GIẢNG VIÊN" : "THÔNG TIN SINH VIÊN"), style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),)
@@ -131,7 +131,7 @@ class _StudentProfilePageState extends State<StudentProfilePage>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: ProfileRow(title: 'Mã sinh viên:', value: _profileviewmodel.userData.id)),
+                        Expanded(child: ProfileRow(title: (_profileviewmodel.userData.role == "LECTURER" ? "Mã giảng viên" : "Mã sinh viên"), value: _profileviewmodel.userData.id)),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -146,67 +146,75 @@ class _StudentProfilePageState extends State<StudentProfilePage>
                     ProfileRow(title: 'Hệ:', value: 'Kỹ sư chính quy - K66'),
                     ProfileRow(title: 'Lớp:', value: 'Khoa học máy tính 04-K66'),
                     SizedBox(height: 20),*/
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 5, // Thêm độ cao bóng
-                        ),
-                        child: Text(
-                          'THAY ĐỔI THÔNG TIN',
-                          style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightGreen,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 5, // Thêm độ cao bóng
-                        ),
-                        child: Text(
-                          'ĐỔI MẬT KHẨU',
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 5, // Thêm độ cao bóng
-                        ),
-                        child: Text(
-                          'ĐĂNG XUẤT',
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
                   ],
                 ),
               ),
             ),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 5, // Thêm độ cao bóng
+                      ),
+                      child: Text(
+                        'THAY ĐỔI THÔNG TIN',
+                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightGreen,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 5, // Thêm độ cao bóng
+                      ),
+                      child: Text(
+                        'ĐỔI MẬT KHẨU',
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 5, // Thêm độ cao bóng
+                      ),
+                      child: Text(
+                        'ĐĂNG XUẤT',
+                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            )
+
           ],
         ),
       ),

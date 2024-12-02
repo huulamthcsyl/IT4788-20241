@@ -7,7 +7,7 @@ import 'package:it4788_20241/class_material/viewmodels/class_material_upload_vie
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
-import 'package:it4788_20241/profile/views/student_profile_view.dart';
+import 'package:it4788_20241/profile/views/profile_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
