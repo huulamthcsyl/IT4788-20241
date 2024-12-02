@@ -46,8 +46,11 @@ class _ClassSurveyPageState extends State<ClassSurveyPage> {
               onTap: (int index) {
                 setState(() {
                   tabIndex = index; // Update the tabIndex when a tab is tapped
-                  if (tabIndex == 1)
-                    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage()));
+                  if (tabIndex == 1) {
+
+                    Navigator.push((context), MaterialPageRoute(
+                        builder: (context) => ClassMaterialPage()));
+                  }
                 });
               },
               indicatorColor: Colors.red,
