@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/notification/views/notification_view.dart';
+import 'package:it4788_20241/profile/views/profile_view.dart';
 import 'package:provider/provider.dart';
 
 class AppLayout extends StatefulWidget {
@@ -18,7 +19,7 @@ class _AppLayoutState extends State<AppLayout> {
     return Scaffold(
       body: <Widget>[
         const HomeView(),
-        const HomeView(),
+        const ProfilePage(),
         const HomeView(),
         const NotificationView()
       ][viewModel.currentPageIndex],

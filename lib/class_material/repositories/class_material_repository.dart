@@ -7,7 +7,7 @@ import 'package:mime/mime.dart';
 
 class MaterialRepository {
 
-  Future<List<ClassMaterial>> getClassMaterial(String token, String classCode) async {
+  Future<List<ClassMaterial>> getClassMaterial(String? token, String classCode) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_material_list');
     final Map<String, dynamic> body = {
       "token": token,
@@ -40,7 +40,7 @@ class MaterialRepository {
       return [];
     }
   }
-  Future<void> deleteMaterial({required String token, required String material_id}) async {
+  Future<void> deleteMaterial({required String? token, required String material_id}) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/delete_material');
     final Map<String, dynamic> body = {
       "token": token,
@@ -59,7 +59,7 @@ class MaterialRepository {
     }
   }
   Future<void> uploadFile({
-    required String token,
+    required String? token,
     required String classId,
     required String title,
     required String description,
@@ -80,7 +80,7 @@ class MaterialRepository {
             filename: file.path.split("/").last
         )
     );
-    request.fields['token'] = token;
+    request.fields['token'] = token!;
     request.fields['classId'] = classId;
     request.fields['title'] = title;
     request.fields['description'] = description;

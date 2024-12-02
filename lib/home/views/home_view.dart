@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/home/widgets/profile.dart';
 import 'package:provider/provider.dart';
@@ -31,17 +32,86 @@ class _HomeViewState extends State<HomeView> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.red,
       ),
-      body: Column(
+      body: buildColumnBasedOnRole(homeViewModel.userData)
+    );
+
+  }
+  Widget buildColumnBasedOnRole(UserData userData)
+  {
+    if (userData.role == "LECTURER")
+    {
+      return Column(
         children: [
           const SizedBox(height: 20),
-          Profile(userData: homeViewModel.userData),
+          Profile(userData: userData),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              HomeButton(
+                title: 'Quản lý lớp học',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/class_management_icon.png'),
+                  size: 50,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Lịch dạy',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Tạo lớp học',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Lịch dạy',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          const SizedBox(height: 20),
+          Profile(userData: userData),
           const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               HomeButton(
                 title: 'Đăng ký lớp học',
-                icon: const ImageIcon( AssetImage('assets/img/class_registration_icon.png'),
+                icon: const ImageIcon(
+                  AssetImage('assets/img/class_registration_icon.png'),
                   size: 50,
                   color: Colors.red,
                 ),
@@ -68,7 +138,7 @@ class _HomeViewState extends State<HomeView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               HomeButton(
-                title: 'Đơn xin nghỉ học',
+                title: 'Xem danh sách lớp học trong kỳ',
                 icon: const ImageIcon(
                   AssetImage('assets/img/absence_icon.png'),
                   size: 50,
@@ -93,7 +163,7 @@ class _HomeViewState extends State<HomeView> {
             ],
           )
         ],
-      )
-    );
+      );
+    }
   }
 }

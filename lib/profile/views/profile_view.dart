@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
