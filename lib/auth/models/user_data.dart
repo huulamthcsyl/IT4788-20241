@@ -9,7 +9,7 @@ class UserData {
   String ho;
   String ten;
   String name;
-  String token;
+  String? token;
   String status;
   String role;
   String? avatar;
@@ -19,11 +19,11 @@ class UserData {
     required this.ho,
     required this.ten,
     required this.name,
+    this.token,
     required this.email,
     required this.status,
-    required this.token,
     required this.role,
-    required this.avatar,
+    this.avatar,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(

@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/widgets/input_field.dart';
 import 'package:it4788_20241/auth/widgets/password_field.dart';
 import 'package:it4788_20241/auth/widgets/submit_button.dart';
-import 'package:it4788_20241/main.dart';
 import 'package:it4788_20241/utils/validate_email.dart';
 import 'package:it4788_20241/utils/validate_password.dart';
 import 'package:provider/provider.dart';

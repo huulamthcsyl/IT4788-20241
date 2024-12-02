@@ -6,6 +6,9 @@ import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmo
 import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
+import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
+import 'package:it4788_20241/layout/views/layout_view.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (context) => LayoutViewModel()),
           ChangeNotifierProvider(create: (context) => LoginViewModel()),
           ChangeNotifierProvider(create: (context) => SignUpViewModel()),
           ChangeNotifierProvider(create: (context) => HomeViewModel()),
@@ -39,6 +43,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
           ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
+          ChangeNotifierProvider(create: (context) => NotificationViewModel())
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel())
         ],
@@ -51,6 +56,7 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               '/': (context) => const SplashView(),
+              '/layout': (context) => const AppLayout(),
               '/login': (context) => const LoginView(),
               '/sign-up': (context) => const SignUpView(),
               '/home': (context) => const HomeView(),

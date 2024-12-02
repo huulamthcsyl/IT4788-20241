@@ -33,7 +33,7 @@ class LoginViewModel extends ChangeNotifier {
     if (formKey.currentState!.validate()) {
       try {
         await _authService.login(loginData);
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/layout');
       } on GlobalException catch (e) {
         errorMessage = e.toString();
       }
