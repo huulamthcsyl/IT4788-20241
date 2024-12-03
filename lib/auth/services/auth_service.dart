@@ -31,7 +31,7 @@ class AuthService {
     await storage.delete(key: "token");
   }
 
-  Future<UserData> getUserInfo(int id) async {
+  Future<UserData> getUserInfo(String id) async {
     final token = (await getUserData()).token ?? "";
     return await _authRepository.getUserInfo(id, token);
   }

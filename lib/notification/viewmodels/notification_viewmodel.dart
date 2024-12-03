@@ -41,7 +41,7 @@ class NotificationViewModel extends ChangeNotifier {
     pagingController.refresh();
   }
 
-  Future<UserData> getUserInfo(int id) async {
+  Future<UserData> getUserInfo(String id) async {
     return await _authServices.getUserInfo(id);
   }
 }

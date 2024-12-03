@@ -62,7 +62,7 @@ class AuthRepository {
     }
   }
 
-  Future<UserData> getUserInfo(int id, String token) async {
+  Future<UserData> getUserInfo(String id, String token) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it4788/get_user_info');
     final response = await http.post(httpUrl, body: jsonEncode({"user_id": id, "token": token}), headers: {
       'Content-Type': 'application/json',

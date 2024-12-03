@@ -39,7 +39,7 @@ class _NotificationViewState extends State<NotificationView> {
           pagingController: viewModel.pagingController,
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => FutureBuilder(
-              future: viewModel.getUserInfo(item.fromUser), 
+              future: viewModel.getUserInfo(item.fromUser.toString()), 
               builder: (BuildContext context, AsyncSnapshot<UserData> snapshot) {
                 if(snapshot.hasData) {
                   return NotificationTile(
