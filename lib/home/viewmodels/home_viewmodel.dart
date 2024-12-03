@@ -9,7 +9,17 @@ import '../../utils/get_data_user.dart';
 class HomeViewModel extends ChangeNotifier {
 
   final _flutterSecureStorage = const FlutterSecureStorage();
-  UserData userData = UserData();
+  UserData userData = UserData(
+    id: '',
+    ho: '',
+    ten: '',
+    name: '',
+    email: '',
+    token: '',
+    status: '',
+    role: '',
+    avatar: '',
+  );
 
   HomeViewModel() {
     initUserData();

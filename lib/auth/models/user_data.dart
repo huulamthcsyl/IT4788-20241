@@ -5,23 +5,24 @@ UserData userDataFromJson(String str) => UserData.fromJson(json.decode(str));
 String userDataToJson(UserData data) => json.encode(data.toJson());
 
 class UserData {
-  int? id;
-  String? ho;
-  String? ten;
-  String? username;
+  String id;
+  String ho;
+  String ten;
+  String name;
   String? token;
-  String? status;
-  String? role;
+  String status;
+  String role;
   String? avatar;
-
+  String email;
   UserData({
-    this.id,
-    this.ho,
-    this.ten,
-    this.username,
+    required this.id,
+    required this.ho,
+    required this.ten,
+    required this.name,
     this.token,
-    this.status,
-    this.role,
+    required this.email,
+    required this.status,
+    required this.role,
     this.avatar,
   });
 
@@ -29,18 +30,19 @@ class UserData {
     id: json["id"],
     ho: json["ho"],
     ten: json["ten"],
-    username: json["user_name"],
+    name: json["name"],
+    email: json["email"],
     token: json["token"],
     status: json["status"],
     role: json["role"],
     avatar: json["avatar"],
   );
-
   Map<String, dynamic> toJson() => {
     "id": id,
     "ho": ho,
     "ten": ten,
-    "user_name": username,
+    "name": name,
+    "email": email,
     "token": token,
     "status": status,
     "role": role,

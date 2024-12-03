@@ -1,17 +1,24 @@
-import 'package:flutter/cupertino.dart';
-
 class ClassMaterial{
-  String fileName;
-  String fileDescription;
-  DateTime dateModified;
-  String classCode;
-  String filePath;
+  int ID;
+  String class_id;
+  String material_name;
+  String description;
+  String material_type;
 
   ClassMaterial({
-    required this.fileName,
-    required this.fileDescription,
-    required this.dateModified,
-    required this.classCode,
-    required this.filePath
+    required this.ID,
+    required this.class_id,
+    required this.material_name,
+    required this.description,
+    required this.material_type
   });
+  factory ClassMaterial.fromJson(Map<String, dynamic> json){
+    return ClassMaterial(
+      ID: int.parse(json['id']),
+      class_id: json['class_id'],
+      material_name: json['material_name'],
+      description: json['description'],
+      material_type: json['material_type'],
+    );
+  }
 }

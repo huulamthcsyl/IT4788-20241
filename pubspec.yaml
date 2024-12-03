@@ -37,11 +37,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   provider: ^6.1.2
   file_picker: ^8.1.2
+  mime: ^1.0.0
+  path: ^1.8.0
   dio: ^5.0.0
   http: ^1.2.2
   device_info_plus: ^11.1.0
   flutter_secure_storage: ^9.2.2
   toastification: ^2.3.0
+  infinite_scroll_pagination: ^4.1.0
+  skeletonizer: ^1.4.2
 
 dev_dependencies:
   flutter_test:
