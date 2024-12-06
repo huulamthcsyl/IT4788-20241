@@ -1,3 +1,4 @@
+import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/services/class_material_service.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class ClassMaterialViewModel extends ChangeNotifier
         break;
       case 2:
       // Route to class_another_function
+    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassFunctionPage()));
         break;
     }
   }

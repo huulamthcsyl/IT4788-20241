@@ -3,6 +3,7 @@ import 'package:it4788_20241/class_material/views/class_material_upload_view.dar
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
 
+import '../../home/views/home_view.dart';
 import '../models/class_material_model.dart';
 class ClassMaterialPage extends StatefulWidget {
   @override
@@ -21,7 +22,16 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
         initialIndex: 1,
         child: Scaffold(
           appBar: AppBar(
-            leading: BackButton(),
+            leading:  IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  // Sau thay thế cái này bằng quay về chỗ cũ
+                  MaterialPageRoute(builder: (context) => HomeView()), // Trang Home
+                );
+              },
+            ),
             title: Text("OOP 2024.1"),
             actions: <Widget>[
               IconButton(
