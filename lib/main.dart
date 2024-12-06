@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
               '/class-attendance': (context) => ClassAttendancePage(),
               '/user/profile': (context) => ProfilePage()
             },
-            initialRoute: "/user/profile",
+            initialRoute: "/class-attendance",
         )
     );
   }

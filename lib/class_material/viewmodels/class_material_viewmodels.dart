@@ -40,10 +40,18 @@ class ClassMaterialViewModel extends ChangeNotifier
       await _materialService.deleteMaterial(token: userData.token, material_id: classMaterial.ID.toString());
   }
   void onClickTabBar(int index, BuildContext context){
-      if (index == 0)
+    switch (index){
+      case 0:
+      // Route to class_survey
         Navigator.push((context), MaterialPageRoute(builder: (context) => ClassSurveyPage()));
-      else {
+        break;
+      case 1:
+      // Route to class_material
         Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage()));
-      }
+        break;
+      case 2:
+      // Route to class_another_function
+        break;
+    }
   }
 }
