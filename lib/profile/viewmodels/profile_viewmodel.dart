@@ -7,9 +7,13 @@ import '../../auth/models/user_data.dart';
 import '../../utils/get_data_user.dart';
 class ProfileViewModel extends ChangeNotifier
 {
+<<<<<<< Updated upstream
 
   final AuthService _authService = AuthService();
 
+=======
+  final AuthService _authService = AuthService();
+>>>>>>> Stashed changes
   ProfileViewModel() {
     initUserData();
   }
@@ -28,9 +32,41 @@ class ProfileViewModel extends ChangeNotifier
     userData = await getUserData();
     notifyListeners();
   }
+<<<<<<< Updated upstream
 
   void logout(BuildContext context) async {
     await _authService.logout();
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+=======
+  String textError = '';
+  void changePassword(BuildContext context, String oldPassword, String newPassword) async {
+    if (oldPassword.isEmpty){
+      textError = "Chưa điền mật khẩu cũ";
+      notifyListeners();
+      return;
+    }
+    if (newPassword.isEmpty){
+      textError = "Chưa điền mật khẩu mới";
+      notifyListeners();
+      return;
+    }
+    if (oldPassword == newPassword){
+      textError = "Mật khẩu mới không thể giống mật khẩu cũ";
+      notifyListeners();
+      return;
+    }
+    final token = (await getUserData()).token ?? "";
+    await _authService.changePassword(token: token, old_password: oldPassword, new_password: newPassword);
+    Navigator.of(context).pop();
+  }
+  void logout(BuildContext context) async
+  {
+    await _authService.logout();
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  }
+  void getInformationFromUser(int id) async {
+    searchUserData = await _authService.getUserInfo(id.toString());
+    notifyListeners();
+>>>>>>> Stashed changes
   }
 }

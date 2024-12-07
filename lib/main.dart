@@ -5,7 +5,6 @@ import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
-import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
@@ -48,11 +47,15 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
           ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
           ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
+<<<<<<< Updated upstream
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
+=======
+          ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
+          ChangeNotifierProvider(create: (context) => SearchViewModel())
+>>>>>>> Stashed changes
         ],
         child: MaterialApp(
             title: 'QLDT',

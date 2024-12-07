@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/class_material/views/class_material_edit_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
@@ -113,15 +114,16 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 onTap: () {},
               ),
               ListTile(
-                leading: Icon(Icons.offline_pin),
-                title: Text('Làm có sẵn ngoại tuyến'),
-                onTap: () {},
-              ),
-              ListTile(
                 leading: Icon(Icons.drive_file_rename_outline),
                 title: Text('Chỉnh sửa'),
                 onTap: () {
-                  showRenameDialog(context, classMaterial);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => ClassMaterialEditPage(
+                    classMaterial: classMaterial,
+                  ),
+                  ));
                 },
               ),
               ListTile(
@@ -150,74 +152,8 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 title: Text('Sao chép liên kết'),
                 onTap: () {},
               ),
-              ListTile(
-                leading: Icon(Icons.send),
-                title: Text('Gửi một bản'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.open_in_browser),
-                title: Text('Mở trong ứng dụng'),
-                onTap: () {},
-              ),
             ],
           ),
-        );
-      },
-    );
-  }
-  void showRenameDialog(BuildContext context, ClassMaterial classMaterial) {
-    final TextEditingController titleController = TextEditingController(text: classMaterial.material_name);
-    final TextEditingController descriptionController = TextEditingController(text: classMaterial.description);
-    final TextEditingController materialTypeController = TextEditingController(text: classMaterial.material_type);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Chỉnh sửa tài liệu'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Tên'),
-              ),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Mô tả'),
-              ),
-              TextField(
-                controller: materialTypeController,
-                decoration: InputDecoration(labelText: 'Loại tài liệu'),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Hủy'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Lưu'),
-              onPressed: () {
-                classMaterial.material_name = titleController.text;
-                classMaterial.description = descriptionController.text;
-                classMaterial.material_type = materialTypeController.text;
-
-                // viewModel.updateMaterial(classMaterial);
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Cập nhật tài liệu thành công!'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-            ),
-          ],
         );
       },
     );

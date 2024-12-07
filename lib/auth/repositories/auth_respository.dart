@@ -78,4 +78,35 @@ class AuthRepository {
       throw GlobalException(body['message']);
     }
   }
+  Future<void> changePassword({
+    required String? token,
+    required String old_password,
+    required String new_password,
+  }) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it4788/change_password');
+    final Map<String, dynamic> body = {
+      "token": token,
+      "old_password": old_password,
+      "new_password": new_password,
+    };
+    try {
+      final response = await http.post(
+        httpUrl,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "$token"
+        },
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 200) {
+        print("Đổi mật khẩu thành công: ${response.body}");
+      } else {
+        print("Đổi mật khẩu thất bại. Mã lỗi: ${response.statusCode}");
+        print("Nội dung response: ${response.body}");
+      }
+    } catch (e) {
+      print('Lỗi khi gọi API đổi mật khẩu: $e');
+    }
+  }
+
 }

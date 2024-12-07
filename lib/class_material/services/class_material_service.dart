@@ -21,4 +21,14 @@ class MaterialService {
   }) async{
     await _materialRepository.uploadFile(token: token, classId: classId, title: title, description: description, materialType: materialType, file: file);
   }
+  Future<void> editFile({
+    required String? token,
+    required String materialId,
+    required String title,
+    required String description,
+    required String materialType,
+    required File file,
+  }) async{
+    await _materialRepository.editFile(token: token, materialId: materialId, title: title, description: description, materialType: materialType, file: file);
+  }
 }
