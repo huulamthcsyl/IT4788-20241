@@ -19,7 +19,7 @@ class ClassListViewModel extends ChangeNotifier {
 
   Future<void> fetchClasses() async {
     try {
-      _originalClasses = await _classRepository.getClassList();
+      _originalClasses = await _classRepository.getOpenClasses();
       _classes = List.from(_originalClasses);
       notifyListeners();
     } catch (e) {
@@ -33,7 +33,7 @@ class ClassListViewModel extends ChangeNotifier {
       _classes = List.from(_originalClasses);
     } else {
       _classes = _originalClasses.where((classItem) {
-        return classItem.courseCode.contains(code) || classItem.classCode.contains(code);
+        return classItem.class_id.contains(code);
       }).toList();
     }
     _currentPage = 0; // Reset page when searching
@@ -63,9 +63,8 @@ class ClassListViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> showClassDetails(BuildContext context, String classCode) async {
+  Future<void> showClassDetails(BuildContext context, ClassInfo classInfo) async {
     try {
-      final classInfo = await _classRepository.getClassInfo(classCode);
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -77,14 +76,14 @@ class ClassListViewModel extends ChangeNotifier {
                 children: [
                   Text('Chi tiết lớp học', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                   SizedBox(height: 16),
-                  Text('Mã lớp: ${classInfo.classCode}'),
-                  Text('Mã lớp kèm: ${classInfo.linkedClassCode}'),
-                  Text('Mã học phần: ${classInfo.courseCode}'),
-                  Text('Tên lớp: ${classInfo.className}'),
-                  Text('Lịch học: ${classInfo.schedule}'),
-                  Text('Phòng học: ${classInfo.classroom}'),
-                  Text('Số tín chỉ: ${classInfo.credits}'),
-                  Text('Loại lớp: ${classInfo.classType}'),
+                  Text('Mã lớp: ${classInfo.class_id}'),
+                  Text('Mã lớp kèm: ${classInfo.attached_code}'),
+                  Text('Tên lớp: ${classInfo.class_name}'),
+                  Text('Giảng viên: ${classInfo.lecturer_name}'),
+                  Text('Số lượng SV: ${classInfo.student_count}'),
+                  Text('Ngày bắt đầu: ${classInfo.start_date}'),
+                  Text('Ngày kết thúc: ${classInfo.end_date}'),
+                  Text('Loại lớp: ${classInfo.class_type}'),
                   Text('Trạng thái: ${classInfo.status}'),
                   SizedBox(height: 16),
                   TextButton(

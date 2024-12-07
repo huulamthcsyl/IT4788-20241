@@ -69,16 +69,16 @@ class _ClassListPageState extends State<ClassListPage> {
                     elevation: 2,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     child: ListTile(
-                      title: Text(classInfo.className),
+                      title: Text(classInfo.class_name),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Mã lớp: ${classInfo.classCode}'),
-                          Text('Mã học phần: ${classInfo.courseCode}'),
+                          Text('Mã lớp: ${classInfo.class_id}'),
+                          Text('Loại lớp: ${classInfo.class_type}'),
                         ],
                       ),
                       trailing: TextButton(
-                        onPressed: () => classListViewModel.showClassDetails(context, classInfo.classCode),
+                        onPressed: () => classListViewModel.showClassDetails(context, classInfo),
                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                       ),
                     ),

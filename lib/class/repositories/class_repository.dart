@@ -2,80 +2,166 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:it4788_20241/const/api.dart';
 import '../models/class_model.dart';
-import 'package:it4788_20241/exceptions/GlobalException.dart';
-import 'package:it4788_20241/auth/services/auth_service.dart';
+import 'package:it4788_20241/utils/get_data_user.dart';
 
 class ClassRepository {
-  final _authService = AuthService();
 
   Future<List<ClassInfo>> getOpenClasses() async {
-    // Lấy UserData từ AuthService
-    final userData = await _authService.getUserData();
+    final userData = await getUserData();
 
-    if (userData == null || userData.token.isEmpty) {
-      throw GlobalException("Token không hợp lệ. Vui lòng đăng nhập lại.");
-    }
+    if (userData != null && userData.token.isNotEmpty) {
+      final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_open_classes');
+      try {
+        final response = await http.post(
+          httpUrl,
+          headers: {
+            'Authorization': 'Bearer ${userData.token}',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            "token": userData.token,
+            "pageable_request": {"page": "0", "page_size": "159"}
+          }),
+        );
 
-    final httpUrl = Uri.http(BASE_API_URL, '/it4788/get_open_classes');
-    final response = await http.post(
-      httpUrl,
-      headers: {
-        'Authorization': 'Bearer ${userData.token}', // Sử dụng token từ UserData
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        "pageable_request": {"page": "0", "page_size": "159"}
-      }),
-    );
+        print("Response status: ${response.statusCode}");
+        print("Response body: ${response.body}");
 
-    if (response.statusCode == 200) {
-      final body = jsonDecode(utf8.decode(response.bodyBytes));
-      if (body['code'] == "1000") {
-        // Parse danh sách lớp học
-        final classes = body['data']['classes'] as List;
-        return classes.map((e) => ClassInfo.fromJson(e)).toList();
-      } else {
-        throw GlobalException(body['message']);
+        if (response.statusCode == 200) {
+          final body = jsonDecode(utf8.decode(response.bodyBytes));
+          if (body['meta']['code'] == "1000") {
+            final classes = (body['data']['page_content'] as List)
+                .map((classJson) => ClassInfo.fromJson(classJson))
+                .toList();
+            return classes;
+          } else {
+            throw Exception("Error: ${body['meta']['message']}");
+          }
+        } else {
+          throw Exception("HTTP Error: ${response.statusCode}");
+        }
+      } catch (e) {
+        print("Error occurred: $e");
+        rethrow;
       }
     } else {
-      throw GlobalException("Lỗi kết nối máy chủ");
+      throw Exception("User not logged in. Please authenticate.");
     }
   }
-}
 
-  /*Future<ClassInfo> getClassInfo(String classCode) async {
-    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_class_info', {'class_code': classCode});
-    final response = await http.get(httpUrl);
+  Future<ClassInfo?> getBasicClassInfo(String classId) async {
+    final userData = await getUserData();
 
-    if (response.statusCode == 200) {
-      final body = jsonDecode(utf8.decode(response.bodyBytes));
-      if (body['code'] == 1000) {
-        return ClassInfo.fromJson(body['data']);
-      } else {
-        throw Exception(body['message']);
+    if (userData != null && userData.token.isNotEmpty) {
+      final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_basic_class_info');
+      try {
+        final response = await http.post(
+          httpUrl,
+          headers: {
+            'Authorization': 'Bearer ${userData.token}',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            "token": userData.token,
+            "role" : "STUDENT",
+            "account_id" : userData.id,
+            "class_id": classId,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          final body = jsonDecode(utf8.decode(response.bodyBytes));
+          if (body['meta']['code'] == "1000") {
+            return ClassInfo.fromJson(body['data']);
+          } else {
+            throw Exception("Error: ${body['meta']['message']}");
+          }
+        } else {
+          throw Exception("HTTP Error: ${response.statusCode}");
+        }
+      } catch (e) {
+        print("Error occurred: $e");
+        rethrow;
       }
     } else {
-      throw Exception("Không thể lấy thông tin lớp học.");
+      throw Exception("User not logged in. Please authenticate.");
     }
-  }*/
+  }
 
-  Future<void> registerClass(String classCode) async {
-    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/register_class');
-    final response = await http.post(
-      httpUrl,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'class_code': classCode}),
-    );
+  Future<bool> registerClasses(List<String> classIds) async {
+    final userData = await getUserData();
 
-    if (response.statusCode == 200) {
-      final body = jsonDecode(utf8.decode(response.bodyBytes));
-      if (body['code'] == 1000) {
-        print("Đăng ký lớp học thành công!");
-      } else {
-        throw Exception(body['message']);
+    if (userData != null && userData.token.isNotEmpty) {
+      final httpUrl = Uri.http(BASE_API_URL, '/it5023e/register_class');
+      try {
+        final response = await http.post(
+          httpUrl,
+          headers: {
+            'Authorization': 'Bearer ${userData.token}',
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode({
+            "token": userData.token,
+            "class_ids": classIds,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          final body = jsonDecode(response.body);
+          if (body['meta']['code'] == "1000") {
+            return true;
+          } else {
+            throw Exception("Error: ${body['meta']['message']}");
+          }
+        } else {
+          throw Exception("HTTP Error: ${response.statusCode}");
+        }
+      } catch (e) {
+        print("Error occurred: $e");
+        rethrow;
       }
     } else {
-      throw Exception("Không thể đăng ký lớp học.");
+      throw Exception("User not logged in. Please authenticate.");
+    }
+  }
+
+  Future<List<ClassInfo>> getClassList() async {
+    final userData = await getUserData();
+
+    if (userData != null && userData.token.isNotEmpty) {
+      final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_class_list');
+      try {
+        final response = await http.post(
+          httpUrl,
+          headers: {
+            'Authorization': 'Bearer ${userData.token}',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            "token": userData.token,
+            "role": "STUDENT",
+            "account_id": userData.id, // Lấy account ID từ userData
+            "pageable_request": {"page": "0", "page_size": "159"}
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          final body = jsonDecode(utf8.decode(response.bodyBytes));
+          if (body['meta']['code'] == "1000") {
+            final classes = (body['data']['page_content'] as List).map((classJson) => ClassInfo.fromJson(classJson)).toList();
+            return classes;
+          } else {
+            throw Exception("Error: ${body['meta']['message']}");
+          }
+        } else {
+          throw Exception("HTTP Error: ${response.statusCode}");
+        }
+      } catch (e) {
+        print("Error occurred while fetching class list: $e");
+        rethrow;
+      }
+    } else {
+      throw Exception("User not logged in. Please authenticate.");
     }
   }
 
