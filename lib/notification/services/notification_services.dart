@@ -23,4 +23,10 @@ class NotificationServices {
     final notifications = await _notificationRepository.getNotifications(notificationRequest);
     return notifications;
   }
+
+  Future<void> markAsRead(String notificationId) async {
+    final token = (await getUserData()).token;
+    if (token == null) return;
+    await _notificationRepository.markAsRead(token, notificationId);
+  }
 }

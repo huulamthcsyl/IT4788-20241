@@ -48,4 +48,27 @@ class UserData {
     "role": role,
     "avatar": avatar,
   };
+
+  UserData copyWith({
+    String? id,
+    String? ho,
+    String? ten,
+    String? name,
+    String? email,
+    String? token,
+    String? status,
+    String? role,
+    String? avatar,
+  }) =>
+      UserData(
+        id: id ?? this.id,
+        ho: ho ?? this.ho,
+        ten: ten ?? this.ten,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        token: token ?? this.token,
+        status: status ?? this.status,
+        role: role ?? this.role,
+        avatar: avatar ?? this.avatar,
+      );
 }

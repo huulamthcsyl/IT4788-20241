@@ -196,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage>
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => _profileviewmodel.logout(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         padding: EdgeInsets.symmetric(vertical: 15),
