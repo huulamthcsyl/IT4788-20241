@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => NotificationViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassFunctionViewModel())
+          ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
         ],
