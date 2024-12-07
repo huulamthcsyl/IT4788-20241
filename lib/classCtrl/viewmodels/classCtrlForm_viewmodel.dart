@@ -1,130 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 
 class ClassCtrlFormViewModel extends ChangeNotifier {
-  // Các biến để lưu thông tin lớp
-  String _classId = '';
-  String _classCode = '';
-  String _linkedClassCode = ''; // Added for linked class code
-  String _courseCode = ''; // Added for course code
-  String _name = '';
-  String _schedule = ''; // Added for schedule
-  String _classroom = ''; // Added for classroom
-  int _credits = 0; // Added for credits
-  String _classType = ''; // Added for class type
-  String _status = ''; // Added for status
-  int _maxStudents = 0;
-  List<Student> studentList = [];
+  final ApiService _apiService = ApiService(userData: UserData()); // Khởi tạo API service
+  String classId = '';
+  String classCode = '';
+  String name = '';
+  String startDate = '';
+  String endDate = '';
+  String classType = '';
+  int maxStudents = 0;
 
-  // Danh sách các lớp
-  List<ClassData> _classes = []; // Danh sách lớp hiện tại
+  // Phương thức tạo lớp
+  Future<void> createClass(ClassData classData) async {
+    try {
+      final response = await _apiService.createClass(classData); // Gọi API tạo lớp
 
-  // Getter và Setter cho mã lớp
-  String get classId => _classId;
-  set classId(String value) {
-    _classId = value;
-    notifyListeners();
-  }
+      // Kiểm tra xem response có hợp lệ và không rỗng
+      if (response != null && response['meta']['code'] == '1000') {
+        // Nếu mã phản hồi là 1000, có nghĩa là tạo lớp thành công
+        final classResponse = response['data'];
 
-  // Getter và Setter cho mã lớp kèm
-  String get classCode => _classCode;
-  set classCode(String value) {
-    _classCode = value;
-    notifyListeners();
-  }
+        // Tạo một đối tượng ClassData từ phản hồi
+        final newClass = ClassData(
+          classId: classResponse['class_id'],
+          classCode: classResponse['class_id'],  // Sử dụng class_id cho classCode nếu cần
+          className: classResponse['class_name'],
+          startDate: classResponse['start_date'],
+          endDate: classResponse['end_date'],
+          classType: classResponse['class_type'],
+          maxStudents: int.tryParse(classResponse['max_student_amount'] ?? '0') ?? 0,
+          status: classResponse['status'],
+          studentAccounts: [], // Giả sử không có sinh viên khi tạo mới lớp
+        );
 
-  // Getter và Setter cho mã lớp liên kết
-  String get linkedClassCode => _linkedClassCode;
-  set linkedClassCode(String value) {
-    _linkedClassCode = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho mã khóa học
-  String get courseCode => _courseCode;
-  set courseCode(String value) {
-    _courseCode = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho tên lớp
-  String get name => _name;
-  set name(String value) {
-    _name = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho lịch học
-  String get schedule => _schedule;
-  set schedule(String value) {
-    _schedule = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho phòng học
-  String get classroom => _classroom;
-  set classroom(String value) {
-    _classroom = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho số tín chỉ
-  int get credits => _credits;
-  set credits(int value) {
-    _credits = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho loại lớp
-  String get classType => _classType;
-  set classType(String value) {
-    _classType = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho trạng thái
-  String get status => _status;
-  set status(String value) {
-    _status = value;
-    notifyListeners();
-  }
-
-  // Getter và Setter cho số lượng học sinh tối đa
-  int get maxStudents => _maxStudents;
-  set maxStudents(int value) {
-    _maxStudents = value;
-    notifyListeners();
-  }
-
-  // Phương thức để lưu thông tin lớp
-  ClassData saveClass() {
-    return ClassData(
-      classId: _classId,
-      classCode: _classCode,
-      linkedClassCode: _linkedClassCode,
-      courseCode: _courseCode,
-      className: _name,
-      schedule: _schedule,
-      classroom: _classroom,
-      credits: _credits,
-      classType: _classType,
-      status: _status,
-      maxStudents: _maxStudents,
-      students: studentList,
-    );
-  }
-
-  // Xóa một lớp theo chỉ số
-  void deleteClass(int index) {
-    if (index >= 0 && index < _classes.length) {
-      _classes.removeAt(index);
-      notifyListeners();
+        // Cập nhật UI hoặc xử lý theo nhu cầu, có thể thông báo thành công hoặc quay lại trang trước
+        onSave(newClass);  // Nếu cần truyền ClassData về giao diện chính
+      } else {
+        // Nếu API trả về lỗi hoặc mã không phải 1000, xử lý lỗi
+        print('Failed to create class: ${response?['meta']['message']}');
+      }
+    } catch (e) {
+      print('Error creating class: $e');
+      // Xử lý ngoại lệ nếu có lỗi khi gọi API
     }
   }
 
-  // Thêm lớp mới vào danh sách
-  void addClass(ClassData newClass) {
-    _classes.add(newClass);
-    notifyListeners();
+  // Phương thức lưu lớp
+  ClassData saveClass() {
+    return ClassData(
+      classId: classId,
+      classCode: classCode,
+      className: name,
+      startDate: startDate,
+      endDate: endDate,
+      classType: classType,
+      maxStudents: maxStudents,
+      status: 'Active', // Trạng thái mặc định
+      studentAccounts: [], // Chưa có sinh viên
+    );
   }
+
+  void onSave(ClassData newClass) {}
+
 }

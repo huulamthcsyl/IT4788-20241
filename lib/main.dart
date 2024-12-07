@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
+import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
+import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
@@ -14,14 +17,8 @@ import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
 import 'package:it4788_20241/class_material/views/class_material_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
-
 import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
-// Quan ly lop cua giang vien
-import 'package:it4788_20241/classCtrl//views/classCtrl_view.dart';
-import 'package:it4788_20241/classCtrl//viewmodels/classCtrl_viewmodel.dart';
-import 'package:it4788_20241/classCtrl//views/classCtrlForm_view.dart';
-import 'package:it4788_20241/classCtrl//viewmodels/classCtrlForm_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,44 +30,37 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => LoginViewModel()),
-          ChangeNotifierProvider(create: (context) => SignUpViewModel()),
-          ChangeNotifierProvider(create: (context) => HomeViewModel()),
-          ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassListViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel())
-          ChangeNotifierProvider(create: (context) => ClassCtrlViewModel()),
-          ChangeNotifierProvider(create: (context) => ClassCtrlFormViewModel()),
-        ],
-        child: MaterialApp(
-            title: 'QLDT',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              scaffoldBackgroundColor: const Color(0xFFF8F8FF),
-              useMaterial3: true,
-            ),
-            routes: {
-              '/': (context) => const SplashView(),
-              '/login': (context) => const LoginView(),
-              '/sign-up': (context) => const SignUpView(),
-              '/home': (context) => const HomeView(),
-              '/class-register': (context) => RegisterClassPage(),
-              '/class-list': (context) => ClassListPage(),
-              '/class-material': (context) => ClassMaterialPage(),
-              '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
-              '/class-attendance': (context) => ClassAttendancePage()
-            },
-            initialRoute: "/",
-              '/class-control': (context) => ClassCtrlPage(),
-              '/class-form': (context) => ClassCtrlFormPage(onSave: (ClassData ) {  },),
-            },
-            // home: const LoginView()
-            // home: ClassCtrlFormPage(onSave: (ClassData){})
-            home: ClassCtrlPage()
-            // home: RegisterClassPage()
-        )
+      providers: [
+        ChangeNotifierProvider(create: (context) => LoginViewModel()),
+        ChangeNotifierProvider(create: (context) => SignUpViewModel()),
+        ChangeNotifierProvider(create: (context) => HomeViewModel()),
+        ChangeNotifierProvider(create: (_) => ClassRegisterViewModel()),
+        ChangeNotifierProvider(create: (context) => ClassListViewModel()),
+        ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
+        ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
+        ChangeNotifierProvider(create: (context) => ClassCtrlViewModel()),
+      ],
+      child: MaterialApp(
+        title: 'QLDT',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: const Color(0xFFF8F8FF),
+          useMaterial3: true,
+        ),
+        routes: {
+          '/': (context) => const SplashView(),
+          '/login': (context) => const LoginView(),
+          '/sign-up': (context) => const SignUpView(),
+          '/home': (context) => const HomeView(),
+          '/class-register': (context) => RegisterClassPage(),
+          '/class-list': (context) => ClassListPage(),
+          '/class-material': (context) => ClassMaterialPage(),
+          '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
+          '/class-attendance': (context) => ClassAttendancePage(),
+          '/class-control': (context) => ClassCtrlPage(), // Đảm bảo ClassCtrlPage() đã được đăng ký
+        },
+        initialRoute: '/class-control', // Đặt initialRoute là '/class-control' để hiển thị ClassCtrlPage() ngay khi khởi động ứng dụng
+      ),
     );
   }
 }

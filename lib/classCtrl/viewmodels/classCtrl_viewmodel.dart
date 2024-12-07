@@ -1,94 +1,155 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 
 class ClassCtrlViewModel extends ChangeNotifier {
-  List<ClassData> _classes = [
-    ClassData(
-      classId: '001',
-      classCode: 'A1',
-      linkedClassCode: 'A2',
-      courseCode: 'C001',
-      className: 'Lớp 1A',
-      schedule: 'Thứ 2: 8h - 10h',
-      classroom: 'Phòng 101',
-      credits: 3,
-      classType: 'Thường',
-      status: 'Đang hoạt động',
-      maxStudents: 30,
-      students: [
-        Student('Nguyễn Văn A'),
-        Student('Trần Thị B'),
-        Student('Lê Văn C'),
-      ],
-    ),
-    // Example of additional classes
-    ClassData(
-      classId: '002',
-      classCode: 'B1',
-      linkedClassCode: 'B2',
-      courseCode: 'C002',
-      className: 'Lớp 1B',
-      schedule: 'Thứ 3: 10h - 12h',
-      classroom: 'Phòng 102',
-      credits: 4,
-      classType: 'Thực hành',
-      status: 'Đang hoạt động',
-      maxStudents: 25,
-      students: [
-        Student('Nguyễn Văn D'),
-        Student('Trần Thị E'),
-      ],
-    ),
-    ClassData(
-      classId: '003',
-      classCode: 'C1',
-      linkedClassCode: 'C2',
-      courseCode: 'C003',
-      className: 'Lớp 1C',
-      schedule: 'Thứ 5: 14h - 16h',
-      classroom: 'Phòng 103',
-      credits: 2,
-      classType: 'Lý thuyết',
-      status: 'Đã kết thúc',
-      maxStudents: 20,
-      students: [
-        Student('Lê Văn F'),
-        Student('Nguyễn Thị G'),
-      ],
-    ),
-  ];
+  final _apiService = ApiService(userData: UserData()); // API service instance
+
+  String classId = '';
+  String classCode = '';
+  String name = '';
+  String startDate = '';
+  String endDate = '';
+  String classType = '';
+  int maxStudents = 0;
+
+  List<ClassData> _classes = [];
+  bool _isLoading = false;
+  String? _errorMessage;
+  int _currentPage = 0;
+  final int _pageSize = 7;
+  bool _hasMore = true;
 
   List<ClassData> get classes => _classes;
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+  bool get hasMore => _hasMore;
 
-  // Add a new class
+  // Load more classes when user scrolls to bottom
+  Future<void> loadMoreClasses() async {
+    if (_isLoading || !_hasMore) return;
+    await fetchClasses(page: _currentPage + 1); // Load next page
+  }
+
+  // Fetch classes from API with pagination
+  Future<void> fetchClasses({int page = 0}) async {
+    _setLoading(true); // Start loading data
+    try {
+      final response = await _apiService.getClassList(
+        page: page,
+        pageSize: _pageSize,
+      );
+
+      if (response != null && response.isNotEmpty) {
+        final newClasses = response.map((data) => ClassData.fromJson(data)).toList();
+
+        if (page == 0) {
+          _classes = newClasses;
+        } else {
+          _classes.addAll(newClasses);
+        }
+
+        _hasMore = response.length == _pageSize;
+        _currentPage = page;
+        _errorMessage = null;
+      } else {
+        _hasMore = false;
+      }
+    } catch (error) {
+      _errorMessage = 'Không thể tải danh sách lớp: $error';
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  // Set the loading state and notify listeners
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  // Search for classes by class name or class ID
+  List<ClassData> searchClasses(String searchQuery) {
+    if (searchQuery.isEmpty) {
+      return _classes;
+    }
+    return _classes
+        .where((classData) =>
+    classData.className.toLowerCase().contains(searchQuery.toLowerCase()) ||
+        classData.classId.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+  }
+
+  // Add a new class to the list
   void addClass(ClassData newClass) {
     _classes.add(newClass);
     notifyListeners();
   }
 
-  // Edit an existing class
-  void editClass(int index, ClassData updatedClass) {
-    if (index >= 0 && index < _classes.length) {
-      _classes[index] = updatedClass;
+  // Edit class details and update via API
+  Future<void> editClass(int index, ClassData updatedClass) async {
+    try {
+      // Call API to update class
+      final success = await _apiService.editClassDetails(updatedClass);
+      if (success) {
+        // Update the class locally if the API call is successful
+        _classes[index] = updatedClass;
+        notifyListeners(); // Notify listeners to update the UI
+      } else {
+        _errorMessage = 'Không thể cập nhật lớp';
+        notifyListeners();
+      }
+    } catch (error) {
+      _errorMessage = 'Không thể cập nhật lớp: $error';
       notifyListeners();
     }
   }
 
-  // Delete a class
-  void deleteClass(int index) {
-    if (index >= 0 && index < _classes.length) {
-      _classes.removeAt(index);
+  // Delete class
+  Future<void> deleteClass(String classId) async {
+    try {
+      final success = await _apiService.deleteClass(classId);
+      if (success) {
+        _classes.removeWhere((classData) => classData.classId == classId);
+        notifyListeners();
+      } else {
+        _errorMessage = 'Không thể xóa lớp';
+        notifyListeners();
+      }
+    } catch (error) {
+      _errorMessage = 'Không thể xóa lớp: $error';
       notifyListeners();
     }
   }
 
-  // Search for classes by name
-  List<ClassData> searchClasses(String query) {
-    if (query.isEmpty) {
-      return _classes;
-    }
-    return _classes.where((classData) =>
-        classData.className.toLowerCase().contains(query.toLowerCase())
-    ).toList();
+// Phương thức lưu lớp
+  ClassData saveClass() {
+    return ClassData(
+      classId: classId,
+      classCode: classCode,
+      className: name,
+      startDate: startDate,
+      endDate: endDate,
+      classType: classType,
+      maxStudents: maxStudents,
+      status: 'Active', // Trạng thái mặc định
+      studentAccounts: [], // Chưa có sinh viên
+    );
   }
+
+  // Phương thức cập nhật lớp
+  Future<void> updateClass(ClassData classData) async {
+    try {
+      final success = await _apiService.editClassDetails(classData);  // Gọi API cập nhật lớp
+      if (success) {
+        // Nếu cập nhật thành công, thông báo hoặc cập nhật UI
+        notifyListeners();  // Thông báo rằng có sự thay đổi
+      } else {
+        print('Failed to update class');
+      }
+    } catch (e) {
+      print('Error updating class: $e');
+    }
+  }
+
 }
