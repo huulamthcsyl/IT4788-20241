@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/models/user_data.dart';
+import 'package:it4788_20241/auth/views/login_view.dart';
 import 'package:it4788_20241/notification/models/notification_data.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmodel.dart';
 import 'package:it4788_20241/types/notification_type.dart';
 import 'package:it4788_20241/utils/format_datetime.dart';
+import 'package:provider/provider.dart';
 
 class NotificationDetailView extends StatelessWidget {
   final NotificationData notificationData;
@@ -12,6 +15,8 @@ class NotificationDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<NotificationDetailViewModel>();
+    viewModel.markAsRead(notificationData.id);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

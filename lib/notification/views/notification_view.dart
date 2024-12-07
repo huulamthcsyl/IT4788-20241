@@ -38,27 +38,8 @@ class _NotificationViewState extends State<NotificationView> {
         child: PagedListView<int, NotificationData>(
           pagingController: viewModel.pagingController,
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
-            itemBuilder: (context, item, index) => FutureBuilder(
-              future: viewModel.getUserInfo(item.fromUser.toString()), 
-              builder: (BuildContext context, AsyncSnapshot<UserData> snapshot) {
-                if(snapshot.hasData) {
-                  return NotificationTile(
-                    notificationData: item, 
-                    senderInfo: snapshot.data
-                  );
-                } else if (snapshot.hasError) {
-                  return const ListTile(
-                    title: Text("Có lỗi xảy ra khi lấy thông báo"),
-                  );
-                } else {
-                  return Skeletonizer(
-                    child: NotificationTile(
-                      notificationData: item, 
-                      senderInfo: snapshot.data
-                    )
-                  );
-                }
-              }
+            itemBuilder: (context, item, index) => NotificationTile(
+              notificationData: item, 
             )
           ),
         ),

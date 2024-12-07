@@ -41,4 +41,22 @@ class NotificationRepository {
       throw GlobalException('Không thể lấy thông báo');
     }
   }
+
+  Future<void> markAsRead(String token, String notificationId) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/mark_notification_as_read');
+    final response = await http.post(httpUrl, body: jsonEncode({
+      "token": token,
+      "notification_id": notificationId
+    }), headers: {
+      'Content-Type': 'application/json',
+    });
+    if (response.statusCode == 200) {
+      final body = jsonDecode(utf8.decode(response.bodyBytes));
+      if(body["meta"]["code"] != "1000") {
+        throw GlobalException(body["meta"]["message"]);
+      }
+    } else {
+      throw GlobalException('Không thể đánh dấu thông báo đã đọc');
+    }
+  }
 }

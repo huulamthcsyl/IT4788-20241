@@ -7,7 +7,7 @@ import 'package:it4788_20241/notification/services/notification_services.dart';
 
 class NotificationViewModel extends ChangeNotifier {
   int currentNotificationIndex = 0;
-  final notificationPageSize = 10;
+  final notificationPageSize = 5;
 
   final _notificationServices = NotificationServices();
   final _authServices = AuthService();
