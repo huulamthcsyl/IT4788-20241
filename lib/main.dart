@@ -8,6 +8,8 @@ import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/layout/views/layout_view.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmodel.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_tile_viewmodel.dart';
 import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
@@ -45,7 +47,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
-          ChangeNotifierProvider(create: (context) => ProfileViewModel())
+          ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+          ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
+          ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -67,7 +71,7 @@ class MyApp extends StatelessWidget {
               '/class-attendance': (context) => ClassAttendancePage(),
               '/user/profile': (context) => ProfilePage()
             },
-            initialRoute: "/user/profile",
+            initialRoute: "/",
         )
     );
   }
