@@ -1,3 +1,4 @@
+import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/services/class_material_service.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +41,19 @@ class ClassMaterialViewModel extends ChangeNotifier
       await _materialService.deleteMaterial(token: userData.token, material_id: classMaterial.ID.toString());
   }
   void onClickTabBar(int index, BuildContext context){
-      if (index == 0)
+    switch (index){
+      case 0:
+      // Route to class_survey
         Navigator.push((context), MaterialPageRoute(builder: (context) => ClassSurveyPage()));
-      else {
+        break;
+      case 1:
+      // Route to class_material
         Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage()));
-      }
+        break;
+      case 2:
+      // Route to class_another_function
+    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassFunctionPage()));
+        break;
+    }
   }
 }
