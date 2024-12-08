@@ -50,12 +50,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
           ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
-<<<<<<< Updated upstream
-          ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
-=======
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
-          ChangeNotifierProvider(create: (context) => SearchViewModel())
->>>>>>> Stashed changes
+          ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
         ],
         child: MaterialApp(
             title: 'QLDT',
