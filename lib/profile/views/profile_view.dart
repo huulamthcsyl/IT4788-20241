@@ -158,33 +158,22 @@ class _ProfilePageState extends State<ProfilePage>
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 5, // Thêm độ cao bóng
-                      ),
-                      child: Text(
-                        'THAY ĐỔI THÔNG TIN',
-                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _profileviewmodel.textError = '';
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ChangePasswordDialog();
+                          },
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightGreen,
                         padding: EdgeInsets.symmetric(vertical: 15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 5, // Thêm độ cao bóng
+                        elevation: 5,
                       ),
                       child: Text(
                         'ĐỔI MẬT KHẨU',
@@ -242,6 +231,90 @@ class ProfileRow extends StatelessWidget
         ],
       ),
     );
+  }
+}
+class ChangePasswordDialog extends StatefulWidget {
+  @override
+  _ChangePasswordDialogState createState() => _ChangePasswordDialogState();
+}
+
+class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final _profileviewmodel = Provider.of<ProfileViewModel>(context);
+    return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      title: Text('Đổi mật khẩu'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _oldPasswordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Mật khẩu cũ',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            controller: _newPasswordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Mật khẩu mới ${_profileviewmodel.userData.token}',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          if (_profileviewmodel.textError.isNotEmpty)
+          SizedBox(height: 5),
+          if (_profileviewmodel.textError.isNotEmpty)
+          Text(_profileviewmodel.textError, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),)
+        ],
+      ),
+      actions: [
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: Colors.redAccent,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Hủy',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
+        ),
+        SizedBox(width: 5)
+        ,
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: Colors.lightGreen,
+          ),
+          onPressed: () {
+            final oldPassword = _oldPasswordController.text.trim();
+            final newPassword = _newPasswordController.text.trim();
+            _profileviewmodel.changePassword(context, oldPassword, newPassword);
+
+          },
+          child: Text('Đổi mật khẩu', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        )
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    super.dispose();
   }
 }
 

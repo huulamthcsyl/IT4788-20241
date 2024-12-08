@@ -8,6 +8,7 @@ import '../../utils/get_data_user.dart';
 import '../../auth/services/auth_service.dart';
 class ProfileViewModel extends ChangeNotifier
 {
+
   final AuthService _authService = AuthService();
 
   ProfileViewModel() {
@@ -47,5 +48,26 @@ class ProfileViewModel extends ChangeNotifier
   void getInformationFromUser(int id) async {
     searchUserData = await _authService.getUserInfo(id.toString());
     notifyListeners();
+  }
+  String textError = '';
+  void changePassword(BuildContext context, String oldPassword, String newPassword) async {
+    if (oldPassword.isEmpty){
+      textError = "Chưa điền mật khẩu cũ";
+      notifyListeners();
+      return;
+    }
+    if (newPassword.isEmpty){
+      textError = "Chưa điền mật khẩu mới";
+      notifyListeners();
+      return;
+    }
+    if (oldPassword == newPassword){
+      textError = "Mật khẩu mới không thể giống mật khẩu cũ";
+      notifyListeners();
+      return;
+    }
+    final token = (await getUserData()).token ?? "";
+    await _authService.changePassword(token: token, old_password: oldPassword, new_password: newPassword);
+    Navigator.of(context).pop();
   }
 }

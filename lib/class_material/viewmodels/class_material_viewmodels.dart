@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:it4788_20241/class_material/services/class_material_service.dart';
@@ -39,6 +41,26 @@ class ClassMaterialViewModel extends ChangeNotifier
   Future<void> deleteMaterial(ClassMaterial classMaterial) async{
 
       await _materialService.deleteMaterial(token: userData.token, material_id: classMaterial.ID.toString());
+  }
+  String filePath = "";
+  String title = "";
+  String description = "";
+  String materialType = "";
+  bool isUploading = false;
+  double progress = 0.0;
+  final _materialUploadService = MaterialService();
+  void uploadFile() async {
+    if (File(filePath) == null || title.isEmpty || description.isEmpty || materialType.isEmpty) {
+      return;
+    }
+    await _materialUploadService.uploadFile(token: userData.token, classId: "000089", title: title, description: description, materialType: materialType, file: File(filePath));
+  }
+  String old_material_id = '';
+  void editFile() async {
+    if (File(filePath) == null || title.isEmpty || description.isEmpty || materialType.isEmpty) {
+      return;
+    }
+    await _materialUploadService.editFile(token: userData.token, materialId: old_material_id, title: title, description: description, materialType: materialType, file: File(filePath));
   }
   void onClickTabBar(int index, BuildContext context){
     switch (index){
