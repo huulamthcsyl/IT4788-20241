@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/chat/views/chat_overview_view.dart';
 import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/notification/views/notification_view.dart';
@@ -20,7 +21,7 @@ class _AppLayoutState extends State<AppLayout> {
       body: <Widget>[
         const HomeView(),
         const ProfilePage(),
-        const HomeView(),
+        const ChatOverviewPage(),
         const NotificationView()
       ][viewModel.currentPageIndex],
       bottomNavigationBar: NavigationBar(

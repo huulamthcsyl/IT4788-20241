@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/chat/viewmodels/chat_overview_viewmodel.dart';
+import 'package:it4788_20241/chat/viewmodels/conversation_viewmodel.dart';
+import 'package:it4788_20241/chat/views/chat_overview_view.dart';
+import 'package:it4788_20241/chat/views/conversation_view.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
@@ -56,6 +60,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SearchViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
+          ChangeNotifierProvider(create: (context) => ChatOverviewViewModel()),
+          ChangeNotifierProvider(create: (context) => ConversationViewModel()),
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -78,6 +84,7 @@ class MyApp extends StatelessWidget {
               '/user/profile': (context) => ProfilePage(),
               '/class-another-functions': (context) => ClassFunctionPage(),
               '/search' : (context) => SearchPage(),
+              '/chat_overview': (context) => const ChatOverviewPage(),
             },
             initialRoute: "/",
         )
