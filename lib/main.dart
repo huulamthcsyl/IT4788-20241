@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
+import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
+import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_viewmodel.dart';
@@ -58,12 +61,10 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
           ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
-<<<<<<< Updated upstream
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
-=======
-          ChangeNotifierProvider(create: (context) => SearchViewModel())
->>>>>>> Stashed changes
+          ChangeNotifierProvider(create: (context) => SearchViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassCtrlViewModel()),
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -121,6 +122,7 @@ class MyApp extends StatelessWidget {
               '/user/profile': (context) => ProfilePage(),
               '/class-another-functions': (context) => ClassFunctionPage(),
               '/search' : (context) => SearchPage(),
+              '/class-control': (context) => ClassCtrlPage()
             },
             initialRoute: "/",
         )
