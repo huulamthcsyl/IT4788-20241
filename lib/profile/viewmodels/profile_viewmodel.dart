@@ -8,13 +8,8 @@ import '../../utils/get_data_user.dart';
 import '../../auth/services/auth_service.dart';
 class ProfileViewModel extends ChangeNotifier
 {
-<<<<<<< Updated upstream
-
   final AuthService _authService = AuthService();
 
-=======
-  final _authService = AuthService();
->>>>>>> Stashed changes
   ProfileViewModel() {
     initUserData();
   }
@@ -44,15 +39,13 @@ class ProfileViewModel extends ChangeNotifier
     userData = await getUserData();
     notifyListeners();
   }
-<<<<<<< Updated upstream
 
   void logout(BuildContext context) async {
     await _authService.logout();
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-=======
+  }
   void getInformationFromUser(int id) async {
-    searchUserData = await _authService.getUserInfo(id);
+    searchUserData = await _authService.getUserInfo(id.toString());
     notifyListeners();
->>>>>>> Stashed changes
   }
 }
