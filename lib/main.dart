@@ -18,6 +18,8 @@ import 'package:it4788_20241/notification/viewmodels/notification_tile_viewmodel
 import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
+import 'package:it4788_20241/search/viewmodels/search_viewmodel.dart';
+import 'package:it4788_20241/search/views/search_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -56,8 +58,12 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
           ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
+<<<<<<< Updated upstream
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel())
+=======
+          ChangeNotifierProvider(create: (context) => SearchViewModel())
+>>>>>>> Stashed changes
         ],
         child: MaterialApp(
             title: 'QLDT',
@@ -113,7 +119,8 @@ class MyApp extends StatelessWidget {
                     body: Center(child: Text('Trang không tồn tại')),),);
               }
               '/user/profile': (context) => ProfilePage(),
-              '/class-another-functions': (context) => ClassFunctionPage()
+              '/class-another-functions': (context) => ClassFunctionPage(),
+              '/search' : (context) => SearchPage(),
             },
             initialRoute: "/",
         )
