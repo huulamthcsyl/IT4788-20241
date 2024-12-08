@@ -61,4 +61,21 @@ class AuthRepository {
       throw GlobalException(body['message']);
     }
   }
+
+  Future<UserData> getUserInfo(String id, String token) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it4788/get_user_info');
+    final response = await http.post(httpUrl, body: jsonEncode({"user_id": id, "token": token}), headers: {
+      'Content-Type': 'application/json',
+    });
+    final body = jsonDecode(utf8.decode(response.bodyBytes));
+    if(response.statusCode == 200) {
+      if (body['code'] == "1000") {
+        return UserData.fromJson(body['data']);
+      } else {
+        throw GlobalException(body['message']);
+      }
+    } else {
+      throw GlobalException(body['message']);
+    }
+  }
 }
