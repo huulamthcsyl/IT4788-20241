@@ -8,6 +8,9 @@ import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmo
 import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
+import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
+import 'package:it4788_20241/leave/viewmodels/leave_request_viewmodel.dart';
+import 'package:it4788_20241/leave/views/leave_request_view.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/layout/views/layout_view.dart';
 import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmodel.dart';
@@ -24,7 +27,7 @@ import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
 import 'package:it4788_20241/class_material/views/class_material_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
-
+import 'package:it4788_20241/leave/views/leave_request_list_view.dart';
 import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
 
@@ -47,6 +50,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => ClassListViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
           ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
+          ChangeNotifierProvider(create: (context) => LeaveRequestViewModel()),
+          ChangeNotifierProvider(create: (context) => LeaveRequestListViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
@@ -61,7 +66,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: const Color(0xFFF8F8FF),
               useMaterial3: true,
             ),
-            routes: {
+            /*routes: {
               '/': (context) => const SplashView(),
               '/layout': (context) => const AppLayout(),
               '/login': (context) => const LoginView(),
@@ -72,6 +77,41 @@ class MyApp extends StatelessWidget {
               '/class-material': (context) => ClassMaterialPage(),
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
               '/class-attendance': (context) => ClassAttendancePage(),
+              '/leave-request': (context) => LeaveRequestPage()
+            },*/
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case '/':
+                  return MaterialPageRoute(builder: (_) => const SplashView());
+                case '/login':
+                  return MaterialPageRoute(builder: (_) => const LoginView());
+                case '/sign-up':
+                  return MaterialPageRoute(builder: (_) => const SignUpView());
+                case '/home':
+                  return MaterialPageRoute(builder: (_) => const HomeView());
+                case '/class-register':
+                  return MaterialPageRoute(builder: (_) => RegisterClassPage());
+                case '/class-list':
+                  return MaterialPageRoute(builder: (_) => ClassListPage());
+                case '/class-material':
+                  return MaterialPageRoute(builder: (_) => ClassMaterialPage());
+                case '/class-material-upload':
+                  return MaterialPageRoute(builder: (_) => ClassMaterialUploadFilePage());
+                case '/class-attendance':
+                  return MaterialPageRoute(builder: (_) => ClassAttendancePage());
+                case '/leave-request-list':
+                  final args = settings.arguments as Map<String, dynamic>?;
+                  final classId = args?['classId'] as String? ?? '';
+                  return MaterialPageRoute(builder: (_) => LeaveRequestListPage(classId: classId));
+                case '/leave-request':
+                  final args = settings.arguments as Map<String, dynamic>?;
+                  final classId = args?['classId'] as String? ?? '';
+                  return MaterialPageRoute(builder: (_) => LeaveRequestPage(classId: classId),);
+                default:
+                  return MaterialPageRoute(builder: (_) =>
+                  const Scaffold(
+                    body: Center(child: Text('Trang không tồn tại')),),);
+              }
               '/user/profile': (context) => ProfilePage(),
               '/class-another-functions': (context) => ClassFunctionPage()
             },
