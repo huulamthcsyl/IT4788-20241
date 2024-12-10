@@ -13,7 +13,7 @@ class ConversationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ConversationViewModel>();
-    viewModel.setConversationId(conversationData.id.toString());
+    viewModel.setConversationInfo(conversationData);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,12 +25,16 @@ class ConversationPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.red,
+        iconTheme: const IconThemeData(
+          color: Colors.white
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
           Expanded(
             child: PagedListView<int, MessageData>(
+              reverse: true,
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<MessageData>(
                 itemBuilder: (context, item, index) {
@@ -61,8 +65,9 @@ class ConversationPage extends StatelessWidget {
             color: Colors.white,
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: TextField(
+                    controller: viewModel.messageTextController,
                     decoration: const InputDecoration(
                       hintText: "Nhập tin nhắn...",
                       border: InputBorder.none,
@@ -71,8 +76,11 @@ class ConversationPage extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.send,
+                    color: Colors.red,
+                  ),
+                  onPressed: viewModel.sendMessage,
                 )
               ],
             ),

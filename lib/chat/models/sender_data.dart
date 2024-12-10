@@ -1,29 +1,30 @@
 import 'dart:convert';
 
-SenderData senderDataFromJson(String str) => SenderData.fromJson(json.decode(str));
+PartnerData senderDataFromJson(String str) =>
+    PartnerData.fromJson(json.decode(str));
 
-String senderDataToJson(SenderData data) => json.encode(data.toJson());
+String senderDataToJson(PartnerData data) => json.encode(data.toJson());
 
-class SenderData {
+class PartnerData {
   int id;
   String name;
   String? avatar;
 
-  SenderData({
+  PartnerData({
     required this.id,
     required this.name,
     this.avatar,
   });
 
-  factory SenderData.fromJson(Map<String, dynamic> json) => SenderData(
-    id: json["id"],
-    name: json["name"],
-    avatar: json["avatar"],
-  );
+  factory PartnerData.fromJson(Map<String, dynamic> json) => PartnerData(
+        id: json["id"],
+        name: json["name"],
+        avatar: json["avatar"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "avatar": avatar,
-  };
+        "id": id,
+        "name": name,
+        "avatar": avatar,
+      };
 }

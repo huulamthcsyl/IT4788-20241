@@ -5,7 +5,6 @@ import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/chat/viewmodels/chat_overview_viewmodel.dart';
 import 'package:it4788_20241/chat/viewmodels/conversation_viewmodel.dart';
 import 'package:it4788_20241/chat/views/chat_overview_view.dart';
-import 'package:it4788_20241/chat/views/conversation_view.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
