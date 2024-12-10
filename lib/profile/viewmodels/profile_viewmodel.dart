@@ -56,7 +56,6 @@ class ProfileViewModel extends ChangeNotifier
   );
   void initUserData() async {
     userData = await getUserData();
-    print(userData.toJson());
     notifyListeners();
   }
 
