@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
 import '../models/class_model.dart';
 import '../repositories/class_repository.dart';
+import 'package:it4788_20241/utils/get_data_user.dart';
+import '../../auth/models/user_data.dart';
 
 class ClassListViewModel extends ChangeNotifier {
   final ClassRepository _classRepository = ClassRepository();
   late List<ClassInfo> _originalClasses;
   List<ClassInfo> _classes = [];
   List<ClassInfo> get classes => _classes;
-
   int _currentPage = 0;
   final int _rowsPerPage = 20;
-
   int get currentPage => _currentPage;
 
   ClassListViewModel() {
+    initUserData();
     fetchClasses();
+  }
+
+  UserData userData = UserData(
+    id: '',
+    ho: '',
+    ten: '',
+    name: '',
+    email: '',
+    token: '',
+    status: '',
+    role: '',
+    avatar: '',
+  );
+
+  void initUserData() async {
+    userData = await getUserData();
+    notifyListeners();
   }
 
   Future<void> fetchClasses() async {
     try {
-      _originalClasses = await _classRepository.getOpenClasses();
+      _originalClasses = await _classRepository.getOpenClasses(userData.token);
       _classes = List.from(_originalClasses);
       notifyListeners();
     } catch (e) {

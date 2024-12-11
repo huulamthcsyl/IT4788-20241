@@ -15,6 +15,7 @@ class HomeViewModel extends ChangeNotifier {
     ten: '',
     name: '',
     token: '',
+    email: '',
     status: '',
     role: '',
     avatar: '',

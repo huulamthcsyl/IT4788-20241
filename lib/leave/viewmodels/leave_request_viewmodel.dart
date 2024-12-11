@@ -1,17 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:it4788_20241/leave/repositories/leave_request_repository.dart';
 import 'dart:io';
-import 'package:it4788_20241/const/api.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
+import '../../auth/models/user_data.dart';
 
 class LeaveRequestViewModel extends ChangeNotifier {
   final titleController = TextEditingController();
   final reasonController = TextEditingController();
   final dateController = TextEditingController();
   XFile? proofImage;
+
+  final LeaveRequestRepository _repository = LeaveRequestRepository();
+
+  LeaveRequestViewModel() {
+    initUserData();
+  }
+
+  UserData userData = UserData(
+    id: '',
+    ho: '',
+    ten: '',
+    name: '',
+    email: '',
+    token: '',
+    status: '',
+    role: '',
+    avatar: '',
+  );
+
+  void initUserData() async {
+    userData = await getUserData();
+    notifyListeners();
+  }
 
   // Hàm chọn ảnh từ thư mục
   Future<void> pickImage() async {
@@ -62,7 +84,6 @@ class LeaveRequestViewModel extends ChangeNotifier {
     String title = titleController.text;
     String reason = reasonController.text;
     String date = dateController.text;
-    final userData = await getUserData();
 
     if (title.isEmpty || reason.isEmpty || date.isEmpty || proofImage == null) {
       // Hiển thị thông báo lỗi nếu có trường nào còn trống
@@ -71,50 +92,23 @@ class LeaveRequestViewModel extends ChangeNotifier {
     }
 
     try {
-      // Chuyển đổi định dạng ngày từ dd-MM-yyyy sang yyyy-MM-dd
-      DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(date);
-      String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+      final response = await _repository.submitRequest(
+        token: userData.token!,
+        classId: classId,
+        title: title,
+        reason: reason,
+        date: date,
+        proofImage: File(proofImage!.path),
+      );
 
-      // Tạo request multipart
-      var uri = Uri.http(BASE_API_URL, '/it5023e/request_absence');
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['token'] = userData.token
-        ..fields['classId'] = classId
-        ..fields['date'] = formattedDate
-        ..fields['reason'] = reason
-        ..fields['title'] = title;
-
-      // Thêm file minh chứng
-      if (proofImage != null) {
-        var file = File(proofImage!.path);
-        var stream = http.ByteStream(file.openRead());
-        var length = await file.length();
-        var multipartFile = http.MultipartFile(
-          'file',
-          stream,
-          length,
-          filename: proofImage!.path.split('/').last,
-        );
-        request.files.add(multipartFile);
-      }
-
-      // Gửi request và nhận phản hồi
-      var response = await request.send();
-      if (response.statusCode == 200) {
-        var responseBody = await response.stream.bytesToString();
-        var jsonResponse = json.decode(responseBody);
-
-        if (jsonResponse['meta']['code'] == "1000") {
-          print("Yêu cầu nghỉ phép thành công");
-          print("Absence Request ID: ${jsonResponse['data']['absence_request_id']}");
-        } else {
-          print("Lỗi từ server: ${jsonResponse['meta']['message']}");
-        }
+      if (response['meta']['code'] == "1000") {
+        print("Yêu cầu nghỉ phép thành công");
+        print("Absence Request ID: ${response['data']['absence_request_id']}");
       } else {
-        print("Lỗi kết nối: ${response.statusCode}");
+        print("Lỗi từ server: ${response['meta']['message']}");
       }
     } catch (e) {
-      print("Lỗi ngoại lệ: $e");
+      print(e.toString());
     }
   }
 

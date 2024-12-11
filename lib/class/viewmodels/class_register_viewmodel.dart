@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/class_model.dart';
 import '../repositories/class_repository.dart';
+import 'package:it4788_20241/utils/get_data_user.dart';
+import '../../auth/models/user_data.dart';
 
 class ClassRegisterViewModel with ChangeNotifier {
   final ClassRepository _classRepository = ClassRepository();
@@ -9,9 +11,31 @@ class ClassRegisterViewModel with ChangeNotifier {
   List<ClassInfo> newClasses = [];
   List<String> newClassIds = [];
 
+  ClassRegisterViewModel() {
+    initUserData();
+    fetchRegisteredClasses();
+  }
+
+  UserData userData = UserData(
+    id: '',
+    ho: '',
+    ten: '',
+    name: '',
+    email: '',
+    token: '',
+    status: '',
+    role: '',
+    avatar: '',
+  );
+
+  void initUserData() async {
+    userData = await getUserData();
+    notifyListeners();
+  }
+
   Future<void> fetchRegisteredClasses() async {
     try {
-      registeredClasses = await _classRepository.getClassList();
+      registeredClasses = await _classRepository.getClassList(userData.token, userData.id);
       print("Fetched registered classes: ${registeredClasses[1]}");
 
       notifyListeners();
@@ -26,7 +50,7 @@ class ClassRegisterViewModel with ChangeNotifier {
         print("Class already registered or pending registration.");
         return;
       } else {
-        final classInfo = await _classRepository.getBasicClassInfo(classId);
+        final classInfo = await _classRepository.getBasicClassInfo(userData.token, classId, userData.id);
         if (classInfo != null) {
           newClasses.add(classInfo);
           newClassIds.add(classId);
@@ -41,7 +65,7 @@ class ClassRegisterViewModel with ChangeNotifier {
   Future<void> submitRegistration() async {
     try {
       if (newClassIds.isNotEmpty) {
-        final result = await _classRepository.registerClasses(newClassIds);
+        final result = await _classRepository.registerClasses(userData.token, newClassIds);
         if (result) {
           registeredClasses.addAll(newClasses);
           newClasses.clear();
