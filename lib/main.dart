@@ -15,6 +15,8 @@ import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmod
 import 'package:it4788_20241/notification/viewmodels/notification_tile_viewmodel.dart';
 import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
 import 'package:it4788_20241/notification/views/notification_view.dart';
+import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
+import 'package:it4788_20241/leave/viewmodels/leave_request_viewmodel.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
         ChangeNotifierProvider(create: (context) => NotificationViewModel()),
         ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
+        ChangeNotifierProvider(create: (context) => LeaveRequestViewModel()),
+        ChangeNotifierProvider(create: (context) => LeaveRequestListViewModel())
       ],
       child: MaterialApp(
         title: 'QLDT',
