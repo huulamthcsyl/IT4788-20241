@@ -128,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  // Navigator.pushNamed(context, '/');
                 },
               ),
             ],
@@ -138,14 +138,14 @@ class _HomeViewState extends State<HomeView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               HomeButton(
-                title: 'Xem danh sách lớp học trong kỳ',
+                title: 'Lớp học trong kỳ',
                 icon: const ImageIcon(
                   AssetImage('assets/img/absence_icon.png'),
                   size: 50,
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  // Navigator.pushNamed(context, '/');
                 },
               ),
               const SizedBox(width: 20),
@@ -157,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/user/profile');
+                  Navigator.pushNamed(context, '/class-another-functions');
                 },
               ),
             ],

@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
+import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/auth/views/login_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_upload_viewmodels.dart';
@@ -10,6 +12,8 @@ import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/layout/views/layout_view.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmodel.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_tile_viewmodel.dart';
 import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
@@ -24,7 +28,6 @@ import 'package:it4788_20241/class_material/views/class_material_upload_view.dar
 import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:it4788_20241/class_assignment/viewmodels/assignment_list_viewmodel.dart';
 import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
-
 
 
 void main() {
@@ -49,6 +52,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => NotificationViewModel()),
           ChangeNotifierProvider(create: (context) => ClassMaterialUploadViewModel()),
           ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+          ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
+          ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
+          ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
           ChangeNotifierProvider(create: (context) => AssignmentListViewModel()),
         ],
         child: MaterialApp(
@@ -70,9 +76,10 @@ class MyApp extends StatelessWidget {
               '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
               '/class-attendance': (context) => ClassAttendancePage(),
               '/class-assignment': (context) => const AssignmentListView(),
-              '/user/profile': (context) => const ProfilePage()
+              '/user/profile': (context) => const ProfilePage(),
+              '/class-another-functions': (context) => ClassFunctionPage()
             },
-            initialRoute: "/user/profile",
+            initialRoute: "/",
         )
     );
   }

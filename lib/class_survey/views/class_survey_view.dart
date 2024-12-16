@@ -45,11 +45,16 @@ class _ClassSurveyPageState extends State<ClassSurveyPage> {
             bottom: TabBar(
               onTap: (int index) {
                 setState(() {
-                  tabIndex = index; // Update the tabIndex when a tab is tapped
-                  if (tabIndex == 1) {
-
-                    Navigator.push((context), MaterialPageRoute(
-                        builder: (context) => ClassMaterialPage()));
+                  switch (index){
+                    case 0:
+                      // Route to class_survey
+                      break;
+                    case 1:
+                      // Route to class_material
+                      break;
+                    case 2:
+                      // Route to class_another_function
+                      break;
                   }
                 });
               },
@@ -58,7 +63,8 @@ class _ClassSurveyPageState extends State<ClassSurveyPage> {
               labelStyle: TextStyle(fontWeight: FontWeight.bold),
               tabs: [
                 Tab(text: "Kiểm tra"),
-                Tab(text: "Tài liệu")
+                Tab(text: "Tài liệu"),
+                Tab(text: "Chức năng khác")
               ],
             ),
           ),
