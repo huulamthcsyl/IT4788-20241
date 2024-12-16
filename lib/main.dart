@@ -11,6 +11,10 @@ import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/layout/views/layout_view.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_detail_viewmodel.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_tile_viewmodel.dart';
+import 'package:it4788_20241/notification/viewmodels/notification_viewmodel.dart';
+import 'package:it4788_20241/notification/views/notification_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -42,7 +46,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ClassMaterialViewModel()),
         ChangeNotifierProvider(create: (context) => ClassAttendanceViewModel()),
         ChangeNotifierProvider(create: (context) => ClassCtrlViewModel()),
-        ChangeNotifierProvider(create: (context) => ClassCtrlFormViewModel())
+        ChangeNotifierProvider(create: (context) => ClassCtrlFormViewModel()),
+        ChangeNotifierProvider(create: (context) => LayoutViewModel()),
+        ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
+        ChangeNotifierProvider(create: (context) => NotificationViewModel()),
+        ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
       ],
       child: MaterialApp(
         title: 'QLDT',
@@ -62,7 +70,8 @@ class MyApp extends StatelessWidget {
           '/class-material': (context) => ClassMaterialPage(),
           '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
           '/class-attendance': (context) => ClassAttendancePage(),
-          '/class-control': (context) => ClassCtrlPage(), // Đảm bảo ClassCtrlPage() đã được đăng ký
+          '/class-control': (context) => ClassCtrlPage(),
+          '/notification': (context) => const NotificationView(),
         },
         initialRoute: '/', // Đặt initialRoute là '/class-control' để hiển thị ClassCtrlPage() ngay khi khởi động ứng dụng
       ),
