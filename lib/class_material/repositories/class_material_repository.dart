@@ -74,7 +74,7 @@ class MaterialRepository {
     var request = http.MultipartRequest('POST', httpUrl);
     request.files.add(
         http.MultipartFile(
-            'picture',
+            'file',
             File(file.path).readAsBytes().asStream(),
             File(file.path).lengthSync(),
             filename: file.path.split("/").last
@@ -96,6 +96,46 @@ class MaterialRepository {
       }
     } catch (e) {
       print("Lỗi khi upload file: $e");
+    }
+  }
+  Future<void> editFile({
+    required String? token,
+    required String materialId,
+    required String title,
+    required String description,
+    required String materialType,
+    required File file,
+  }) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/edit_material');
+    final mimeType = lookupMimeType(file.path);
+    if (mimeType == null) {
+      throw Exception("Không xác định được MIME type của file");
+    }
+    var request = http.MultipartRequest('POST', httpUrl);
+    request.files.add(
+        http.MultipartFile(
+            'file',
+            File(file.path).readAsBytes().asStream(),
+            File(file.path).lengthSync(),
+            filename: file.path.split("/").last
+        )
+    );
+    request.fields['token'] = token!;
+    request.fields['materialId'] = materialId;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['materialType'] = materialType;
+
+    try {
+      var response = await request.send();
+      if (response.statusCode == 201) {
+        var responseBody = await response.stream.bytesToString();
+        print("Lưu thành công: $responseBody");
+      } else {
+        print("Lưu thất bại: ${await response.stream.bytesToString()} ${materialId} ${title} ${description} ${materialType}");
+      }
+    } catch (e) {
+      print("Lỗi khi Lưu file: $e");
     }
   }
 }

@@ -23,6 +23,7 @@ class AuthService {
         key: 'user',
         value: utf8.encode(jsonEncode(response.toJson())).toString());
   }
+
   Future<void> signUp(SignUpData signUpData) async {
     await _authRepository.signUp(signUpData);
   }

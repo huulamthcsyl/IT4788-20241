@@ -1,26 +1,39 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
+import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:provider/provider.dart';
 
-class ClassMaterialUploadFilePage extends StatefulWidget
+import '../viewmodels/class_material_viewmodels.dart';
+
+class ClassMaterialEditPage extends StatefulWidget
 {
+  final ClassMaterial classMaterial;
+  ClassMaterialEditPage({required this.classMaterial});
   @override
-  _ClassMaterialUploadFileState createState() => _ClassMaterialUploadFileState();
+  _ClassMaterialEditState createState() => _ClassMaterialEditState();
 }
 
-class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
+class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
+  late ClassMaterial classMaterial;
+
+  @override
+  void initState() {
+    super.initState();
+    classMaterial = widget.classMaterial;
+    final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
+    viewModel.old_material_id = classMaterial.ID.toString();
+  }
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController materialTypeController = TextEditingController();
 
   @override
-  @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload tài liệu cho lớp: 000089'),
+        title: Text('Chỉnh sửa tài liệu: ${classMaterial.ID}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,7 +44,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
               TextField(
                 controller: titleController,
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Title [${classMaterial.material_name}]',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -49,27 +62,9 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
               SizedBox(height: 10),
               TextField(
 
-                  controller: descriptionController,
-                  decoration: InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                  )),
-              SizedBox(height: 10),
-              TextField(
-                controller: materialTypeController,
+                controller: descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Type',
+                  labelText: 'Description [${classMaterial.description}]',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -82,12 +77,30 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
                   ),
-                ),      )
+                )),
+              SizedBox(height: 10),
+              TextField(
+                controller: materialTypeController,
+                  decoration: InputDecoration(
+                    labelText: 'Type [${classMaterial.material_type}]',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Colors.red, width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Colors.red, width: 2.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide(color: Colors.red, width: 2.0),
+                    ),
+                  ),      )
               ,
               SizedBox(height: 20),
               ElevatedButton.icon(
-                icon: Icon(Icons.attach_file),
-                label: Text('Chọn file'),
+                icon: Icon(Icons.attach_file,color: Colors.black),
+                label: Text('Chọn file', style: TextStyle(color: Colors.black)),
                 onPressed: () async {
                   final result = await FilePicker.platform.pickFiles();
                   if (result == null) return;
@@ -127,7 +140,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                 child: ElevatedButton(
                   onPressed: ()
                   {
-                      viewModel.uploadFile();
+                      viewModel.editFile();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -141,7 +154,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                   ),
                   child: viewModel.isUploading
                       ? CircularProgressIndicator(color: Colors.white)
-                      : Text('Upload'),
+                      : Text('Lưu thay đổi'),
                 ),
               ),
               if (viewModel.isUploading) Padding(
