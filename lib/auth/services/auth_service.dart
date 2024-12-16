@@ -42,7 +42,19 @@ class AuthService {
   Future<void> logout() async {
     await storage.delete(key: "user");
   }
-
+  Future<void> changePassword({
+    required String? token,
+    required String old_password,
+    required String new_password,
+  }) async{
+    await _authRepository.changePassword(token: token, old_password: old_password, new_password: new_password);
+  }
+  Future<void> changeAvatar({
+    required String token,
+    required File file
+  })async{
+    await _authRepository.changeAvatar(token: token, file: file);
+  }
   Future<UserData> getUserInfo(String id) async {
     final token = (await getUserData()).token ?? "";
     return await _authRepository.getUserInfo(id, token);

@@ -4,6 +4,7 @@ import 'package:it4788_20241/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import '../../auth/models/user_data.dart';
 import '../../utils/get_data_user.dart';
+import '../../auth/services/auth_service.dart';
 class ProfileViewModel extends ChangeNotifier
 {
   TextEditingController oldPasswordController = TextEditingController();
@@ -56,7 +57,6 @@ class ProfileViewModel extends ChangeNotifier
   );
   void initUserData() async {
     userData = await getUserData();
-    print(userData.toJson());
     notifyListeners();
   }
 
