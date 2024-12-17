@@ -32,4 +32,16 @@ class ChatService {
     );
     return await _chatRepository.getConversation(request);
   }
+
+  Future<int> getUnreadMessageCount() async {
+    final token = (await getUserData()).token;
+    if (token == null) return 0;
+    return await _chatRepository.getUnreadMessageCount(token);
+  }
+
+  Future<List<MessageData>> getConversationByPartnerId(String partnerId) async {
+    final token = (await getUserData()).token;
+    if (token == null) return [];
+    return await _chatRepository.getConversationByPartnerId(partnerId, token);
+  }
 }

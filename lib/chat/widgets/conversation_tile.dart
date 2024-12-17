@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/chat/models/conversation_data.dart';
+import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/utils/time_from_now.dart';
 import 'package:it4788_20241/chat/views/conversation_view.dart';
+import 'package:provider/provider.dart';
 
 class ConversationTile extends StatelessWidget {
   final ConversationData conversationData;
@@ -10,8 +12,12 @@ class ConversationTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final layoutViewModel = context.read<LayoutViewModel>();
     return GestureDetector(
       onTap: () {
+        if(conversationData.lastMessage.unread == 1){
+          layoutViewModel.decreaseUnreadMessageCount();
+        }
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ConversationPage(conversationData: conversationData)

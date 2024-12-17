@@ -9,6 +9,7 @@ import 'package:it4788_20241/chat/services/chat_service.dart';
 import 'package:it4788_20241/const/api.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
+
 class ConversationViewModel extends ChangeNotifier {
   int currentChatIndex = 0;
   final chatPageSize = 5;
@@ -32,6 +33,7 @@ class ConversationViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchPage(String conversationId, int pageKey) async {
+    if (conversationId == "-1") return;
     try {
       final newItems = await _chatService.getConversation(
           conversationId, pageKey, chatPageSize);
@@ -70,11 +72,10 @@ class ConversationViewModel extends ChangeNotifier {
 
   void _initSocket() {
     client = StompClient(
-      config: StompConfig.sockJS(
-        url: BASE_SOCKET_URL,
-        onConnect: _onConnect,
-      )
-    );
+        config: StompConfig.sockJS(
+      url: BASE_SOCKET_URL,
+      onConnect: _onConnect,
+    ));
   }
 
   void _onConnect(StompFrame frame) async {
@@ -87,13 +88,14 @@ class ConversationViewModel extends ChangeNotifier {
         if (message.conversationId.toString() == conversationId) {
           if (pagingController.itemList != null) {
             final list = List<MessageData>.from(pagingController.itemList!);
-            list.insert(0, MessageData(
-              messageId: message.id.toString(),
-              sender: message.sender,
-              message: message.content,
-              createdAt: message.createdAt,
-              unread: 0
-            ));
+            list.insert(
+                0,
+                MessageData(
+                    messageId: message.id.toString(),
+                    sender: message.sender,
+                    message: message.content,
+                    createdAt: message.createdAt,
+                    unread: 0));
             pagingController.itemList = list;
           }
         }

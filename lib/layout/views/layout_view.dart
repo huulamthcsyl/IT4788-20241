@@ -47,9 +47,12 @@ class _AppLayoutState extends State<AppLayout> {
             ),
             label: "Cá nhân",
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.message),
-            selectedIcon: Icon(
+          NavigationDestination(
+            icon: Badge.count(
+              count: viewModel.unreadMessageCount,
+              child: const Icon(Icons.message)
+            ),
+            selectedIcon: const Icon(
               Icons.message,
               color: Colors.red,
             ),
