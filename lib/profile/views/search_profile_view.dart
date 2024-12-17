@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
 import 'package:provider/provider.dart';
-
-import '../../search/views/search_view.dart';
 import '../widgets/search_user_information_card.dart';
 import '../widgets/search_user_main_card.dart';
 

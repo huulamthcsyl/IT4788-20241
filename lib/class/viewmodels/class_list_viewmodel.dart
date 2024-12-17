@@ -14,6 +14,7 @@ class ClassListViewModel extends ChangeNotifier {
   int get currentPage => _currentPage;
 
   ClassListViewModel() {
+
     initUserData();
     fetchClasses();
   }

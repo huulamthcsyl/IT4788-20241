@@ -7,7 +7,6 @@ import '../viewmodels/profile_viewmodel.dart';
 
 class SearchUserMainCard extends StatelessWidget {
   const SearchUserMainCard({super.key});
-
   @override
   Widget build(BuildContext context) {
     final _profileviewmodel = Provider.of<ProfileViewModel>(context);
@@ -33,9 +32,12 @@ class SearchUserMainCard extends StatelessWidget {
                             width: 100.0,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage(_profileviewmodel
-                                        .searchUserData.avatar
-                                        .toString()),
+                                    image: _profileviewmodel.searchUserData.avatar != null
+                                        ? (NetworkImage(_profileviewmodel.convertGoogleDriveLink(_profileviewmodel.searchUserData.avatar.toString())) == null ?
+                                      AssetImage('assets/img/default_avatar.jpg') as ImageProvider : NetworkImage(_profileviewmodel.convertGoogleDriveLink(_profileviewmodel.searchUserData.avatar.toString()))
+                                    )
+                                        : AssetImage(
+                                        'assets/img/default_avatar.jpg') as ImageProvider,
                                     fit: BoxFit.cover)),
                           ),
                         ),

@@ -6,11 +6,22 @@ import 'package:provider/provider.dart';
 import '../../auth/models/user_data.dart';
 
 class ClassFunctionPage extends StatefulWidget{
+  final String classCode;
+  ClassFunctionPage({required this.classCode});
   @override
   _ClassFunctionPageState createState() => _ClassFunctionPageState();
 }
 class _ClassFunctionPageState extends State<ClassFunctionPage>
 {
+  late String classCode;
+
+  @override
+  void initState() {
+    super.initState();
+    classCode = widget.classCode;
+    final _classfunctionviewmodel = Provider.of<ClassFunctionViewModel>(context, listen: false);
+    _classfunctionviewmodel.classCode = classCode;
+  }
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassFunctionViewModel>(context);

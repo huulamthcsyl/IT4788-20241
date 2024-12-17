@@ -6,9 +6,11 @@ import '../../class_material/views/class_material_view.dart';
 import '../../utils/get_data_user.dart';
 class ClassFunctionViewModel extends ChangeNotifier
 {
-  ClassFunctionViewModel() {
+  ClassFunctionViewModel()
+  {
     initUserData();
   }
+  String classCode = "";
   UserData userData = UserData(
     id: '',
     ho: '',
@@ -35,13 +37,13 @@ class ClassFunctionViewModel extends ChangeNotifier
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ClassMaterialPage()),
+          MaterialPageRoute(builder: (context) => ClassMaterialPage(classCode: classCode)),
         );
         break;
       case 2:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ClassFunctionPage()),
+          MaterialPageRoute(builder: (context) => ClassFunctionPage(classCode: classCode)),
         );
         break;
     }

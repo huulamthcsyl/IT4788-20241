@@ -6,92 +6,105 @@ import 'package:provider/provider.dart';
 
 import '../../home/views/home_view.dart';
 import '../models/class_material_model.dart';
+
 class ClassMaterialPage extends StatefulWidget {
+  final String classCode;
+  ClassMaterialPage({required this.classCode});
   @override
   _ClassMaterialPageState createState() => _ClassMaterialPageState();
 }
 
-class _ClassMaterialPageState extends State<ClassMaterialPage>
-{
+class _ClassMaterialPageState extends State<ClassMaterialPage> {
+  late String classCode;
+  @override
+  void initState() {
+    super.initState();
+    classCode = widget.classCode;
+    final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
+    viewModel.getClassMaterials(classCode);
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
-    viewModel.getClassMaterials("000089");
-    List<ClassMaterial> classMaterials = viewModel.getMaterialList();
+
     return DefaultTabController(
-        length: 3,
-        initialIndex: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            leading:  IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  // Sau thay thế cái này bằng quay về chỗ cũ
-                  MaterialPageRoute(builder: (context) => HomeView()), // Trang Home
-                );
-              },
-            ),
-            title: Text("OOP 2024.1"),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
-                },
-              ),
-            ],
-            bottom: TabBar(
-              onTap: (int index)
-                  {
-                    setState(()
-                  {
-                      viewModel.onClickTabBar(index, context);
-                  });
-              },
-              indicatorColor: Colors.red,
-              labelColor: Colors.black,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              tabs: [
-                Tab(text: "Kiểm tra"),
-                Tab(text: "Tài liệu"),
-                Tab(text: "Chức năng khác")
-              ],
-            ),
+      length: 3,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeView()),
+              );
+            },
           ),
-          body:
-            ListView.builder(
-            itemCount: classMaterials.length,
-            itemBuilder: (context, index) {
-              final item = classMaterials[index];
-              Widget column = Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(item.material_name!, style: TextStyle(fontSize: 16)),
-                    Text(item.description!),
-                  ],
-                ),
+          title: Text("OOP 2024.1"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
+              },
+            ),
+          ],
+          bottom: TabBar(
+            onTap: (int index) {
+              viewModel.onClickTabBar(index, context);
+            },
+            indicatorColor: Colors.red,
+            labelColor: Colors.black,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            tabs: [
+              Tab(text: "Kiểm tra"),
+              Tab(text: "Tài liệu"),
+              Tab(text: "Chức năng khác")
+            ],
+          ),
+        ),
+        body: Consumer<ClassMaterialViewModel>(
+          builder: (context, viewModel, child) {
+            if (viewModel.getMaterialList().isEmpty) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return ListView.builder(
+                itemCount: viewModel.getMaterialList().length,
+                itemBuilder: (context, index) {
+                  final item = viewModel.getMaterialList()[index];
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(item.material_name, style: TextStyle(fontSize: 16)),
+                                Text(item.description),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              showFileOptions(context, item);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: <Widget>[
-                      column,
-                      IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: () {
-                          showFileOptions(context, item!);
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }) // Use the current tab index to control the list view
-        ));
+            }
+          },
+        ),
+      ),
+    );
   }
 
   void showFileOptions(BuildContext context, ClassMaterial classMaterial) {
@@ -117,29 +130,29 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 leading: Icon(Icons.drive_file_rename_outline),
                 title: Text('Chỉnh sửa'),
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => ClassMaterialEditPage(
-                    classMaterial: classMaterial,
-                  ),
-                  ));
+                        classMaterial: classMaterial,
+                      ),
+                    ),
+                  );
                 },
               ),
               ListTile(
                 leading: Icon(Icons.delete),
                 title: Text('Xóa'),
                 onTap: () {
-                  setState(() {
-                    Navigator.pop(context);
-                    viewModel.deleteMaterial(classMaterial);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Xóa tài liệu thành công!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  });
+                  Navigator.pop(context);
+                  viewModel.deleteMaterial(classMaterial);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Xóa tài liệu thành công!'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
                 },
               ),
               ListTile(

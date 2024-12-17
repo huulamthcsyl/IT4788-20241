@@ -5,6 +5,7 @@ import 'package:it4788_20241/auth/views/sign_up_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrlForm_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
+import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:it4788_20241/classCtrl/service/api_service.dart';
@@ -18,6 +19,8 @@ import 'package:it4788_20241/notification/views/notification_view.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_viewmodel.dart';
 import 'package:it4788_20241/profile/viewmodels/profile_viewmodel.dart';
+import 'package:it4788_20241/search/viewmodels/search_viewmodel.dart';
+import 'package:it4788_20241/search/views/search_view.dart';
 import 'package:it4788_20241/splash/views/spash_view.dart';
 import 'package:provider/provider.dart';
 import './auth/views/login_view.dart';
@@ -57,6 +60,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LeaveRequestViewModel()),
         ChangeNotifierProvider(create: (context) => LeaveRequestListViewModel()),
         ChangeNotifierProvider(create: (context) => ProfileViewModel()),
+        ChangeNotifierProvider(create: (context) => SearchViewModel()),
+        ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
       ],
       child: MaterialApp(
         title: 'QLDT',
@@ -73,10 +78,9 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeView(),
           '/class-register': (context) => RegisterClassPage(),
           '/class-list': (context) => ClassListPage(),
-          '/class-material': (context) => ClassMaterialPage(),
-          '/class-material-upload': (context) => ClassMaterialUploadFilePage(),
           '/class-attendance': (context) => ClassAttendancePage(),
           '/class-control': (context) => ClassCtrlPage(),
+          '/search': (context) => SearchPage(),
           '/notification': (context) => const NotificationView(),
         },
         initialRoute: '/',

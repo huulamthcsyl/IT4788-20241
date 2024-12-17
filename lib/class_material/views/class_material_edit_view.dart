@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 
 import '../viewmodels/class_material_viewmodels.dart';
 
-class ClassMaterialEditPage extends StatefulWidget
-{
+class ClassMaterialEditPage extends StatefulWidget {
   final ClassMaterial classMaterial;
+
   ClassMaterialEditPage({required this.classMaterial});
+
   @override
   _ClassMaterialEditState createState() => _ClassMaterialEditState();
 }
@@ -21,16 +22,21 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
     super.initState();
     classMaterial = widget.classMaterial;
     final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
-    viewModel.old_material_id = classMaterial.ID.toString();
+    viewModel.setMaterialForEdit(classMaterial);
   }
 
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController materialTypeController = TextEditingController();
+  @override
+  void dispose() {
+    // Clear controllers in ViewModel when the page is disposed
+    final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
+    viewModel.clearControllers();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Chỉnh sửa tài liệu: ${classMaterial.ID}'),
@@ -42,7 +48,7 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                controller: titleController,
+                controller: viewModel.titleController,
                 decoration: InputDecoration(
                   labelText: 'Title [${classMaterial.material_name}]',
                   border: OutlineInputBorder(
@@ -61,8 +67,7 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
               ),
               SizedBox(height: 10),
               TextField(
-
-                controller: descriptionController,
+                controller: viewModel.descriptionController,
                 decoration: InputDecoration(
                   labelText: 'Description [${classMaterial.description}]',
                   border: OutlineInputBorder(
@@ -77,39 +82,33 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
                   ),
-                )),
+                ),
+              ),
               SizedBox(height: 10),
               TextField(
-                controller: materialTypeController,
-                  decoration: InputDecoration(
-                    labelText: 'Type [${classMaterial.material_type}]',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(color: Colors.red, width: 2.0),
-                    ),
-                  ),      )
-              ,
+                controller: viewModel.materialTypeController,
+                decoration: InputDecoration(
+                  labelText: 'Type [${classMaterial.material_type}]',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(color: Colors.red, width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(color: Colors.red, width: 2.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(color: Colors.red, width: 2.0),
+                  ),
+                ),
+              ),
               SizedBox(height: 20),
               ElevatedButton.icon(
-                icon: Icon(Icons.attach_file,color: Colors.black),
+                icon: Icon(Icons.attach_file, color: Colors.black),
                 label: Text('Chọn file', style: TextStyle(color: Colors.black)),
-                onPressed: () async {
-                  final result = await FilePicker.platform.pickFiles();
-                  if (result == null) return;
-                  setState(() {
-                    viewModel.title = titleController.text;
-                    viewModel.description = descriptionController.text;
-                    viewModel.materialType = materialTypeController.text;
-                    viewModel.filePath = result.files.single.path!;
-                  });
+                onPressed: () {
+                  viewModel.pickFile();
                 },
               ),
               if (viewModel.filePath.isNotEmpty)
@@ -127,9 +126,7 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          setState(() {
-                            viewModel.filePath = "";
-                          });
+                          viewModel.clearPickedFile();
                         },
                       ),
                     ],
@@ -138,9 +135,8 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
               SizedBox(height: 40),
               Center(
                 child: ElevatedButton(
-                  onPressed: ()
-                  {
-                      viewModel.editFile();
+                  onPressed: () {
+                    viewModel.editFile();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
@@ -157,14 +153,12 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                       : Text('Lưu thay đổi'),
                 ),
               ),
-              if (viewModel.isUploading) Padding(
-                padding: EdgeInsets.only(top: 20)
-              ),
+              if (viewModel.isUploading)
+                Padding(padding: EdgeInsets.only(top: 20)),
             ],
           ),
         ),
       ),
     );
   }
-
 }
