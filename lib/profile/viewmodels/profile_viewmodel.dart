@@ -7,6 +7,7 @@ import '../../utils/get_data_user.dart';
 import '../../auth/services/auth_service.dart';
 class ProfileViewModel extends ChangeNotifier
 {
+  File selectedImage = File('');
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController reNewPasswordController = TextEditingController();
