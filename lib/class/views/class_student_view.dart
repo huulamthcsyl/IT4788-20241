@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../class_material/views/class_material_view.dart';
 import '../viewmodels/class_student_viewmodel.dart';
 
 class ClassStudentPage extends StatelessWidget {
@@ -8,7 +9,6 @@ class ClassStudentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassStudentViewModel>(context);
-
     return ChangeNotifierProvider(
         create: (_) => ClassStudentViewModel()..fetchRegisteredClasses(),
         child: Consumer<ClassStudentViewModel>(
@@ -16,28 +16,22 @@ class ClassStudentPage extends StatelessWidget {
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
+                leading: IconButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/');
+                    }, icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
                 title: Center(
                   child: Text(
                     'Danh sách lớp học',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
               body: Column(
                 children: [
-                  // Phần ảnh logo cố định
-                  Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                    child: Center(
-                      child: Image(
-                        image: AssetImage('assets/img/logo_hust_white.png'),
-                        width: MediaQuery.of(context).size.width * 0.4,
-                      ),
-                    ),
-                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -71,7 +65,9 @@ class ClassStudentPage extends StatelessWidget {
                                           Text('Loại lớp: ${classItem.class_type}'),
                                         ],
                                       ),
-                                      onTap: () {},
+                                      onTap: () {
+                                        viewModel.ChangePage(classItem, context);
+                                      },
                                     ),
                                   );
                                 },

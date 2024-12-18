@@ -27,6 +27,9 @@ class _viewSearchProfilePageState extends State<ViewSearchProfilePage> {
   @override
   Widget build(BuildContext context) {
     final _profileviewmodel = Provider.of<ProfileViewModel>(context);
+    setState(() {
+      _profileviewmodel.initUserData();
+    });
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

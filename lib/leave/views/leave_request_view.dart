@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/leave_request_viewmodel.dart';
 
 class LeaveRequestPage extends StatelessWidget {
-  final String classId; // Nhận classId từ màn hình trước
-  LeaveRequestPage({required this.classId});
+  final String className, classId; // Nhận classId từ màn hình trước
+  LeaveRequestPage({required this.className, required this.classId});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,10 @@ class LeaveRequestPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Text("Mã lớp :${classId}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            SizedBox(width: 10,),
+            Text("Tên lớp :${className}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            SizedBox(width: 10,),
             TextField(
               controller: leaveRequestViewModel.titleController,
               decoration: InputDecoration(
