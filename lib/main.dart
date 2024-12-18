@@ -7,6 +7,9 @@ import 'package:it4788_20241/class/views/class_student_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrlForm_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
+import 'package:it4788_20241/chat/viewmodels/chat_overview_viewmodel.dart';
+import 'package:it4788_20241/chat/viewmodels/conversation_viewmodel.dart';
+import 'package:it4788_20241/chat/views/chat_overview_view.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
@@ -68,6 +71,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SearchViewModel()),
         ChangeNotifierProvider(create: (context) => ClassFunctionViewModel()),
         ChangeNotifierProvider(create: (context) => ClassStudentViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatOverviewViewModel()),
+        ChangeNotifierProvider(create: (context) => ConversationViewModel()),
       ],
       child: MaterialApp(
         title: 'QLDT',
