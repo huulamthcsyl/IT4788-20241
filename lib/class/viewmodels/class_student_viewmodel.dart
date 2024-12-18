@@ -21,6 +21,7 @@ class ClassStudentViewModel with ChangeNotifier {
     notifyListeners();
     Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: this.classData,)));
   }
+
   UserData userData = UserData(
     id: '',
     ho: '',

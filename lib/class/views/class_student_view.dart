@@ -26,22 +26,12 @@ class ClassStudentPage extends StatelessWidget {
                   child: Text(
                     'Danh sách lớp học',
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
               body: Column(
                 children: [
-                  /*// Phần ảnh logo cố định
-                  Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                    child: Center(
-                      child: Image(
-                        image: AssetImage('assets/img/logo_hust_white.png'),
-                        width: MediaQuery.of(context).size.width * 0.4,
-                      ),
-                    ),
-                  ),*/
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(

@@ -28,7 +28,11 @@ class _ClassCtrlFormPageState extends State<ClassCtrlFormPage> {
         ),
         title: const Text(
           'THÊM LỚP MỚI',
-          style: TextStyle(fontSize: 24, color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: Padding(

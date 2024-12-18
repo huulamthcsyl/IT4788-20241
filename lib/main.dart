@@ -34,6 +34,8 @@ import 'package:it4788_20241/class_material/views/class_material_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
+import 'package:it4788_20241/class/views/class_student_view.dart';
+import 'package:it4788_20241/class/viewmodels/class_student_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());
