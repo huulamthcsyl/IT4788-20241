@@ -21,7 +21,6 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<LeaveRequestListViewModel>(context, listen: false);
       viewModel.classcode = widget.classId; // Gán classcode
-      viewModel.fetchLeaveRequests(); // Gọi API
     });
   }
 

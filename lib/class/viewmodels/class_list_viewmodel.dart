@@ -13,11 +13,6 @@ class ClassListViewModel extends ChangeNotifier {
   final int _rowsPerPage = 20;
   int get currentPage => _currentPage;
 
-  ClassListViewModel() {
-    initUserData();
-    fetchClasses();
-  }
-
   UserData userData = UserData(
     id: '',
     ho: '',
@@ -30,19 +25,39 @@ class ClassListViewModel extends ChangeNotifier {
     avatar: '',
   );
 
-  void initUserData() async {
-    userData = await getUserData();
-    notifyListeners();
+  ClassListViewModel() {
+    _init();
+  }
+
+  void _init() async {
+    await initUserData();
+    if (userData.token != null) {
+      await fetchClasses();
+    }
+  }
+
+  Future<void> initUserData() async {
+    try {
+      userData = await getUserData();
+      notifyListeners();
+      print("userData.token: ${userData.token}");
+    } catch (e) {
+      print("Error initializing user data: $e");
+    }
   }
 
   Future<void> fetchClasses() async {
     try {
+      if (userData.token == null) {
+        print("Token is empty. Cannot fetch classes.");
+        return;
+      }
+      print("Fetching classes with token: ${userData.token}");
       _originalClasses = await _classRepository.getOpenClasses(userData.token);
       _classes = List.from(_originalClasses);
       notifyListeners();
     } catch (e) {
-      // Handle API error (e.g., show a toast)
-      print(e);
+      print("Error fetching classes: $e");
     }
   }
 
@@ -51,7 +66,7 @@ class ClassListViewModel extends ChangeNotifier {
       _classes = List.from(_originalClasses);
     } else {
       _classes = _originalClasses.where((classItem) {
-        return classItem.class_id.contains(code);
+        return classItem.class_id.contains(code) || classItem.class_name.contains(code);
       }).toList();
     }
     _currentPage = 0; // Reset page when searching
