@@ -57,8 +57,6 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => NotificationDetailViewModel()),
           ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
           ChangeNotifierProvider(create: (context) => SearchViewModel()),
-          ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
-          ChangeNotifierProvider(create: (context) => NotificationTileViewModel()),
           ChangeNotifierProvider(create: (context) => ChatOverviewViewModel()),
           ChangeNotifierProvider(create: (context) => ConversationViewModel()),
         ],

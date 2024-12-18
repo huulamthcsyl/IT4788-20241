@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:it4788_20241/chat/models/conversation_data.dart';
 import 'package:it4788_20241/chat/models/message_data.dart';
 import 'package:it4788_20241/chat/viewmodels/conversation_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ConversationPage extends StatelessWidget {
-  final ConversationData conversationData;
+  final int partnerId;
 
-  const ConversationPage({super.key, required this.conversationData});
+  const ConversationPage({super.key, required this.partnerId});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ConversationViewModel>();
-    viewModel.setConversationInfo(conversationData);
+    viewModel.setConversationInfo(partnerId);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          conversationData.partner.name,
+          viewModel.partnerData.name,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -38,21 +37,21 @@ class ConversationPage extends StatelessWidget {
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<MessageData>(
                 itemBuilder: (context, item, index) {
-                  if (item.sender.id == conversationData.partner.id) {
+                  if (item.sender.id == partnerId) {
                     return ListTile(
-                      title: Text(item.message),
+                      title: Text(item.message ?? ""),
                       leading: CircleAvatar(
-                        backgroundImage: conversationData.partner.avatar != null ? NetworkImage(conversationData.partner.avatar ?? "") : null,
+                        backgroundImage: viewModel.partnerData.avatar != null ? NetworkImage(viewModel.partnerData.avatar ?? "") : null,
                       ),
                     );
                   } else {
                     return ListTile(
                       title: Text(
-                        item.message,
+                        item.message ?? "",
                         textAlign: TextAlign.right,
                       ),
                       trailing: CircleAvatar(
-                        backgroundImage: conversationData.partner.avatar != null ? NetworkImage(conversationData.partner.avatar ?? "") : null,
+                        backgroundImage: viewModel.partnerData.avatar != null ? NetworkImage(viewModel.partnerData.avatar ?? "") : null,
                       ),
                     );
                   }

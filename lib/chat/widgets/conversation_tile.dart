@@ -20,7 +20,7 @@ class ConversationTile extends StatelessWidget {
         }
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => ConversationPage(conversationData: conversationData)
+            builder: (context) => ConversationPage(partnerId: conversationData.partner.id)
           )
         );
       },
@@ -35,7 +35,7 @@ class ConversationTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(conversationData.lastMessage.message),
+            Text(conversationData.lastMessage.message ?? ""),
             Text(
               fromNow(conversationData.lastMessage.createdAt),
               style: TextStyle(

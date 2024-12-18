@@ -61,13 +61,13 @@ class ChatRepository {
     }
   }
 
-  Future<List<MessageData>> getConversationByPartnerId(String partnerId, String token) async {
-    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_conversation_by_partner_id');
+  Future<List<MessageData>> getConversationByPartnerId(String partnerId, String token, int index, int count) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_conversation');
     final response = await http.post(httpUrl, body: jsonEncode({
         "partner_id": partnerId, 
         "token": token,
-        "index": 0,
-        "count": 1
+        "index": index,
+        "count": count
       }), headers: {
       'Content-Type': 'application/json',
     });

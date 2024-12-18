@@ -24,6 +24,7 @@ class ChatOverviewPage extends StatelessWidget {
         ),
         backgroundColor: Colors.red,
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: Stack(
         children: [
@@ -50,10 +51,9 @@ class ChatOverviewPage extends StatelessWidget {
               },
               onSelected: (value) async {
                 final partnerId = value.substring(value.indexOf("-") + 2, value.length - 1);
-                final conversationData = await viewModel.getConversationData(partnerId);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ConversationPage(conversationData: conversationData)
+                    builder: (context) => ConversationPage(partnerId: int.parse(partnerId))
                   )
                 );
               },
