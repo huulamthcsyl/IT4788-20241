@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../viewmodels/class_register_viewmodel.dart';
 
 class RegisterClassPage extends StatelessWidget {
-  final TextEditingController _classCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,7 @@ class RegisterClassPage extends StatelessWidget {
                           child: Container(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: TextField(
-                              controller: _classCodeController,
+                              controller: viewModel.classCodeController,
                               decoration: InputDecoration(
                                 labelText: 'Nhập mã lớp học',
                                 labelStyle: TextStyle(color: Colors.red),
@@ -76,12 +75,12 @@ class RegisterClassPage extends StatelessWidget {
                         SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () {
-                            final classId = _classCodeController.text.trim();
+                            final classId = viewModel.classCodeController.text.trim();
                             if (classId.isNotEmpty) {
                               viewModel.addNewClass(classId);
                             }
 
-                            _classCodeController.clear();
+                            viewModel.classCodeController.clear();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,

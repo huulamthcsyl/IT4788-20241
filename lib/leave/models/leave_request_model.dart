@@ -5,6 +5,7 @@ class LeaveRequest {
   String title;
   String reason;
   String status;
+  String file;
 
   LeaveRequest({
     required this.id,
@@ -13,6 +14,7 @@ class LeaveRequest {
     required this.title,
     required this.reason,
     required this.status,
+    required this.file,
   });
 
   // Factory constructor để tạo LeaveRequest từ JSON
@@ -24,6 +26,7 @@ class LeaveRequest {
       title: json['title'] ?? '',
       reason: json['reason'] ?? '',
       status: json['status'] ?? '',
+      file: json['file_url'] ?? '',
     );
   }
 
@@ -36,6 +39,7 @@ class LeaveRequest {
       'title': title,
       'reason': reason,
       'status': status,
+      'file': file,
     };
   }
 }

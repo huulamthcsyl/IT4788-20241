@@ -4,7 +4,6 @@ import '../../class_material/views/class_material_view.dart';
 import '../viewmodels/class_student_viewmodel.dart';
 
 class ClassStudentPage extends StatelessWidget {
-  final TextEditingController _classCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,6 @@ class ClassStudentPage extends StatelessWidget {
                   child: Text(
                     'Danh sách lớp học',
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),

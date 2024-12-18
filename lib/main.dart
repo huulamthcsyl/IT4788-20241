@@ -36,6 +36,7 @@ import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
 import 'package:it4788_20241/class/views/class_student_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_student_viewmodel.dart';
+import 'package:it4788_20241/leave/views/leave_request_list_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -87,7 +88,7 @@ class MyApp extends StatelessWidget {
           '/class-control': (context) => ClassCtrlPage(),
           '/search': (context) => SearchPage(),
           '/notification': (context) => const NotificationView(),
-          '/students-class' : (context) => ClassStudentPage()
+          '/students-class' : (context) => ClassStudentPage(),
         },
         initialRoute: '/',
       ),

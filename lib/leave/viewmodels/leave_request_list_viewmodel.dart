@@ -6,7 +6,6 @@ import '../../auth/models/user_data.dart';
 
 class LeaveRequestListViewModel extends ChangeNotifier {
   final LeaveRequestRepository _repository = LeaveRequestRepository();
-  late List<LeaveRequest> _leaves = [];
   List<LeaveRequest> _leavereqs = [];
   String classcode = '';
 
@@ -64,9 +63,20 @@ class LeaveRequestListViewModel extends ChangeNotifier {
     }).toList();
   }
 
+  String convertGoogleDriveLink(String link) {
+    final regex = RegExp(r'd/([a-zA-Z0-9_-]+)/view');
+    final match = regex.firstMatch(link);
+    if (match != null && match.groupCount >= 1) {
+      final fileId = match.group(1);
+      return 'https://drive.google.com/uc?export=view&id=$fileId';
+    }
+    return link;
+  }
+
+
   Future<void> showLeaveRequestDetails(BuildContext context, LeaveRequest item) async {
     bool isActionTaken = false;
-
+print("link: ${item.file}");
     try {
       await showDialog(
         context: context,
@@ -139,6 +149,39 @@ class LeaveRequestListViewModel extends ChangeNotifier {
                       ),
                       Text(item.absenceDate), ],),
                       SizedBox(height: 8),
+                      Row( children: [
+                        Text(
+                          'Ảnh minh chứng: ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+
+
+                        Center(
+                          child: Image.network(
+                            convertGoogleDriveLink(item.file),
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                      : null,
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Text('Không tải được ảnh', style: TextStyle(color: Colors.red));
+                            },
+                          ),
+                        ),
+
+
+
+                      ],
+                      ),
+                      SizedBox(height: 8),
                       Row(
                         //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -147,7 +190,11 @@ class LeaveRequestListViewModel extends ChangeNotifier {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            item.status,
+                            item.status == "PENDING"
+                                ? "Chờ duyệt"
+                                : item.status == "ACCEPTED"
+                                ? "Chấp nhận"
+                                : "Từ chối",
                             style: TextStyle(
                               color: item.status == "PENDING"
                                   ? Colors.orange

@@ -6,6 +6,8 @@ import '../../auth/models/user_data.dart';
 
 class ClassListViewModel extends ChangeNotifier {
   final ClassRepository _classRepository = ClassRepository();
+  final TextEditingController _searchController = TextEditingController();
+  TextEditingController get searchController => _searchController;
   late List<ClassInfo> _originalClasses;
   List<ClassInfo> _classes = [];
   List<ClassInfo> get classes => _classes;

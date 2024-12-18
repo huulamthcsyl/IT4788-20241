@@ -6,7 +6,8 @@ import '../../auth/models/user_data.dart';
 
 class ClassRegisterViewModel with ChangeNotifier {
   final ClassRepository _classRepository = ClassRepository();
-
+  final TextEditingController _classCodeController = TextEditingController();
+  TextEditingController get classCodeController => _classCodeController;
   List<ClassInfo> registeredClasses = [];
   List<ClassInfo> newClasses = [];
   List<String> newClassIds = [];
