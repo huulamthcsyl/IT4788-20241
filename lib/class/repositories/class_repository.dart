@@ -10,12 +10,11 @@ class ClassRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode({
           "token": token,
-          "pageable_request": {"page": "0", "page_size": "159"}
+          "pageable_request": {"page": "0", "page_size": "500"}
         }),
       );
 
@@ -47,7 +46,6 @@ class ClassRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode({
@@ -80,7 +78,6 @@ class ClassRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
@@ -111,14 +108,13 @@ class ClassRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode({
           "token": token,
           "role": "STUDENT",
           "account_id": accountId,
-          "pageable_request": {"page": "0", "page_size": "159"}
+          "pageable_request": {"page": "0", "page_size": "500"}
         }),
       );
 

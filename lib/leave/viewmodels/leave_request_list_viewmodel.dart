@@ -10,10 +10,6 @@ class LeaveRequestListViewModel extends ChangeNotifier {
   List<LeaveRequest> _leavereqs = [];
   String classcode = '';
 
-  LeaveRequestListViewModel() {
-    initUserData();
-  }
-
   UserData userData = UserData(
     id: '',
     ho: '',
@@ -26,15 +22,35 @@ class LeaveRequestListViewModel extends ChangeNotifier {
     avatar: '',
   );
 
-  void initUserData() async {
-    userData = await getUserData();
-    notifyListeners();
+  LeaveRequestListViewModel() {
+    _init();
+  }
+
+  void _init() async {
+    await initUserData();
+    if (userData.token != null) {
+      await fetchLeaveRequests();
+    }
+  }
+
+  Future<void> initUserData() async {
+    try {
+      userData = await getUserData();
+      notifyListeners();
+      print("userData.token: ${userData.token}");
+    } catch (e) {
+      print("Error initializing user data: $e");
+    }
   }
 
   Future<void> fetchLeaveRequests() async {
     try {
+      if (userData.token == null) {
+        print("Token is empty. Cannot fetch leave requests.");
+        return;
+      }
+      print("Fetching leave requests with token: ${userData.token}");
       _leavereqs = await _repository.getLeaveRequests(userData.token, classcode);
-      print(_leavereqs);
       notifyListeners();
     } catch (e) {
       print("Error fetching leave requests: $e");
