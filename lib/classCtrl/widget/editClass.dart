@@ -50,7 +50,12 @@ class EditClassWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Text('Sửa Lớp', style: TextStyle(fontSize: 24, color: Colors.white)),
+        title: const Text('Sửa Lớp', style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          )
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),

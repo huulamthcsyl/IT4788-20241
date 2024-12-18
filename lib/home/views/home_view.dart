@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.red,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/');
+                  Navigator.pushNamed(context, '/class-control');
                 },
               ),
               const SizedBox(width: 20),
