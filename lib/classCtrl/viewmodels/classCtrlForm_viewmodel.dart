@@ -5,7 +5,7 @@ import 'package:it4788_20241/classCtrl/models/class_data.dart';
 class ClassCtrlFormViewModel extends ChangeNotifier {
   final ApiService _apiService = ApiService(); // Khởi tạo API service
   String classId = '';
-  String classCode = '';
+  String attachedCode = '';
   String name = '';
   String startDate = '';
   String endDate = '';
@@ -51,7 +51,7 @@ class ClassCtrlFormViewModel extends ChangeNotifier {
   ClassData saveClass() {
     return ClassData(
       classId: classId,
-      classCode: classCode,
+      classCode: attachedCode,
       className: name,
       startDate: startDate,
       endDate: endDate,
@@ -64,4 +64,13 @@ class ClassCtrlFormViewModel extends ChangeNotifier {
 
   void onSave(ClassData newClass) {}
 
+  void reset() {
+    classId = '';
+    attachedCode = '';
+    name = '';
+    startDate = '';
+    endDate = '';
+    classType = '';
+    maxStudents = 0;
+  }
 }

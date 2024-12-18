@@ -13,22 +13,6 @@ class ClassCtrlPage extends StatefulWidget {
 }
 
 class _ClassCtrlPageState extends State<ClassCtrlPage> {
-  late TextEditingController _searchController;
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ClassCtrlViewModel>().fetchClasses(); // Lấy danh sách lớp khi trang được hiển thị
-    });
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +100,8 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
 
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      itemCount: viewModel.classes.length + 1,
+      itemCount: viewModel.classes.length,
       itemBuilder: (context, index) {
-        if (index == viewModel.classes.length) {
-          return _buildLoadMoreButton(viewModel);
-        }
-
         final classData = viewModel.classes[index];
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -184,29 +164,4 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
       },
     );
   }
-
-  Widget _buildLoadMoreButton(ClassCtrlViewModel viewModel) {
-    if (!viewModel.hasMore) {
-      return const SizedBox.shrink(); // Không còn lớp để tải
-    }
-
-    if (viewModel.isLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          await viewModel.loadMoreClasses(); // Tải thêm lớp
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-        child: const Text('Tải thêm'),
-      ),
-    );
-  }
-
 }

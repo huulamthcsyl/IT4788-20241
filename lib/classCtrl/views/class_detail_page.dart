@@ -3,6 +3,9 @@ import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:provider/provider.dart';
+import '../../class_material/views/class_material_view.dart';
+
+import 'classCtrl_view.dart';
 
 import '../../chat/views/conversation_view.dart';
 import '../../class_material/views/class_material_view.dart';
@@ -133,6 +136,8 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
+
               const SizedBox(height: 16),
 
               // Danh sách sinh viên
