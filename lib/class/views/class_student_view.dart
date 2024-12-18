@@ -26,7 +26,6 @@ class ClassStudentPage extends StatelessWidget {
                   child: Text(
                     'Danh sách lớp học',
                     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
