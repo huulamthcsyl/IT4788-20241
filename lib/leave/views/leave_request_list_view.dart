@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
+import 'package:it4788_20241/leave/widgets/details_dialog.dart';
 
 class LeaveRequestListPage extends StatefulWidget {
   final String classId; // Nhận classId từ màn hình trước
@@ -153,10 +154,28 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () =>
-                                viewModel.showLeaveRequestDetails(context, item),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return LeaveRequestDetailsDialog(
+                                    item: item,
+                                    onAccept: () async {
+                                      await viewModel.reviewAbsenceRequest(item.id, "ACCEPTED");
+                                      viewModel.fetchLeaveRequests(); // Gọi cập nhật danh sách
+                                      Navigator.of(context).pop();
+                                    },
+                                    onReject: () async {
+                                      await viewModel.reviewAbsenceRequest(item.id, "REJECTED");
+                                      viewModel.fetchLeaveRequests();
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                },
+                              );
+                            },
                             child: Text('Chi tiết', style: TextStyle(color: Colors.redAccent)),
-                          ),
+                          )
                         ],
                       ),
                     ),
