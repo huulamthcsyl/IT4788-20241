@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../classCtrl/views/class_detail_page.dart';
 import '../../home/views/home_view.dart';
+import '../../utils/get_material_icon.dart';
 import '../models/class_material_model.dart';
 
 class ClassMaterialPage extends StatefulWidget {
@@ -40,33 +41,34 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                if (viewModel.userData.role == "LECTURER")
+          leading: IconButton(
+            onPressed: () {
+              if (viewModel.userData.role == "LECTURER")
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ClassDetailPage(classData: widget.classData),
                   ),
                 );
-                else
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ClassStudentPage(),
-                    ),
-                  );
-              },
-              icon: Icon(Icons.arrow_back, color: Colors.black,),
-            ),
+              else
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClassStudentPage(),
+                  ),
+                );
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black,),
+          ),
           title: Text(className),
           actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
-              },
-            ),
+            if (viewModel.userData.role == "LECTURER")
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
+                },
+              ),
           ],
           bottom: TabBar(
             onTap: (int index) {
@@ -84,16 +86,39 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
         ),
         body: Consumer<ClassMaterialViewModel>(
           builder: (context, viewModel, child) {
-
-              return ListView.builder(
-                itemCount: viewModel.getMaterialList().length,
-                itemBuilder: (context, index) {
-                  final item = viewModel.getMaterialList()[index];
-                  return Card(
+            return ListView.builder(
+              itemCount: viewModel.getMaterialList().length,
+              itemBuilder: (context, index) {
+                final item = viewModel.getMaterialList()[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Card(
+                    elevation: 0,
+                    margin: EdgeInsets.all(0),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Image.asset(
+                              getMaterialIcon(item.material_type),
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,15 +137,15 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                         ],
                       ),
                     ),
-                  );
-                },
-              );
-            }
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );
   }
-
   void showFileOptions(BuildContext context, ClassMaterial classMaterial) {
     showModalBottomSheet(
       context: context,

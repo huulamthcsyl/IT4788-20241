@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
 
+import '../widgets/leave_request_dialog.dart';
+
 class LeaveRequestListPage extends StatefulWidget {
-  final String classId; // Nhận classId từ màn hình trước
+  final String classId;
   LeaveRequestListPage({required this.classId});
 
   @override
@@ -12,15 +14,14 @@ class LeaveRequestListPage extends StatefulWidget {
 }
 
 class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
-  DateTime _selectedDate = DateTime.now(); // Ngày mặc định là ngày thực tế
+  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    // Gọi API lấy dữ liệu khi trang được khởi tạo
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<LeaveRequestListViewModel>(context, listen: false);
-      viewModel.classcode = widget.classId; // Gán classcode
+      viewModel.classcode = widget.classId;
     });
   }
 
@@ -41,7 +42,6 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
         ),
         body: Column(
           children: [
-            // Input chọn ngày
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
@@ -153,8 +153,26 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () =>
-                                viewModel.showLeaveRequestDetails(context, item),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return LeaveRequestDetailsDialog(
+                                    item: item,
+                                    onAccept: () async {
+                                      await viewModel.reviewAbsenceRequest(item.id, "ACCEPTED");
+                                      viewModel.fetchLeaveRequests();
+                                      Navigator.of(context).pop();
+                                    },
+                                    onReject: () async {
+                                      await viewModel.reviewAbsenceRequest(item.id, "REJECTED");
+                                      viewModel.fetchLeaveRequests();
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                },
+                              );
+                            },
                             child: Text('Chi tiết', style: TextStyle(color: Colors.redAccent)),
                           ),
                         ],
