@@ -73,14 +73,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                       const SizedBox(height: 8),
                       _buildInfoRow('Loại lớp:', widget.classData.classType),
                       const SizedBox(height: 8),
-                      _buildInfoRow(
-                          'Số lượng tối đa:', widget.classData.maxStudents.toString()),
+                      _buildInfoRow('Số lượng tối đa:', widget.classData.maxStudents.toString()),
                       const SizedBox(height: 8),
-                      _buildInfoRow('Thời gian bắt đầu:',
-                          widget.classData.startDate ?? "N/A"),
+                      _buildInfoRow('Thời gian bắt đầu:', widget.classData.startDate ?? "N/A"),
                       const SizedBox(height: 8),
-                      _buildInfoRow('Thời gian kết thúc:',
-                          widget.classData.endDate ?? "N/A"),
+                      _buildInfoRow('Thời gian kết thúc:', widget.classData.endDate ?? "N/A"),
                     ],
                   ),
                 ),
@@ -136,8 +133,6 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-
               const SizedBox(height: 16),
 
               // Danh sách sinh viên

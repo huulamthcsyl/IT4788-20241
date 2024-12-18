@@ -4,7 +4,6 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrlForm_view.dart';
 import 'package:it4788_20241/classCtrl/widget/editClass.dart'; // Import trang sửa lớp
 import 'package:it4788_20241/classCtrl/views/class_detail_page.dart'; // Import trang chi tiết lớp
-import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class ClassCtrlPage extends StatefulWidget {
@@ -13,6 +12,21 @@ class ClassCtrlPage extends StatefulWidget {
 }
 
 class _ClassCtrlPageState extends State<ClassCtrlPage> {
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+    _fetchData(); // Gọi hàm để làm mới dữ liệu khi trang khởi tạo.
+  }
+
+  // Hàm để khởi động lại dữ liệu
+  void _fetchData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ClassCtrlViewModel>().fetchClasses(); // Làm mới danh sách lớp
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +64,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                     },
                   ),
                 ),
-              );
+              ).then((_) {
+                // Làm mới dữ liệu khi quay lại từ trang thêm lớp
+                _fetchData();
+              });
             },
           ),
         ],
@@ -62,7 +79,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
           ),
           const SizedBox(height: 10.0),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/class-list'),
+            onTap: () => Navigator.pushNamed(context, '/class-list').then((_) {
+              // Làm mới dữ liệu khi quay lại từ danh sách chi tiết lớp
+              _fetchData();
+            }),
             child: const Text(
               'Thông tin danh sách các lớp',
               style: TextStyle(
@@ -127,7 +147,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                 MaterialPageRoute(
                   builder: (context) => ClassDetailPage(classData: classData),
                 ),
-              );
+              ).then((_) {
+                // Làm mới dữ liệu khi quay lại từ trang chi tiết lớp
+                _fetchData();
+              });
             },
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -148,7 +171,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                           },
                         ),
                       ),
-                    );
+                    ).then((_) {
+                      // Làm mới dữ liệu khi quay lại từ trang chỉnh sửa
+                      _fetchData();
+                    });
                   },
                 ),
                 IconButton(
