@@ -9,7 +9,7 @@ String messageDataToJson(MessageData data) => json.encode(data.toJson());
 
 class MessageData {
   String? messageId;
-  String message;
+  String? message;
   PartnerData sender;
   DateTime createdAt;
   int unread;

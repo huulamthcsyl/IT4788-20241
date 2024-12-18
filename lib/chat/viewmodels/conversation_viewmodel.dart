@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:it4788_20241/chat/models/conversation_data.dart';
+import 'package:it4788_20241/auth/services/auth_service.dart';
 import 'package:it4788_20241/chat/models/message_data.dart';
+import 'package:it4788_20241/chat/models/sender_data.dart';
 import 'package:it4788_20241/chat/models/socket_message.dart';
 import 'package:it4788_20241/chat/services/chat_service.dart';
 import 'package:it4788_20241/const/api.dart';
@@ -13,11 +14,16 @@ import 'package:stomp_dart_client/stomp_dart_client.dart';
 class ConversationViewModel extends ChangeNotifier {
   int currentChatIndex = 0;
   final chatPageSize = 5;
-  String conversationId = '';
   final messageTextController = TextEditingController();
   int partnerId = 0;
+  PartnerData partnerData = PartnerData(
+    id: 0,
+    name: "",
+    avatar: "",
+  );
 
   final _chatService = ChatService();
+  final _authService = AuthService();
   late StompClient client;
 
   final pagingController = PagingController<int, MessageData>(
@@ -26,17 +32,17 @@ class ConversationViewModel extends ChangeNotifier {
 
   ConversationViewModel() {
     pagingController.addPageRequestListener((pageKey) {
-      fetchPage(conversationId, pageKey);
+      fetchPage(partnerId.toString(), pageKey);
     });
     _initSocket();
     client.activate();
   }
 
-  Future<void> fetchPage(String conversationId, int pageKey) async {
-    if (conversationId == "-1") return;
+  Future<void> fetchPage(String partnerId, int pageKey) async {
+    if (partnerId == "0") return;
     try {
-      final newItems = await _chatService.getConversation(
-          conversationId, pageKey, chatPageSize);
+      final newItems = await _chatService.getConversationByPartnerId(
+          partnerId, pageKey, chatPageSize);
       final isLastPage = newItems.length < chatPageSize;
       if (isLastPage) {
         pagingController.appendLastPage(newItems);
@@ -60,14 +66,20 @@ class ConversationViewModel extends ChangeNotifier {
     pagingController.refresh();
   }
 
-  void setConversationInfo(ConversationData conversationData) async {
-    if (conversationId != conversationData.id.toString()) {
-      conversationId = conversationData.id.toString();
-      partnerId = conversationData.partner.id;
+  void setConversationInfo(int newPartnerId) async {
+    if (partnerId != newPartnerId) {
+      partnerId = newPartnerId;
       pagingController.itemList = [];
       pagingController.itemList = null;
       pagingController.refresh();
     }
+    final partnerInfo = await _authService.getUserInfo(newPartnerId.toString());
+    partnerData = PartnerData(
+      id: int.parse(partnerInfo.id),
+      name: partnerInfo.name,
+      avatar: partnerInfo.avatar,
+    );
+    notifyListeners();
   }
 
   void _initSocket() {
@@ -85,7 +97,7 @@ class ConversationViewModel extends ChangeNotifier {
       callback: (StompFrame frame) {
         if (frame.body == null) return;
         final message = SocketMessage.fromJson(jsonDecode(frame.body!));
-        if (message.conversationId.toString() == conversationId) {
+        if (message.sender.id == partnerId || message.receiver.id == partnerId) {
           if (pagingController.itemList != null) {
             final list = List<MessageData>.from(pagingController.itemList!);
             list.insert(

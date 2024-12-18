@@ -39,9 +39,9 @@ class ChatService {
     return await _chatRepository.getUnreadMessageCount(token);
   }
 
-  Future<List<MessageData>> getConversationByPartnerId(String partnerId) async {
+  Future<List<MessageData>> getConversationByPartnerId(String partnerId, int index, int count) async {
     final token = (await getUserData()).token;
     if (token == null) return [];
-    return await _chatRepository.getConversationByPartnerId(partnerId, token);
+    return await _chatRepository.getConversationByPartnerId(partnerId, token, index, count);
   }
 }
