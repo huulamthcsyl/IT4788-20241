@@ -1,26 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/class_another_function/viewmodels/class_function_viewmodel.dart';
 import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 import '../../auth/models/user_data.dart';
+import '../../class/views/class_student_view.dart';
+import '../../classCtrl/views/class_detail_page.dart';
 
 class ClassFunctionPage extends StatefulWidget{
-  final String classCode;
-  ClassFunctionPage({required this.classCode});
+  final ClassData classData;
+  ClassFunctionPage({required this.classData});
   @override
   _ClassFunctionPageState createState() => _ClassFunctionPageState();
 }
 class _ClassFunctionPageState extends State<ClassFunctionPage>
 {
-  late String classCode;
+  late String classCode, className;
 
   @override
   void initState() {
     super.initState();
-    classCode = widget.classCode;
+    classCode = widget.classData.classId;
+    className = widget.classData.className;
     final _classfunctionviewmodel = Provider.of<ClassFunctionViewModel>(context, listen: false);
-    _classfunctionviewmodel.classCode = classCode;
+    _classfunctionviewmodel.classData = widget.classData;
   }
   @override
   Widget build(BuildContext context) {
@@ -31,16 +35,25 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                // Sau thay thế cái này bằng quay về chỗ cũ
-                MaterialPageRoute(builder: (context) => HomeView()), // Trang Home
-              );
+              if (viewModel.userData.role == "LECTURER")
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClassDetailPage(classData: widget.classData),
+                  ),
+                );
+              else
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClassStudentPage(),
+                  ),
+                );
             },
+            icon: Icon(Icons.arrow_back, color: Colors.black,),
           ),
-          title: Text("Class 0000"),
+          title: Text(className),
           bottom: TabBar(
             onTap: (int index){
               setState(() {

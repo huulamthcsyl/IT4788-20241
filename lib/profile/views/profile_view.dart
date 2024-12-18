@@ -16,6 +16,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final _profileviewmodel = Provider.of<ProfileViewModel>(context);
+    setState(() {
+      _profileviewmodel.initUserData();
+    });
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

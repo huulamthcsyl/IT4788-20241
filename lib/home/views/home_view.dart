@@ -4,6 +4,7 @@ import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/home/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
+import '../../profile/viewmodels/profile_viewmodel.dart';
 import '../widgets/home_button.dart';
 
 class HomeView extends StatefulWidget {
@@ -17,6 +18,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final homeViewModel = context.watch<HomeViewModel>();
+    setState(() {
+      homeViewModel.initUserData();
+    });
     return Scaffold(
         appBar: AppBar(
           title: const Center(
@@ -49,49 +53,17 @@ class _HomeViewState extends State<HomeView> {
               alignment: WrapAlignment.center, // Căn giữa các button trong Wrap
               children: [
                 HomeButton(
-                  title: 'Quản lý lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-control');
-                  },
-                ),
+                  title: 'Quản lý lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
+                  onPressed: () {Navigator.pushNamed(context, '/class-control');}),
                 HomeButton(
-                  title: 'Lịch dạy',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-material');
-                  },
-                ),
+                  title: 'Lịch dạy', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/class-material');}),
                 HomeButton(
-                  title: 'Tạo lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/teaching-schedule');
-                  },
-                ),
+                  title: 'Tạo lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/teaching-schedule');}),
                 HomeButton(
-                  title: 'Lịch dạy',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-material');
-                  },
-                ),
+                  title: 'Lịch dạy', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/class-material');}),
               ],
             ),
           ),
@@ -109,49 +81,14 @@ class _HomeViewState extends State<HomeView> {
               runSpacing: 20,
               alignment: WrapAlignment.center,
               children: [
-                HomeButton(
-                  title: 'Đăng ký lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_registration_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-list');
-                  },
-                ),
-                HomeButton(
-                  title: 'Lịch học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_schedule_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    // Navigator.pushNamed(context, '/');
-                  },
-                ),
-                HomeButton(
-                  title: 'Lớp học trong kỳ',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/absence_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    // Navigator.pushNamed(context, '/');
-                  },
-                ),
-                HomeButton(
-                  title: 'Quản lý lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/search');
-                  },
+                HomeButton(title: 'Đăng ký lớp học', icon: const ImageIcon(AssetImage('assets/img/class_registration_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/class-register');}),
+                HomeButton(title: 'Lịch học', icon: const ImageIcon(AssetImage('assets/img/class_schedule_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/');}),
+                HomeButton(title: 'Lớp học trong kỳ', icon: const ImageIcon(AssetImage('assets/img/absence_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/students-class');}),
+                HomeButton(title: 'Quản lý lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
+                  onPressed: () {Navigator.pushNamed(context, '/search');},
                 ),
               ],
             ),

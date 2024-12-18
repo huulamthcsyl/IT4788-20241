@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
+import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../class_material/views/class_material_view.dart';
 
 class ClassDetailPage extends StatefulWidget {
   final ClassData classData;
@@ -26,9 +29,23 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassCtrlPage(),
+              ),
+            );
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
         title: Text(
           widget.classData.className,
-          style: const TextStyle(fontSize: 24, color: Colors.white),
+          style: const TextStyle(color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.red,
       ),
@@ -64,6 +81,39 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                   ),
                 ),
               ),
+
+              // Nút chuyển đến các phần
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 2 / 3,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: widget.classData,)));
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(
+                          color: Colors.red, // Màu viền
+                          width: 1.0,       // Độ dày của viền
+                          style: BorderStyle.solid, // Kiểu viền
+                        ),
+                      ),
+                      child: const Text(
+                        'Xem chi tiết lớp',
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
 
               // Danh sách sinh viên
               const Text(
@@ -119,7 +169,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                                 style: const TextStyle(fontSize: 14),
                               ),
                               Text(
-                                'Mã sinh viên: ${student.studentId ?? "N/A"}',
+                                'Mã số sinh viên: ${student.studentId ?? "N/A"}',
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ],

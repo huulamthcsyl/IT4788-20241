@@ -62,14 +62,13 @@ class LeaveRequestRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer ${token}',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode({
           "token": token,
           "class_id": classCode,
           "status": null,
-          "pageable_request": {"page": "0", "page_size": "100"}
+          "pageable_request": {"page": "0", "page_size": "1000"}
         }),
       );
 
@@ -98,7 +97,6 @@ class LeaveRequestRepository {
       final response = await http.post(
         httpUrl,
         headers: {
-          'Authorization': 'Bearer ${token}',
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode({
