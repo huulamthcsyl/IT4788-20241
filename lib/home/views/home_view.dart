@@ -42,58 +42,57 @@ class _HomeViewState extends State<HomeView> {
           const SizedBox(height: 20),
           Profile(userData: userData),
           const SizedBox(height: 20),
-          Center( // Bọc Wrap trong Center widget
-            child: Wrap(
-              spacing: 20, // Khoảng cách ngang giữa các button
-              runSpacing: 20, // Khoảng cách dọc giữa các dòng
-              alignment: WrapAlignment.center, // Căn giữa các button trong Wrap
-              children: [
-                HomeButton(
-                  title: 'Quản lý lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-control');
-                  },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              HomeButton(
+                title: 'Quản lý lớp học',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/class_management_icon.png'),
+                  size: 50,
+                  color: Colors.red,
                 ),
-                HomeButton(
-                  title: 'Lịch dạy',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-material');
-                  },
+                onPressed: () {
+                  Navigator.pushNamed(context, '/class-control');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Lịch dạy',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
                 ),
-                HomeButton(
-                  title: 'Tạo lớp học',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/teaching-schedule');
-                  },
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Tạo lớp học',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
                 ),
-                HomeButton(
-                  title: 'Lịch dạy',
-                  icon: const ImageIcon(
-                    AssetImage('assets/img/class_management_icon.png'),
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/class-material');
-                  },
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+              const SizedBox(width: 20),
+              HomeButton(
+                title: 'Lịch dạy',
+                icon: const ImageIcon(
+                  AssetImage('assets/img/teaching_schedule_icon.png'),
+                  size: 50,
+                  color: Colors.red,
                 ),
-              ],
-            ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/teaching-schedule');
+                },
+              ),
+            ],
           ),
         ],
       );

@@ -43,7 +43,11 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
         title: const Center(
           child: Text(
             'DANH SÁCH LỚP',
-            style: TextStyle(fontSize: 24, color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         actions: [
@@ -158,7 +162,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
-                    _showDeleteConfirmationDialog(context, classData.classId, viewModel);
+                    viewModel.showDeleteConfirmationDialog(context, classData.classId, viewModel);
                   },
                 ),
               ],
@@ -193,43 +197,4 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context, String classId, ClassCtrlViewModel viewModel) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Xác nhận xóa lớp'),
-          content: const Text('Bạn có chắc chắn muốn xóa lớp này?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Đóng hộp thoại
-              },
-              child: const Text('Hủy'),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(context); // Đóng hộp thoại
-                // Gọi phương thức xóa lớp
-                await viewModel.deleteClass(classId);
-
-                if (viewModel.errorMessage == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Lớp học đã được xóa thành công!')),
-                  );
-                  // Làm mới danh sách lớp
-                  context.read<ClassCtrlViewModel>().fetchClasses();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(viewModel.errorMessage!)),
-                  );
-                }
-              },
-              child: const Text('Xóa'),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
