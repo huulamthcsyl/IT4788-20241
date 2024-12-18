@@ -41,7 +41,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
             onPressed: () {
               Navigator.pushNamed(context, '/');
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black,),
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
         title: const Center(
           child: Text(
@@ -83,8 +83,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
               'Thông tin danh sách các lớp',
               style: TextStyle(
                 color: Colors.red,
-                fontStyle: FontStyle.italic,
                 decoration: TextDecoration.underline,
+                decorationColor: Colors.red,
+                fontSize: 16,
+                fontWeight: FontWeight.bold
               ),
             ),
           ),
@@ -123,11 +125,18 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
         final classData = viewModel.classes[index];
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8.0),
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(7.0),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: Offset(0, 3),
+              ),
+            ],
           ),
           child: ListTile(
             title: Text(classData.className),

@@ -140,7 +140,12 @@ class LeaveRequestPage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () => leaveRequestViewModel.submitRequest(classId),
+              onPressed: () async {
+                await leaveRequestViewModel.submitRequest(classId);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Gửi đơn xin nghỉ thành công!')),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Màu nền đỏ
                 shape: RoundedRectangleBorder(
@@ -148,7 +153,7 @@ class LeaveRequestPage extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               ),
-              child: Text('Submit',
+              child: Text('Gửi',
                 style: TextStyle(color: Colors.white, fontSize: 20.0,),
               ),
             ),

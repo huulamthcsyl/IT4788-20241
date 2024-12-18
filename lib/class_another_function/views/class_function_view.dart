@@ -66,7 +66,7 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
             tabs: [
               Tab(text: "Kiểm tra"),
               Tab(text: "Tài liệu"),
-              Tab(text: "Chức năng khác")
+              Tab(text: "Khác")
             ],
           ),
         ),
@@ -76,41 +76,52 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
   }
   List<String> lecturerFunctions = ['Xem danh sách điểm danh', 'Xem danh sách đơn xin nghỉ'];
   List<String> studentFunctions = ['Gửi đơn xin vắng mặt'];
-  Widget buildListViewbyRole(UserData userData, BuildContext context, ClassFunctionViewModel viewModel)
-  {
+  Widget buildListViewbyRole(UserData userData, BuildContext context, ClassFunctionViewModel viewModel) {
     List<String> listTitle = userData.role == "LECTURER" ? lecturerFunctions : studentFunctions;
-    return
-      ListView.builder(
-        itemCount: listTitle.length,
-        itemBuilder: (context, index) {
-          final item = listTitle[index];
-          Widget column = Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(item!, style: TextStyle(fontSize: 16)),
-              ],
-            ),
-          );
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  column,
-                  IconButton(
-                    icon: Icon(Icons.arrow_forward_ios),
-                    onPressed: () {
-                      setState(() {
-                        viewModel.onSelectAction(userData.role, index, context);
-                      });
-                    },
-                  )
-                ],
+    return ListView.builder(
+      itemCount: listTitle.length,
+      itemBuilder: (context, index) {
+        final item = listTitle[index];
+        return Container(
+          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Card(
+            elevation: 0,
+            margin: EdgeInsets.all(1),
+            child: InkWell(
+              onTap: () {
+                viewModel.onSelectAction(userData.role, index, context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          item.toUpperCase(),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
-        },
-      );
+          ),
+        );
+      },
+    );
   }
 }

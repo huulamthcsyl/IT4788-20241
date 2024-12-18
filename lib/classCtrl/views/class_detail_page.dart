@@ -4,6 +4,7 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../chat/views/conversation_view.dart';
 import '../../class_material/views/class_material_view.dart';
 
 class ClassDetailPage extends StatefulWidget {
@@ -90,14 +91,34 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                     width: MediaQuery.of(context).size.width * 2 / 3,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: widget.classData,)));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ClassMaterialPage(classData: widget.classData),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
                         side: const BorderSide(
-                          color: Colors.red, // Màu viền
-                          width: 1.0,       // Độ dày của viền
-                          style: BorderStyle.solid, // Kiểu viền
+                          color: Colors.white,
+                          width: 1.0,
+                          style: BorderStyle.solid,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        elevation: 0,
+                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ).copyWith(
+                        shadowColor: MaterialStateProperty.all(Colors.grey.withOpacity(0.7)),
+                        elevation: MaterialStateProperty.resolveWith<double>(
+                              (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.pressed)) {
+                              return 4;
+                            }
+                            return 2;
+                          },
                         ),
                       ),
                       child: const Text(
@@ -105,14 +126,13 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                         style: TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16
+                          fontSize: 16,
                         ),
                       ),
-                    ),
+                    )
                   ),
                 ],
               ),
-
               const SizedBox(height: 16),
 
               // Danh sách sinh viên
@@ -157,8 +177,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                         child: ListTile(
                           title: Text(
                             '${student.firstName} ${student.lastName}',
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,6 +192,16 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ],
+                          ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.chat),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => ConversationPage(partnerId: int.parse(student.accountId))
+                                  )
+                              );
+                            },
                           ),
                         ),
                       );
