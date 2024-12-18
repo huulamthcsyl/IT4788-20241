@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
 import 'package:it4788_20241/auth/views/sign_up_view.dart';
+import 'package:it4788_20241/class/viewmodels/class_student_viewmodel.dart';
+import 'package:it4788_20241/class/views/class_student_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrlForm_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
@@ -90,7 +92,7 @@ class MyApp extends StatelessWidget {
           '/class-control': (context) => ClassCtrlPage(),
           '/search': (context) => SearchPage(),
           '/notification': (context) => const NotificationView(),
-          '/class-student': (context) => ClassStudentPage(),
+          '/students-class' : (context) => ClassStudentPage()
         },
         initialRoute: '/',
       ),

@@ -21,7 +21,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload tài liệu cho lớp: ${viewModel.classCode}'),
+        title: Text('Upload tài liệu cho lớp: ${viewModel.classData.className}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

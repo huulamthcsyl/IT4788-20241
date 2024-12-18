@@ -1,27 +1,34 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/class/views/class_student_view.dart';
+import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/class_material/views/class_material_edit_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
 
+import '../../classCtrl/views/class_detail_page.dart';
 import '../../home/views/home_view.dart';
 import '../models/class_material_model.dart';
 
 class ClassMaterialPage extends StatefulWidget {
-  final String classCode;
-  ClassMaterialPage({required this.classCode});
+  final ClassData classData;
+  ClassMaterialPage({required this.classData});
   @override
   _ClassMaterialPageState createState() => _ClassMaterialPageState();
 }
 
 class _ClassMaterialPageState extends State<ClassMaterialPage> {
-  late String classCode;
+  late String classCode, className;
   @override
   void initState() {
     super.initState();
-    classCode = widget.classCode;
+    classCode = widget.classData.classId;
+    className = widget.classData.className;
     final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
-    viewModel.getClassMaterials(classCode);
+    viewModel.classData = widget.classData;
+    viewModel.getClassMaterials(widget.classData.classId);
   }
 
   @override
@@ -33,16 +40,26 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => HomeView()),
-              );
-            },
-          ),
-          title: Text("OOP 2024.1"),
+            leading: IconButton(
+              onPressed: () {
+                if (viewModel.userData.role == "LECTURER")
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClassDetailPage(classData: widget.classData),
+                  ),
+                );
+                else
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ClassStudentPage(),
+                    ),
+                  );
+              },
+              icon: Icon(Icons.arrow_back, color: Colors.black,),
+            ),
+          title: Text(className),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.add),
@@ -61,15 +78,13 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
             tabs: [
               Tab(text: "Kiểm tra"),
               Tab(text: "Tài liệu"),
-              Tab(text: "Chức năng khác")
+              Tab(text: "Khác")
             ],
           ),
         ),
         body: Consumer<ClassMaterialViewModel>(
           builder: (context, viewModel, child) {
-            if (viewModel.getMaterialList().isEmpty) {
-              return Center(child: CircularProgressIndicator());
-            } else {
+
               return ListView.builder(
                 itemCount: viewModel.getMaterialList().length,
                 itemBuilder: (context, index) {
@@ -101,7 +116,6 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                 },
               );
             }
-          },
         ),
       ),
     );

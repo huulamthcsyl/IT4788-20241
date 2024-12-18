@@ -16,6 +16,10 @@ class RegisterClassPage extends StatelessWidget {
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
+                leading: IconButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, '/');
+                    }, icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
                 title: Center(
@@ -27,7 +31,7 @@ class RegisterClassPage extends StatelessWidget {
               ),
               body: Column(
                 children: [
-                  // Phần ảnh logo cố định
+                /*  // Phần ảnh logo cố định
                   Container(
                     color: Colors.red,
                     padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
@@ -38,7 +42,7 @@ class RegisterClassPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Phần input và nút đăng ký cố định
+                  // Phần input và nút đăng ký cố định*/
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(

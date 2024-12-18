@@ -4,6 +4,7 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrlForm_view.dart';
 import 'package:it4788_20241/classCtrl/widget/editClass.dart'; // Import trang sửa lớp
 import 'package:it4788_20241/classCtrl/views/class_detail_page.dart'; // Import trang chi tiết lớp
+import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class ClassCtrlPage extends StatefulWidget {
@@ -36,10 +37,12 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/');
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black,),
+          ),
         title: const Center(
           child: Text(
             'DANH SÁCH LỚP',

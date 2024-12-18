@@ -6,6 +6,7 @@ import 'package:it4788_20241/class_material/services/class_material_service.dart
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/class_survey/views/class_survey_view.dart';
 import '../../auth/models/user_data.dart';
+import '../../classCtrl/models/class_data.dart';
 import '../../utils/get_data_user.dart';
 import '../views/class_material_view.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,6 +15,8 @@ class ClassMaterialViewModel extends ChangeNotifier {
   ClassMaterialViewModel() {
     initUserData();
   }
+
+  ClassData classData = ClassData(classId: '', classCode: '', className: '', maxStudents: 0, classType: '', status: '', studentAccounts: []);
 
   UserData userData = UserData(
     id: '',
@@ -33,12 +36,10 @@ class ClassMaterialViewModel extends ChangeNotifier {
   }
 
   final _materialService = MaterialService();
-  List<ClassMaterial> _listClassMaterial = []; // Make it non-late
-  String classCode = "";
-
-  Future<void> getClassMaterials(String classCode) async {
-    this.classCode = classCode;
-    _listClassMaterial = await _materialService.getClassMaterials(userData.token, classCode);
+  List<ClassMaterial> _listClassMaterial = [];
+  Future<void> getClassMaterials(String classId) async {
+    final token = (await getUserData()).token ?? "";
+    _listClassMaterial = await _materialService.getClassMaterials(token, classId);
     notifyListeners();
   }
 
@@ -100,12 +101,12 @@ class ClassMaterialViewModel extends ChangeNotifier {
     try {
       await _materialService.uploadFile(
           token: userData.token,
-          classId: classCode,
+          classId: classData.classId,
           title: title,
           description: description,
           materialType: materialType,
           file: File(filePath));
-      await getClassMaterials(classCode);
+      await getClassMaterials(classData.classId);
     } catch (e) {
       print("Error during file upload: $e");
     } finally {
@@ -159,7 +160,7 @@ class ClassMaterialViewModel extends ChangeNotifier {
         materialType: materialType,
         file: File(filePath),
       );
-      await getClassMaterials(classCode);
+      await getClassMaterials(classData.classId);
     } catch (e) {
       print("Error during file edit: $e");
     } finally {
@@ -174,10 +175,10 @@ class ClassMaterialViewModel extends ChangeNotifier {
         Navigator.push((context), MaterialPageRoute(builder: (context) => ClassSurveyPage()));
         break;
       case 1:
-        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classCode: classCode)));
+        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: classData,)));
         break;
       case 2:
-        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassFunctionPage(classCode: classCode)));
+        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassFunctionPage(classData: classData)));
         break;
     }
   }

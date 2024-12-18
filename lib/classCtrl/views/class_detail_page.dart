@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
+import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../class_material/views/class_material_view.dart';
 
 class ClassDetailPage extends StatefulWidget {
   final ClassData classData;
@@ -26,6 +29,17 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassCtrlPage(),
+              ),
+            );
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
         title: Text(
           widget.classData.className,
           style: const TextStyle(color: Colors.white,
@@ -76,7 +90,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                     width: MediaQuery.of(context).size.width * 2 / 3,
                     child: OutlinedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/class-material', arguments: widget.classData);
+                        Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: widget.classData,)));
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Colors.white,
@@ -89,8 +103,9 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                       child: const Text(
                         'Xem chi tiết lớp',
                         style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16
                         ),
                       ),
                     ),

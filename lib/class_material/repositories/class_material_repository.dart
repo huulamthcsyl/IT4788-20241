@@ -4,25 +4,25 @@ import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:it4788_20241/const/api.dart';
 import 'package:mime/mime.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MaterialRepository {
 
   Future<List<ClassMaterial>> getClassMaterial(String? token, String classCode) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_material_list');
-    final Map<String, dynamic> body = {
-      "token": token,
-      "class_id": classCode,
-    };
-    try {
       final response = await http.post(
         httpUrl,
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; charset=UTF-8",
         },
-        body: jsonEncode(body),
+        body: jsonEncode({
+          "token": token,
+          "class_id": classCode,
+        }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200)
+      {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
         if (responseData['code'] == "1000") {
           List<dynamic> data = responseData['data'];
@@ -32,13 +32,9 @@ class MaterialRepository {
           return [];
         }
       } else {
-        print('Error: ${response.statusCode}');
+        print('Error: ${token} ${classCode}');
         return [];
       }
-    } catch (e) {
-      print('Failed to load materials: $e');
-      return [];
-    }
   }
   Future<void> deleteMaterial({required String? token, required String material_id}) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/delete_material');
