@@ -3,6 +3,7 @@ import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/notification/views/notification_view.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
+import 'package:it4788_20241/search/views/search_view.dart';
 import 'package:provider/provider.dart';
 
 class AppLayout extends StatefulWidget {
@@ -20,6 +21,7 @@ class _AppLayoutState extends State<AppLayout> {
       body: <Widget>[
         const HomeView(),
         const ProfilePage(),
+        SearchPage(),
         const HomeView(),
         const NotificationView()
       ][viewModel.currentPageIndex],
@@ -45,6 +47,14 @@ class _AppLayoutState extends State<AppLayout> {
               color: Colors.red,
             ),
             label: "Cá nhân",
+          ),
+          const NavigationDestination(
+            icon: Icon(Icons.search),
+            selectedIcon: Icon(
+              Icons.search,
+              color: Colors.red,
+            ),
+            label: "Tìm kiếm",
           ),
           const NavigationDestination(
             icon: Icon(Icons.message),
