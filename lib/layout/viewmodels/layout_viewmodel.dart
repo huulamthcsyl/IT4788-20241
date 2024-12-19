@@ -14,6 +14,11 @@ class LayoutViewModel extends ChangeNotifier {
     getUnreadMessageCount();
   }
 
+  void init(){
+    getUnreadNotificationCount();
+    getUnreadMessageCount();
+  }
+
   void getUnreadNotificationCount() async {
     final notificationCount = await _notificationServices.getUnreadNotificationCount();
     unreadNotificationCount = notificationCount;

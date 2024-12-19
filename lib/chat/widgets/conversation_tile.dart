@@ -40,7 +40,7 @@ class ConversationTile extends StatelessWidget {
               fromNow(conversationData.lastMessage.createdAt),
               style: TextStyle(
                 fontSize: 12,
-                color: conversationData.lastMessage.sender.id == conversationData.partner.id
+                color: conversationData.lastMessage.sender.id == conversationData.partner.id && conversationData.lastMessage.unread == 1
                     ? Colors.red
                     : Colors.grey,
               ),

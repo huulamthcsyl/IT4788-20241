@@ -18,6 +18,11 @@ class _AppLayoutState extends State<AppLayout> {
   @override
   Widget build(BuildContext context) {
     final LayoutViewModel viewModel = context.watch<LayoutViewModel>();
+
+    setState(() {
+      viewModel.init();
+    });
+
     return Scaffold(
       body: <Widget>[
         const HomeView(),
