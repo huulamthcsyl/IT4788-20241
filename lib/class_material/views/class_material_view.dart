@@ -1,98 +1,151 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/class/views/class_student_view.dart';
+import 'package:it4788_20241/classCtrl/models/class_data.dart';
+import 'package:it4788_20241/class_material/views/class_material_edit_view.dart';
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
 
+import '../../classCtrl/views/class_detail_page.dart';
 import '../../home/views/home_view.dart';
+import '../../utils/get_material_icon.dart';
 import '../models/class_material_model.dart';
+
 class ClassMaterialPage extends StatefulWidget {
+  final ClassData classData;
+  ClassMaterialPage({required this.classData});
   @override
   _ClassMaterialPageState createState() => _ClassMaterialPageState();
 }
 
-class _ClassMaterialPageState extends State<ClassMaterialPage>
-{
+class _ClassMaterialPageState extends State<ClassMaterialPage> {
+  late String classCode, className;
+  @override
+  void initState() {
+    super.initState();
+    classCode = widget.classData.classId;
+    className = widget.classData.className;
+    final viewModel = Provider.of<ClassMaterialViewModel>(context, listen: false);
+    viewModel.classData = widget.classData;
+    viewModel.getClassMaterials(widget.classData.classId);
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<ClassMaterialViewModel>(context);
-    viewModel.getClassMaterials("000089");
-    List<ClassMaterial> classMaterials = viewModel.getMaterialList();
+
     return DefaultTabController(
-        length: 3,
-        initialIndex: 1,
-        child: Scaffold(
-          appBar: AppBar(
-            leading:  IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pushReplacement(
+      length: 3,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              if (viewModel.userData.role == "LECTURER")
+                Navigator.push(
                   context,
-                  // Sau thay thế cái này bằng quay về chỗ cũ
-                  MaterialPageRoute(builder: (context) => HomeView()), // Trang Home
+                  MaterialPageRoute(
+                    builder: (context) => ClassDetailPage(classData: widget.classData),
+                  ),
                 );
-              },
-            ),
-            title: Text("OOP 2024.1"),
-            actions: <Widget>[
+              else
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ClassStudentPage(),
+                  ),
+                );
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.black,),
+          ),
+          title: Text(className),
+          actions: <Widget>[
+            if (viewModel.userData.role == "LECTURER")
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
                 },
               ),
+          ],
+          bottom: TabBar(
+            onTap: (int index) {
+              viewModel.onClickTabBar(index, context);
+            },
+            indicatorColor: Colors.red,
+            labelColor: Colors.black,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            tabs: [
+              Tab(text: "Kiểm tra"),
+              Tab(text: "Tài liệu"),
+              Tab(text: "Khác")
             ],
-            bottom: TabBar(
-              onTap: (int index)
-                  {
-                    setState(()
-                  {
-                      viewModel.onClickTabBar(index, context);
-                  });
-              },
-              indicatorColor: Colors.red,
-              labelColor: Colors.black,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              tabs: [
-                Tab(text: "Kiểm tra"),
-                Tab(text: "Tài liệu"),
-                Tab(text: "Chức năng khác")
-              ],
-            ),
           ),
-          body:
-            ListView.builder(
-            itemCount: classMaterials.length,
-            itemBuilder: (context, index) {
-              final item = classMaterials[index];
-              Widget column = Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(item.material_name!, style: TextStyle(fontSize: 16)),
-                    Text(item.description!),
-                  ],
-                ),
-              );
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: <Widget>[
-                      column,
-                      IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: () {
-                          showFileOptions(context, item!);
-                        },
-                      )
+        ),
+        body: Consumer<ClassMaterialViewModel>(
+          builder: (context, viewModel, child) {
+            return ListView.builder(
+              itemCount: viewModel.getMaterialList().length,
+              itemBuilder: (context, index) {
+                final item = viewModel.getMaterialList()[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
                     ],
                   ),
-                ),
-              );
-            }) // Use the current tab index to control the list view
-        ));
+                  child: Card(
+                    elevation: 0,
+                    margin: EdgeInsets.all(0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Image.asset(
+                              getMaterialIcon(item.material_type),
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(item.material_name, style: TextStyle(fontSize: 16)),
+                                Text(item.description),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.more_vert),
+                            onPressed: () {
+                              showFileOptions(context, item);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
   }
-
   void showFileOptions(BuildContext context, ClassMaterial classMaterial) {
     showModalBottomSheet(
       context: context,
@@ -113,31 +166,32 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 onTap: () {},
               ),
               ListTile(
-                leading: Icon(Icons.offline_pin),
-                title: Text('Làm có sẵn ngoại tuyến'),
-                onTap: () {},
-              ),
-              ListTile(
                 leading: Icon(Icons.drive_file_rename_outline),
                 title: Text('Chỉnh sửa'),
                 onTap: () {
-                  showRenameDialog(context, classMaterial);
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ClassMaterialEditPage(
+                        classMaterial: classMaterial,
+                      ),
+                    ),
+                  );
                 },
               ),
               ListTile(
                 leading: Icon(Icons.delete),
                 title: Text('Xóa'),
                 onTap: () {
-                  setState(() {
-                    Navigator.pop(context);
-                    viewModel.deleteMaterial(classMaterial);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Xóa tài liệu thành công!'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  });
+                  Navigator.pop(context);
+                  viewModel.deleteMaterial(classMaterial);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Xóa tài liệu thành công!'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
                 },
               ),
               ListTile(
@@ -150,74 +204,8 @@ class _ClassMaterialPageState extends State<ClassMaterialPage>
                 title: Text('Sao chép liên kết'),
                 onTap: () {},
               ),
-              ListTile(
-                leading: Icon(Icons.send),
-                title: Text('Gửi một bản'),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(Icons.open_in_browser),
-                title: Text('Mở trong ứng dụng'),
-                onTap: () {},
-              ),
             ],
           ),
-        );
-      },
-    );
-  }
-  void showRenameDialog(BuildContext context, ClassMaterial classMaterial) {
-    final TextEditingController titleController = TextEditingController(text: classMaterial.material_name);
-    final TextEditingController descriptionController = TextEditingController(text: classMaterial.description);
-    final TextEditingController materialTypeController = TextEditingController(text: classMaterial.material_type);
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Chỉnh sửa tài liệu'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Tên'),
-              ),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Mô tả'),
-              ),
-              TextField(
-                controller: materialTypeController,
-                decoration: InputDecoration(labelText: 'Loại tài liệu'),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Hủy'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Lưu'),
-              onPressed: () {
-                classMaterial.material_name = titleController.text;
-                classMaterial.description = descriptionController.text;
-                classMaterial.material_type = materialTypeController.text;
-
-                // viewModel.updateMaterial(classMaterial);
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Cập nhật tài liệu thành công!'),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-            ),
-          ],
         );
       },
     );

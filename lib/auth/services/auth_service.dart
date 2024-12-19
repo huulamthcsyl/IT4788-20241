@@ -23,12 +23,7 @@ class AuthService {
         key: 'user',
         value: utf8.encode(jsonEncode(response.toJson())).toString());
   }
-  Future<void> changeAvatar({
-    required String token,
-    required File file
-  })async{
-    await _authRepository.changeAvatar(token: token, file: file);
-  }
+
   Future<void> signUp(SignUpData signUpData) async {
     await _authRepository.signUp(signUpData);
   }
@@ -41,6 +36,12 @@ class AuthService {
   }
   Future<void> logout() async {
     await storage.delete(key: "user");
+  }
+  Future<void> changeAvatar({
+    required String token,
+    required File file
+  })async{
+    await _authRepository.changeAvatar(token: token, file: file);
   }
   Future<UserData> getUserInfo(String id) async {
     final token = (await getUserData()).token ?? "";

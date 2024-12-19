@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/chat/views/chat_overview_view.dart';
 import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/notification/views/notification_view.dart';
 import 'package:it4788_20241/profile/views/profile_view.dart';
+import 'package:it4788_20241/search/views/search_view.dart';
 import 'package:provider/provider.dart';
 
 class AppLayout extends StatefulWidget {
@@ -20,7 +22,8 @@ class _AppLayoutState extends State<AppLayout> {
       body: <Widget>[
         const HomeView(),
         const ProfilePage(),
-        const HomeView(),
+        SearchPage(),
+        const ChatOverviewPage(),
         const NotificationView()
       ][viewModel.currentPageIndex],
       bottomNavigationBar: NavigationBar(
@@ -47,8 +50,19 @@ class _AppLayoutState extends State<AppLayout> {
             label: "Cá nhân",
           ),
           const NavigationDestination(
-            icon: Icon(Icons.message),
+            icon: Icon(Icons.search),
             selectedIcon: Icon(
+              Icons.search,
+              color: Colors.red,
+            ),
+            label: "Tìm kiếm",
+          ),
+          NavigationDestination(
+            icon: Badge.count(
+              count: viewModel.unreadMessageCount,
+              child: const Icon(Icons.message)
+            ),
+            selectedIcon: const Icon(
               Icons.message,
               color: Colors.red,
             ),
