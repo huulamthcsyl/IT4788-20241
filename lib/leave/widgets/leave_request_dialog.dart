@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/leave/models/leave_request_model.dart';
+import 'package:intl/intl.dart';
 
 class LeaveRequestDetailsDialog extends StatelessWidget {
   final LeaveRequest item;
@@ -25,6 +26,10 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Format date
+    final formattedDate = DateFormat('dd/MM/yyyy')
+        .format(DateTime.parse(item.absenceDate).toLocal());
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -54,7 +59,10 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'Sinh viên: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text('${item.studentAccount.firstName} ${item.studentAccount.lastName}'),
+                Expanded(
+                  child: Text(
+                      '${item.studentAccount.firstName} ${item.studentAccount.lastName}'),
+                ),
               ],
             ),
             SizedBox(height: 8),
@@ -64,7 +72,7 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'MSSV: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(item.studentAccount.studentId),
+                Expanded(child: Text(item.studentAccount.studentId)),
               ],
             ),
             SizedBox(height: 8),
@@ -74,7 +82,7 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'Email: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(item.studentAccount.email),
+                Expanded(child: Text(item.studentAccount.email)),
               ],
             ),
             Divider(thickness: 1, height: 20),
@@ -85,17 +93,22 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'Tiêu đề: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(item.title),
+                Expanded(child: Text(item.title)),
               ],
             ),
             SizedBox(height: 8),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Lý do: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(item.reason),
+                Expanded(
+                    child: Text(
+                      item.reason,
+                      textAlign: TextAlign.justify,
+                    )),
               ],
             ),
             SizedBox(height: 8),
@@ -105,38 +118,46 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'Ngày: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(item.absenceDate),
+                Expanded(child: Text(formattedDate)),
               ],
             ),
             SizedBox(height: 8),
-            Row(
+
+            Text(
+              'Ảnh minh chứng: ',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Ảnh minh chứng: ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                SizedBox(height: 8),
                 Center(
                   child: Image.network(
                     convertGoogleDriveLink(item.file),
-                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
                         return child;
                       }
                       return Center(
                         child: CircularProgressIndicator(
                           value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                              ? loadingProgress.cumulativeBytesLoaded /
+                              (loadingProgress.expectedTotalBytes ?? 1)
                               : null,
                         ),
                       );
                     },
                     errorBuilder: (context, error, stackTrace) {
-                      return Text('Không tải được ảnh', style: TextStyle(color: Colors.red));
+                      return Text('Không tải được ảnh',
+                          style: TextStyle(color: Colors.red));
                     },
                   ),
                 ),
               ],
             ),
+
             SizedBox(height: 8),
             Row(
               children: [
@@ -144,19 +165,21 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                   'Trạng thái: ',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  item.status == "PENDING"
-                      ? "Chờ duyệt"
-                      : item.status == "ACCEPTED"
-                      ? "Chấp nhận"
-                      : "Từ chối",
-                  style: TextStyle(
-                    color: item.status == "PENDING"
-                        ? Colors.orange
+                Expanded(
+                  child: Text(
+                    item.status == "PENDING"
+                        ? "Chờ duyệt"
                         : item.status == "ACCEPTED"
-                        ? Colors.green
-                        : Colors.red,
-                    fontWeight: FontWeight.bold,
+                        ? "Chấp nhận"
+                        : "Từ chối",
+                    style: TextStyle(
+                      color: item.status == "PENDING"
+                          ? Colors.orange
+                          : item.status == "ACCEPTED"
+                          ? Colors.green
+                          : Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -174,7 +197,8 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
                     onPressed: onAccept,
                     child: Text('Đồng ý', style: TextStyle(fontSize: 14)),
@@ -186,7 +210,8 @@ class LeaveRequestDetailsDialog extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
                     onPressed: onReject,
                     child: Text('Từ chối', style: TextStyle(fontSize: 14)),

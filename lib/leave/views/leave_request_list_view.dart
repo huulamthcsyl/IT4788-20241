@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
-import 'package:it4788_20241/leave/widgets/details_dialog.dart';
+import 'package:it4788_20241/leave/widgets/leave_request_dialog.dart';
 
 class LeaveRequestListPage extends StatefulWidget {
   final String classId; // Nhận classId từ màn hình trước
@@ -140,7 +140,11 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  item.status,
+                                  item.status == "PENDING"
+                                      ? "Chờ duyệt"
+                                      : item.status == "ACCEPTED"
+                                      ? "Chấp nhận"
+                                      : "Từ chối",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: item.status == "PENDING"
