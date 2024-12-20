@@ -61,12 +61,6 @@ class CreateClassWidget extends StatelessWidget {
             onChanged: (value) => viewModel.classId = value,
             validator: (value) => value!.isEmpty ? 'Vui lòng nhập mã lớp' : null,
           ),
-          // Mã lớp kèm
-          TextFormField(
-            initialValue: viewModel.classCode,
-            decoration: const InputDecoration(labelText: 'Mã lớp kèm'),
-            onChanged: (value) => viewModel.classCode = value,
-          ),
           // Tên lớp
           TextFormField(
             initialValue: viewModel.name,
@@ -124,9 +118,18 @@ class CreateClassWidget extends StatelessWidget {
                 // Gọi phương thức createClass từ ViewModel để gọi API
                 await viewModel.createClass(classData);
 
+
                 // Sau khi gọi API thành công, bạn có thể thực hiện các hành động như
                 // hiển thị thông báo thành công, hoặc quay lại trang trước.
-                onSave(classData);  // Gọi lại hàm onSave nếu cần
+                //onSave(classData);  // Gọi lại hàm onSave nếu cần
+
+                // Reset dữ liệu đã nhập
+                viewModel.reset();  // Reset viewModel về trạng thái ban đầu
+
+                // Xóa nội dung của các TextEditingController
+                startDateController.clear();
+                endDateController.clear();
+                formKey.currentState!.reset();  // Reset lại form
 
                 Navigator.pop(context);  // Quay lại màn hình trước sau khi lưu
               }
