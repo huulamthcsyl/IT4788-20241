@@ -193,16 +193,6 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                               ),
                             ],
                           ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.chat),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => ConversationPage(partnerId: int.parse(student.accountId))
-                                  )
-                              );
-                            },
-                          ),
                         ),
                       );
                     },

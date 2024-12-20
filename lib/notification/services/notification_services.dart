@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:it4788_20241/notification/models/notification_data.dart';
 import 'package:it4788_20241/notification/models/notification_request.dart';
 import 'package:it4788_20241/notification/repositories/notification_repository.dart';
@@ -28,5 +30,11 @@ class NotificationServices {
     final token = (await getUserData()).token;
     if (token == null) return;
     await _notificationRepository.markAsRead(token, notificationId);
+  }
+
+  Future<void> sendNotification(String message, String toUser, File image, String type) async {
+    final token = (await getUserData()).token;
+    if (token == null) return;
+    await _notificationRepository.sendNotification(token, message, toUser, image, type);
   }
 }
