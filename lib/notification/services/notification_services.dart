@@ -32,7 +32,7 @@ class NotificationServices {
     await _notificationRepository.markAsRead(token, notificationId);
   }
 
-  Future<void> sendNotification(String message, String toUser, File image, String type) async {
+  Future<void> sendNotification(String message, String toUser, File? image, String type) async {
     final token = (await getUserData()).token;
     if (token == null) return;
     await _notificationRepository.sendNotification(token, message, toUser, image, type);
