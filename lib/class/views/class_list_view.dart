@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/class_list_viewmodel.dart';
+import '../widgets/class_detail_dialog.dart';
 
 class ClassListPage extends StatefulWidget {
   @override
@@ -78,7 +79,12 @@ class _ClassListPageState extends State<ClassListPage> {
                         ],
                       ),
                       trailing: TextButton(
-                        onPressed: () => classListViewModel.showClassDetails(context, classInfo),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => ClassDetailsDialog(classInfo: classInfo),
+                          );
+                        },
                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                       ),
                     ),

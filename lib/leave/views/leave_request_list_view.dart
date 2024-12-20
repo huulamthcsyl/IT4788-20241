@@ -139,7 +139,11 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                                 ),
                                 SizedBox(height: 4),
                                 Text(
-                                  item.status,
+                                  item.status == "PENDING"
+                                      ? "Chờ duyệt"
+                                      : item.status == "ACCEPTED"
+                                      ? "Chấp nhận"
+                                      : "Từ chối",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: item.status == "PENDING"
@@ -161,11 +165,21 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                                     item: item,
                                     onAccept: () async {
                                       await viewModel.reviewAbsenceRequest(item.id, "ACCEPTED");
+                                      viewModel.sendNotification(
+                                        message: "Phản hồi về đơn xin nghỉ học",
+                                        toUser: item.studentAccount.accountId,
+                                        type: "ACCEPT_ABSENCE_REQUEST",
+                                      );
                                       viewModel.fetchLeaveRequests();
                                       Navigator.of(context).pop();
                                     },
                                     onReject: () async {
                                       await viewModel.reviewAbsenceRequest(item.id, "REJECTED");
+                                      viewModel.sendNotification(
+                                        message: "Phản hồi về đơn xin nghỉ học",
+                                        toUser: item.studentAccount.accountId,
+                                        type: "REJECT_ABSENCE_REQUEST",
+                                      );
                                       viewModel.fetchLeaveRequests();
                                       Navigator.of(context).pop();
                                     },

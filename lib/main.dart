@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
@@ -39,9 +40,11 @@ import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
 import 'package:it4788_20241/class/views/class_student_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_student_viewmodel.dart';
-import 'package:it4788_20241/leave/views/leave_request_list_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -93,7 +96,7 @@ class MyApp extends StatelessWidget {
           '/class-control': (context) => ClassCtrlPage(),
           '/search': (context) => SearchPage(),
           '/notification': (context) => const NotificationView(),
-          '/students-class' : (context) => ClassStudentPage(),
+          '/students-class' : (context) => ClassStudentPage()
         },
         initialRoute: '/',
       ),

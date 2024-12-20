@@ -19,7 +19,7 @@ class ClassStudentViewModel with ChangeNotifier {
     this.classData.classCode = classInfo.attached_code;
     this.classData.classType = classInfo.class_type;
     notifyListeners();
-    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: this.classData,)));
+    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: this.classData)));
   }
 
   UserData userData = UserData(

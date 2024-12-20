@@ -3,9 +3,11 @@ import 'package:it4788_20241/leave/models/leave_request_model.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:it4788_20241/leave/repositories/leave_request_repository.dart';
 import '../../auth/models/user_data.dart';
+import 'package:it4788_20241/notification/services/notification_services.dart';
 
 class LeaveRequestListViewModel extends ChangeNotifier {
   final LeaveRequestRepository _repository = LeaveRequestRepository();
+  final _notificationServices = NotificationServices();
   List<LeaveRequest> _leavereqs = [];
   String classcode = '';
 
@@ -79,6 +81,14 @@ class LeaveRequestListViewModel extends ChangeNotifier {
       await _repository.reviewAbsenceRequest(userData.token, requestId, status);
     } catch (e) {
       print("Error reviewing absence request: $e");
+    }
+  }
+
+  Future<void> sendNotification({required String message, required String toUser, required String type,}) async {
+    try {
+      await _notificationServices.sendNotification(message, toUser, null, type);
+    } catch (e) {
+      print("Error sending notification: $e");
     }
   }
 

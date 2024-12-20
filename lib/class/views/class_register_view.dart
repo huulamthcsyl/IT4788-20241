@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/class_register_viewmodel.dart';
+import '../widgets/class_detail_dialog.dart';
 
 class RegisterClassPage extends StatelessWidget {
 
@@ -136,7 +137,12 @@ class RegisterClassPage extends StatelessWidget {
                                         ],
                                       ),
                                       trailing: TextButton(
-                                        onPressed: () => viewModel.showClassDetails(context, classItem),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => ClassDetailsDialog(classInfo: classItem),
+                                          );
+                                        },
                                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                                       ),
                                     ),
@@ -162,7 +168,12 @@ class RegisterClassPage extends StatelessWidget {
                                         ],
                                       ),
                                       trailing: TextButton(
-                                        onPressed: () => viewModel.showClassDetails(context, classItem),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => ClassDetailsDialog(classInfo: classItem),
+                                          );
+                                        },
                                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                                       ),
                                     ),

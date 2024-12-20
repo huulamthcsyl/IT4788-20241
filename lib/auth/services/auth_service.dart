@@ -15,10 +15,9 @@ class AuthService {
   final storage = const FlutterSecureStorage();
 
   Future<void> login(LoginData loginData) async {
-    //DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    //AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    //loginData.deviceId = androidInfo.id;
-    loginData.deviceId = "2045";
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    loginData.deviceId = androidInfo.id;
     final response = await _authRepository.login(loginData);
     storage.write(
         key: 'user',

@@ -34,17 +34,7 @@ class ClassStudentPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          (viewModel.registeredClasses.isEmpty &&
-                              viewModel.newClasses.isEmpty)
-                              ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Bạn chưa đăng ký lớp học nào',
-                              style: TextStyle(
-                                  color: Colors.red, fontSize: 18.0),
-                            ),
-                          )
-                              : Column(
+                          Column(
                             children: [
                               // Danh sách lớp đang học
                               ListView.builder(

@@ -4,6 +4,7 @@ class ClassInfo {
   String attached_code;
   String class_type;
   String lecturer_name;
+  String lecturer_account_id;
   String student_count;
   String start_date;
   String end_date;
@@ -15,6 +16,7 @@ class ClassInfo {
     required this.attached_code,
     required this.class_type,
     required this.lecturer_name,
+    required this.lecturer_account_id,
     required this.student_count,
     required this.start_date,
     required this.end_date,
@@ -29,6 +31,7 @@ class ClassInfo {
       attached_code: json['attached_code'] ?? '',
       class_type: json['class_type'] ?? '',
       lecturer_name: json['lecturer_name'] ?? '',
+      lecturer_account_id: json['lecturer_account_id'] ?? '',
       student_count: json['student_count'] ?? '',
       start_date: json['start_date'] ?? 0,
       end_date: json['end_date'] ?? '',
@@ -44,6 +47,7 @@ class ClassInfo {
       'attached_code': attached_code,
       'class_type': class_type,
       'lecturer_name': lecturer_name,
+      'lecturer_account_id': lecturer_account_id,
       'student_count': student_count,
       'start_date': start_date,
       'end_date': end_date,
