@@ -61,14 +61,16 @@ class NotificationRepository {
     }
   }
 
-  Future<void> sendNotification(String token, String message, String toUser, File image, String type) async {
+  Future<void> sendNotification(String token, String message, String toUser, File? image, String type) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/send_notification');
     final request = http.MultipartRequest('POST', httpUrl)
       ..fields['token'] = token
       ..fields['message'] = message
       ..fields['toUser'] = toUser
-      ..fields['type'] = type
-      ..files.add(await http.MultipartFile.fromPath('image', image.path));
+      ..fields['type'] = type;
+    if (image != null) {
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+    }
     final response = await request.send();
     if (response.statusCode == 200) {
       final body = jsonDecode(utf8.decode(await response.stream.first));
