@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
 import '../../classCtrl/models/class_data.dart';
 import '../../class_material/views/class_material_view.dart';
 import '../models/class_model.dart';
@@ -19,7 +20,7 @@ class ClassStudentViewModel with ChangeNotifier {
     this.classData.classCode = classInfo.attached_code;
     this.classData.classType = classInfo.class_type;
     notifyListeners();
-    Navigator.push((context), MaterialPageRoute(builder: (context) => ClassMaterialPage(classData: this.classData,)));
+    Navigator.push((context), MaterialPageRoute(builder: (context) => AssignmentListView(classData: this.classData,)));
   }
 
   UserData userData = UserData(

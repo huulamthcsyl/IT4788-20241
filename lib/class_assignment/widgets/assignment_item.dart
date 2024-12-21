@@ -1,37 +1,55 @@
 import 'package:flutter/material.dart';
 
 class AssignmentItem extends StatelessWidget {
-  final String avatarUrl;
-  final String assignmentName;
-  final String submissionTime;
-  final String className;
+  final String title;
+  final String deadline;
   final String status;
+  final bool isSubmitted;
+  final String submissionTime;
+  final double? grade;
+  final String role;
+  final int? turnInCount;
+  final int? gradeCount;
+  final int? studentCount;
   final VoidCallback onTap;
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
 
   const AssignmentItem({
     super.key,
-    required this.avatarUrl,
-    required this.assignmentName,
-    required this.submissionTime,
-    required this.className,
+    required this.title,
+    required this.deadline,
     required this.status,
+    required this.isSubmitted,
+    required this.submissionTime,
+    required this.grade,
+    required this.role,
+    required this.turnInCount,
+    required this.gradeCount,
+    required this.studentCount,
     required this.onTap,
+    required this.onEdit,
+    required this.onDelete,
   });
 
   String formatDate(String date) {
-    DateTime dateTime = DateTime.parse(date);
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+    try {
+      DateTime dateTime = DateTime.parse(date);
+      return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+    } catch (e) {
+      return 'Invalid date';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     IconData getStatusIcon() {
       switch (status) {
-        case 'Upcoming':
+        case 'UPCOMING':
           return Icons.schedule;
-        case 'Past due':
+        case 'PASS_DUE':
           return Icons.error;
-        case 'Completed':
+        case 'COMPLETED':
           return Icons.check;
         default:
           return Icons.help;
@@ -40,38 +58,14 @@ class AssignmentItem extends StatelessWidget {
 
     Color getStatusColor() {
       switch (status) {
-        case 'Upcoming':
-          return Colors.blue;
-        case 'Past due':
-          return Colors.red;
-        case 'Completed':
-          return Colors.green;
+        case 'UPCOMING':
+          return Colors.blue.withOpacity(0.8);
+        case 'PASS_DUE':
+          return Colors.red.withOpacity(0.8);
+        case 'COMPLETED':
+          return Colors.green.withOpacity(0.8);
         default:
           return Colors.grey;
-      }
-    }
-
-    String getSubmissionText() {
-      switch (status) {
-        case 'Upcoming':
-        case 'Past due':
-          return 'Due at ${formatDate(submissionTime)}';
-        case 'Completed':
-          return 'Submitted at ${formatDate(submissionTime)}';
-        default:
-          return formatDate(submissionTime);
-      }
-    }
-
-    Color getSubmissionTextColor() {
-      switch (status) {
-        case 'Upcoming':
-        case 'Past due':
-          return Colors.red;
-        case 'Completed':
-          return Colors.black54;
-        default:
-          return Colors.black54;
       }
     }
 
@@ -94,27 +88,29 @@ class AssignmentItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              width: 60.0,
-              height: 60.0,
-              decoration: BoxDecoration(
-                color: getStatusColor(),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Center(
-                child: Text(
-                  className.substring(0, 2).toUpperCase(),
-                  style: const TextStyle(fontSize: 24.0, color: Colors.white),
+            if (role == 'STUDENT')
+              Container(
+                width: 60.0,
+                height: 60.0,
+                decoration: BoxDecoration(
+                  color: getStatusColor(),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Icon(
+                    getStatusIcon(),
+                    color: Colors.white,
+                    size: 24.0,
+                  ),
                 ),
               ),
-            ),
             const SizedBox(width: 10.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    assignmentName,
+                    title,
                     style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
@@ -122,30 +118,44 @@ class AssignmentItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    getSubmissionText(),
-                    style: TextStyle(
-                        fontSize: 14.0, color: getSubmissionTextColor()),
+                    isSubmitted == false
+                        ? 'Đến hạn vào ${formatDate(deadline)}'
+                        : 'Đã nộp bài vào ${formatDate(submissionTime)}',
+                    style:
+                        const TextStyle(fontSize: 14.0, color: Colors.black54),
                   ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    className,
-                    style: const TextStyle(fontSize: 14.0, color: Colors.black54),
-                  ),
+                  if (role == 'LECTURER') ...[
+                    Text(
+                      'Đã nộp: $turnInCount / $studentCount',
+                      style: const TextStyle(
+                          fontSize: 14.0, color: Colors.black54),
+                    ),
+                    Text(
+                      'Đã trả điểm: $gradeCount / $studentCount',
+                      style: const TextStyle(
+                          fontSize: 14.0, color: Colors.black54),
+                    ),
+                  ],
+
+                  if (isSubmitted)
+                    Text(
+                      grade == null ? 'Không có điểm' : '$grade điểm',
+                      style: const TextStyle(
+                          fontSize: 14.0, color: Colors.black54),
+                    ),
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                color: getStatusColor(),
-                borderRadius: BorderRadius.circular(10.0),
+            if (role == 'LECTURER') ...[
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.blue),
+                onPressed: onEdit,
               ),
-              child: Icon(
-                getStatusIcon(),
-                color: Colors.white,
-                size: 24.0,
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: onDelete,
               ),
-            ),
+            ],
           ],
         ),
       ),
