@@ -46,7 +46,7 @@ class AssignmentRepository {
     throw Exception(jsonResponse['meta']['message']);
   }
 
-  Future<AssignmentData> editAssignment(String? token, int assignmentId,
+  Future<void> editAssignment(String? token, int assignmentId,
       String description, DateTime deadline, List<PlatformFile> files) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/edit_survey');
     final request = http.MultipartRequest('POST', httpUrl)
@@ -66,8 +66,9 @@ class AssignmentRepository {
 
     if (response.statusCode == 200) {
       if (jsonResponse['meta']['code'] == '1000') {
-        AssignmentData assignmentData = jsonResponse['data'];
-        return assignmentData;
+        // AssignmentData assignmentData = jsonResponse['data'];
+        // return assignmentData;
+        return;
       }
     }
 
@@ -181,9 +182,7 @@ class AssignmentRepository {
     );
 
     final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-    if (score != null) {
-      print('object');
-    }
+
     if (response.statusCode == 200) {
       if (responseBody['meta']['code'] == '1000') {
         List<dynamic> data = responseBody['data'];

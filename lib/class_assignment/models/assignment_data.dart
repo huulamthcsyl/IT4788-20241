@@ -10,7 +10,7 @@ class AssignmentData {
   int id;
   String title;
   String description;
-  String lecturerId;
+  // int lecturerId;
   String deadline;
   String fileUrl;
   bool isSubmitted;
@@ -20,7 +20,7 @@ class AssignmentData {
       {required this.id,
       required this.title,
       required this.description,
-      required this.lecturerId,
+      // required this.lecturerId,
       required this.deadline,
       required this.fileUrl,
       required this.isSubmitted,
@@ -30,7 +30,7 @@ class AssignmentData {
         id: json['id'],
         title: json['title'],
         description: json['description'] ?? '',
-        lecturerId: json['lecturer_id'],
+        // lecturerId: json['lecturer_id'],
         deadline: json['deadline'],
         fileUrl: json['file_url'] ?? '',
         isSubmitted: json['is_submitted'] ?? false,
@@ -40,7 +40,7 @@ class AssignmentData {
   Map<String, dynamic> toJson() => {
         "title": title,
         "description": description,
-        "lecturer_id": lecturerId,
+        // "lecturer_id": lecturerId,
         "deadline": deadline,
         "class_id": classId,
       };

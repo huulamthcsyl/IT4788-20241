@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AssignmentDetailViewModel extends ChangeNotifier {
   final assignmentService = AssignmentService();
@@ -22,16 +23,19 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   List<SubmissionData> filteredResponseList = [];
   String searchQuery = '';
   double? grade = 0;
+  bool _isDisposed = false;
 
   AssignmentDetailViewModel(this.assignment, this.submission, this.classData) {
-    _initialize();
+    initialize();
   }
 
-  void _initialize() async {
+  Future<void> initialize() async {
     userData = await getUserData();
     responseList = await fetchAssignmentResponse();
     filteredResponseList = responseList;
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   void updateSearchQuery(String query) {
@@ -40,7 +44,21 @@ class AssignmentDetailViewModel extends ChangeNotifier {
       final fullName = '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}'.toLowerCase();
       return fullName.contains(searchQuery.toLowerCase());
     }).toList();
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
+  }
+
+  void showNotification(String msg, bool isError) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        // gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: isError == true ? Colors.red.withOpacity(0.8) : Colors.green.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   String formatDate(String date) {
@@ -54,26 +72,35 @@ class AssignmentDetailViewModel extends ChangeNotifier {
 
   void updateText(String text) {
     textController.text = text;
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   void updateSelectedFiles(List<PlatformFile> files) {
     selectedFiles = files;
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   void removeSelectedFile(PlatformFile file) {
     selectedFiles.remove(file);
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   void updateGrade(double? newGrade) {
     grade = newGrade;
-    notifyListeners();
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   @override
   void dispose() {
+    _isDisposed = true;
     textController.dispose();
     searchController.dispose();
     super.dispose();
@@ -90,9 +117,12 @@ class AssignmentDetailViewModel extends ChangeNotifier {
 
       assignment.isSubmitted = true;
       submission = await fetchSubmission();
-      notifyListeners();
+      if (!_isDisposed) {
+        notifyListeners();
+      }
+      showNotification('Nộp bài thành công', false);
     } catch (e) {
-      print('Error submitting assignment: $e');
+      showNotification('Nộp bài thất bại', true);
     }
   }
 
@@ -115,8 +145,13 @@ class AssignmentDetailViewModel extends ChangeNotifier {
     if (grade == null) {
       throw Exception('Vui lòng nhập điểm hợp lệ');
     }
-    await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, grade, submission.id);
-    String message = 'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
-    await notificationService.sendNotification(message, accountId, null, 'ASSIGNMENT_GRADE');
+    try {
+      await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, grade, submission.id);
+      String message = 'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
+      await notificationService.sendNotification(message, accountId, null, 'ASSIGNMENT_GRADE');
+      showNotification('Trả điểm thành công', false);
+    } catch (e) {
+      showNotification('Trả điểm thất bại', true);
+    }
   }
 }

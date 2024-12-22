@@ -9,6 +9,7 @@ import 'package:it4788_20241/class_material/views/class_material_view.dart';
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AssignmentAndSubmission {
   final AssignmentData assignment;
@@ -62,7 +63,6 @@ class AssignmentListViewModel extends ChangeNotifier {
       await fetchSubmissionList();
     } else {
       assignmentList = await fetchAllAssignment();
-
       for (var assignment in assignmentList) {
         List<SubmissionData> responseList = await fetchAssignmentResponse(assignment);
         int turnInCount = responseList.length;
@@ -116,7 +116,6 @@ class AssignmentListViewModel extends ChangeNotifier {
         SubmissionData submission = await fetchSubmission(assignment);
         submissions.add(submission);
       } catch (e) {
-        print('Failed to fetch submission for assignment ${assignment.id}: $e');
         submissions.add(SubmissionData());
       }
     }
@@ -156,6 +155,8 @@ class AssignmentListViewModel extends ChangeNotifier {
       return assignment.title.toLowerCase().contains(searchQuery.toLowerCase());
     }).toList();
 
+    filteredAssignments.sort((a, b) => a.deadline.compareTo(b.deadline)); // Sort by deadline
+
     return filteredAssignments.map((assignment) {
       if (selectedStatus != 'COMPLETED') {
         if (userData.role == 'LECTURER') {
@@ -185,9 +186,28 @@ class AssignmentListViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteAssignment(int assignmentId) async {
-    await assignmentService.deleteAssignment(userData.token, assignmentId);
-    await fetchAllAssignment(); // Re-fetch assignments after deletion
-    notifyListeners();
+    try {
+      await assignmentService.deleteAssignment(userData.token, assignmentId);
+      showNotification('Xóa bài tập thành công', false);
+    } catch (e) {
+      showNotification('Xóa bài tập thất bại', true);
+    } finally {
+      notifyListeners();
+
+    }
+
+  }
+
+  void showNotification(String msg, bool isError) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        // gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: isError == true ? Colors.red.withOpacity(0.8) : Colors.green.withOpacity(0.8),
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
   }
 
   String formatDate(String date) {

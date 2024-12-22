@@ -28,13 +28,15 @@ class AssignmentListViewState extends State<AssignmentListView> {
     super.initState();
     classCode = widget.classData.classId;
     className = widget.classData.className;
-    final viewModel = Provider.of<AssignmentListViewModel>(context, listen: false);
+    final viewModel =
+        Provider.of<AssignmentListViewModel>(context, listen: false);
     viewModel.classData = widget.classData;
   }
 
   Future<void> _refreshData() async {
-    final viewModel = Provider.of<AssignmentListViewModel>(context, listen: false);
-    viewModel.initialize(); // Re-fetch data
+    final viewModel =
+        Provider.of<AssignmentListViewModel>(context, listen: false);
+    await viewModel.initialize(); // Re-fetch data
   }
 
   @override
@@ -46,12 +48,14 @@ class AssignmentListViewState extends State<AssignmentListView> {
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              final viewModel = Provider.of<AssignmentListViewModel>(context, listen: false);
+              final viewModel =
+                  Provider.of<AssignmentListViewModel>(context, listen: false);
               if (viewModel.userData.role == "LECTURER") {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ClassDetailPage(classData: widget.classData),
+                    builder: (context) =>
+                        ClassDetailPage(classData: widget.classData),
                   ),
                 );
               } else {
@@ -68,7 +72,8 @@ class AssignmentListViewState extends State<AssignmentListView> {
           title: Text(className),
           bottom: TabBar(
             onTap: (int index) {
-              final viewModel = Provider.of<AssignmentListViewModel>(context, listen: false);
+              final viewModel =
+                  Provider.of<AssignmentListViewModel>(context, listen: false);
               viewModel.onClickTabBar(index, context);
             },
             indicatorColor: Colors.red,
@@ -82,7 +87,8 @@ class AssignmentListViewState extends State<AssignmentListView> {
           ),
         ),
         body: FutureBuilder(
-          future: Provider.of<AssignmentListViewModel>(context, listen: false).initialize(),
+          future: Provider.of<AssignmentListViewModel>(context, listen: false)
+              .initialize(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -98,39 +104,91 @@ class AssignmentListViewState extends State<AssignmentListView> {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ElevatedButton(
-                            onPressed: () {
-                              showDialog(
+                            onPressed: () async {
+                              final result = await showDialog(
                                 context: context,
-                                builder: (context) => CreateAssignmentDialog(classData: widget.classData),
+                                builder: (context) => CreateAssignmentDialog(
+                                  classData: widget.classData,
+                                ),
                               );
+                              if (result == true) {
+                                _refreshData(); // Reload data if the result is true
+                              }
                             },
-                            child: Text('Tạo bài tập mới'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              // Background color
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24.0, vertical: 12.0),
+                              // Button size
+                              textStyle: const TextStyle(fontSize: 18.0),
+                              // Font size
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(8.0), // Border radius
+                              ),
+                            ),
+                            child: const Text(
+                              'Tạo bài tập mới',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
                       // Extracted search field
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TextField(
-                          onChanged: (value) {
-                            context.read<AssignmentListViewModel>().updateSearchQuery(value);
-                          },
-                          decoration: InputDecoration(
-                            hintText: 'Nhập tên bài tập để tìm kiếm',
-                            filled: true,
-                            fillColor: const Color(0xFFEEEEEE).withOpacity(0.5),
-                            border: const OutlineInputBorder(),
-                            prefixIcon: const Icon(Icons.search, color: Colors.black),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Background color
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                            borderRadius:
+                                BorderRadius.circular(20.0), // Border radius
                           ),
-                          style: const TextStyle(color: Colors.black),
-                          textInputAction: TextInputAction.search,
+                          child: TextField(
+                            onChanged: (value) {
+                              context
+                                  .read<AssignmentListViewModel>()
+                                  .updateSearchQuery(value);
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'Nhập tên bài tập để tìm kiếm',
+                              filled: true,
+                              fillColor: Colors.white,
+                              // Background color inside the TextField
+                              border: InputBorder.none,
+                              // Remove the outline
+                              enabledBorder: InputBorder.none,
+                              // Remove the outline when enabled
+                              focusedBorder: InputBorder.none,
+                              // Remove the outline when focused
+                              prefixIcon:
+                                  Icon(Icons.search, color: Colors.black),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16.0), // Center vertically
+                            ),
+                            style: const TextStyle(color: Colors.black),
+                            textInputAction: TextInputAction.search,
+                          ),
                         ),
                       ),
                       // Conditionally show status buttons
-                      if (viewModel.userData.role != "LECTURER") _buildStatusButtons(context),
+                      if (viewModel.userData.role != "LECTURER")
+                        _buildStatusButtons(context),
                       // Extracted assignment list view builder
                       Expanded(
                         child: Container(
-                          margin: const EdgeInsets.only(top: 16.0),
+                          margin: const EdgeInsets.only(top: 8.0),
                           child: RefreshIndicator(
                             onRefresh: _refreshData,
                             child: _buildAssignmentListView(context),
@@ -178,11 +236,17 @@ class AssignmentListViewState extends State<AssignmentListView> {
             ),
           ),
           child: Text(
-            status == 'UPCOMING' ? 'Sắp tới' : (status == 'PASS_DUE' ? 'Quá hạn' : 'Đã hoàn thành'),
+            status == 'UPCOMING'
+                ? 'Sắp tới'
+                : (status == 'PASS_DUE' ? 'Quá hạn' : 'Đã hoàn thành'),
             style: TextStyle(
               fontSize: 14,
-              color: viewModel.selectedStatus == status ? Colors.white : Colors.black,
-              fontWeight: viewModel.selectedStatus == status ? FontWeight.bold : FontWeight.normal,
+              color: viewModel.selectedStatus == status
+                  ? Colors.white
+                  : Colors.black,
+              fontWeight: viewModel.selectedStatus == status
+                  ? FontWeight.bold
+                  : FontWeight.normal,
             ),
           ),
         );
@@ -233,25 +297,32 @@ class AssignmentListViewState extends State<AssignmentListView> {
                       ),
                     );
                   },
-                  onEdit: () {
-                    showDialog(
+                  onEdit: () async {
+                    final result = await showDialog(
                       context: context,
                       builder: (context) => CreateAssignmentDialog(
                         classData: widget.classData,
                         assignmentData: assignment,
                       ),
-                    ).then((_) => _refreshData());
+                    );
+                    if (result == true) {
+                      _refreshData(); // Reload data if the result is true
+                    }
                   },
-                  onDelete: () {
-                    showDialog(
+                  onDelete: () async {
+                    final result = await showDialog(
                       context: context,
                       builder: (context) => ConfirmDeleteDialog(
                         onConfirm: () async {
                           await viewModel.deleteAssignment(assignment.id);
-                          // _refreshData();
+                          Navigator.of(context)
+                              .pop(true); // Pass true to indicate success
                         },
                       ),
                     );
+                    if (result == true) {
+                      _refreshData(); // Reload data if the result is true
+                    }
                   },
                 ),
               ],
