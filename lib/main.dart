@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeView(),
           '/class-register': (context) => RegisterClassPage(),
           '/class-list': (context) => ClassListPage(),
-          '/class-attendance': (context) => ClassAttendancePage(),
+          // '/class-attendance': (context) => ClassAttendancePage(),
           '/class-control': (context) => ClassCtrlPage(),
           '/search': (context) => SearchPage(),
           '/notification': (context) => const NotificationView(),
