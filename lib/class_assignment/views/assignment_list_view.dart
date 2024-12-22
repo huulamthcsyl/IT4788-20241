@@ -63,23 +63,30 @@ class AssignmentListViewState extends State<AssignmentListView> {
                 );
               }
             },
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
           ),
-          title: Text(className),
+          title: Text(
+            className,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           bottom: TabBar(
             onTap: (int index) {
               final viewModel = Provider.of<AssignmentListViewModel>(context, listen: false);
               viewModel.onClickTabBar(index, context);
             },
             indicatorColor: Colors.red,
-            labelColor: Colors.black,
-            labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
             tabs: const [
               Tab(text: "Kiểm tra"),
               Tab(text: "Tài liệu"),
               Tab(text: "Khác")
             ],
           ),
+          backgroundColor: Colors.red
         ),
         body: FutureBuilder(
           future: Provider.of<AssignmentListViewModel>(context, listen: false).initialize(),

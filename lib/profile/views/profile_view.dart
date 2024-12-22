@@ -25,8 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Center(
             child: Text(
               (_profileviewmodel.userData.role == "LECTURER"
-                  ? "THÔNG TIN GIẢNG VIÊN"
-                  : "THÔNG TIN SINH VIÊN"),
+                  ? "Thông tin giảng viên"
+                  : "Thông tin sinh viên"),
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

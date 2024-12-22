@@ -22,12 +22,15 @@ class ClassStudentPage extends StatelessWidget {
                     }, icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
-                title: Center(
-                  child: Text(
+                title: const Text(
                     'Danh sách lớp học',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),
                   ),
-                ),
+                centerTitle: true,
               ),
               body: Column(
                 children: [

@@ -22,12 +22,15 @@ class RegisterClassPage extends StatelessWidget {
                     }, icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
-                title: Center(
-                  child: Text(
+                title: const Text(
                     'Đăng ký lớp học',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
-                ),
+                centerTitle: true,
               ),
               body: Column(
                 children: [

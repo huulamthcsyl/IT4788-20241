@@ -59,7 +59,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
                 .saveAttendance();
           },
           child: const Text(
-            'Save',
+            'Lưu',
             style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
         ),
