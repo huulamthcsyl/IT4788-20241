@@ -26,7 +26,6 @@ class ClassCtrlViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   bool get hasMore => _hasMore;
 
-  // Fetch classes from API with pagination
   Future<void> fetchClasses({int page = 0}) async {
     _setLoading(true); // Start loading data
     try {
@@ -51,13 +50,25 @@ class ClassCtrlViewModel extends ChangeNotifier {
       }
     } catch (error) {
       _errorMessage = 'Không thể tải danh sách lớp: $error';
+    } finally {
+      _setLoading(false); // Ensure loading state is stopped after data is loaded
     }
   }
 
   // Set the loading state and notify listeners
   void _setLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
+    // Đảm bảo rằng việc thay đổi trạng thái loading không kéo dài quá lâu
+    if (value) {
+      // Chỉ thay đổi trạng thái khi bắt đầu gọi API
+      _isLoading = true;
+      notifyListeners();
+    } else {
+      // Đảm bảo không để trạng thái loading lâu, cập nhật lại trạng thái ngay sau khi có kết quả
+      Future.delayed(const Duration(milliseconds: 200), () {
+        _isLoading = false;
+        notifyListeners();
+      });
+    }
   }
 
   // Add a new class to the list
@@ -132,34 +143,39 @@ class ClassCtrlViewModel extends ChangeNotifier {
   // Fetch student list for a specific class
   Future<void> getStudentListForClass(String classId) async {
     _setLoading(true); // Start loading
-    List<Student>? studentList = null; // Initialize studentList as null initially
 
     try {
-      // Call the API to get class info including students
+      // Gọi API để lấy thông tin lớp, bao gồm cả danh sách sinh viên
       final response = await _apiService.getClassInfo(classId: classId);
 
       if (response != null) {
-        // Extract student list from the response if available
-        studentList = (response['student_accounts'] as List<dynamic>?)
-            ?.map((studentJson) => Student.fromJson(studentJson))
-            .toList() ?? [];
+        // Lấy danh sách sinh viên từ response (nếu có)
+        List<Student> studentList = (response['student_accounts'] as List<dynamic>? ?? [])
+            .map((studentJson) => Student.fromJson(studentJson))
+            .toList();
 
-        // Find the class index in the list
+        // Tìm vị trí lớp trong danh sách lớp
         final classIndex = _classes.indexWhere((classData) => classData.classId == classId);
 
         if (classIndex != -1) {
-          // Directly update the studentAccounts of the class without using copyWith
+          // Cập nhật danh sách sinh viên của lớp mà không sử dụng copyWith
           _classes[classIndex].studentAccounts = studentList;
+          _errorMessage = null;
+        } else {
+          _errorMessage = 'Lớp không tồn tại.';
         }
-        _errorMessage = null;
       } else {
         _errorMessage = 'Không thể tải danh sách sinh viên.';
       }
     } catch (error) {
+      // Xử lý lỗi nếu có
       _errorMessage = 'Lỗi khi tải danh sách sinh viên: $error';
     } finally {
-      _setLoading(false);
+      _setLoading(false); // Đảm bảo trạng thái loading được dừng lại khi hoàn tất
     }
+
+    // Notify listeners để giao diện cập nhật
+    notifyListeners();
   }
 
   void showDeleteConfirmationDialog(BuildContext context, String classId, ClassCtrlViewModel viewModel) {
@@ -178,21 +194,22 @@ class ClassCtrlViewModel extends ChangeNotifier {
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context); // Đóng hộp thoại
+                Navigator.pop(context); // Đóng hộp thoại trước khi thực hiện hành động xóa
+
                 // Gọi phương thức xóa lớp
                 await viewModel.deleteClass(classId);
 
-                if (viewModel.errorMessage == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Lớp học đã được xóa thành công!')),
-                  );
-                  // Làm mới danh sách lớp
-                  context.read<ClassCtrlViewModel>().fetchClasses();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(viewModel.errorMessage!)),
-                  );
-                }
+                // Thông báo kết quả
+                String message = viewModel.errorMessage == null
+                    ? 'Lớp học đã được xóa thành công!'
+                    : viewModel.errorMessage!;
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message)),
+                );
+
+                // Luôn làm mới danh sách lớp, ngay cả khi xóa không thành công
+                context.read<ClassCtrlViewModel>().fetchClasses();
               },
               child: const Text('Xóa'),
             ),
@@ -201,4 +218,5 @@ class ClassCtrlViewModel extends ChangeNotifier {
       },
     );
   }
+
 }
