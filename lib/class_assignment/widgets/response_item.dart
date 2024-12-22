@@ -8,9 +8,10 @@ class ResponseItem extends StatelessWidget {
   final double? grade;
   final String textResponse;
   final String? fileUrl;
+  final String accountId;
   final BuildContext context;
   final ValueChanged<double?> onGradeChange;
-  final VoidCallback onSubmit;
+  final ValueChanged<String> onSubmit;
 
   const ResponseItem({
     super.key,
@@ -20,6 +21,7 @@ class ResponseItem extends StatelessWidget {
     required this.grade,
     required this.textResponse,
     required this.fileUrl,
+    required this.accountId,
     required this.context,
     required this.onGradeChange,
     required this.onSubmit,
@@ -50,7 +52,7 @@ class ResponseItem extends StatelessWidget {
                 onGradeChange(newGrade);
               },
               onSubmit: () {
-                onSubmit();
+                onSubmit(accountId);
               },
             );
           },

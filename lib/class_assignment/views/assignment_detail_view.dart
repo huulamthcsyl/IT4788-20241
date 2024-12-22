@@ -332,12 +332,13 @@ class AssignmentDetailView extends StatelessWidget {
             grade: response.grade,
             textResponse: response.textResponse,
             fileUrl: response.fileUrl,
+            accountId: response.studentAccount!.accountId,
             context: context,
             onGradeChange: (double? newGrade) {
               viewModel.updateGrade(newGrade);
             },
-            onSubmit: () {
-              viewModel.returnGrade(response);
+            onSubmit: (String studentId) {
+              viewModel.returnGrade(response, studentId);
             },
           ),
       ],

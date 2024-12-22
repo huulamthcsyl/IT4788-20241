@@ -1,17 +1,16 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/class_assignment/models/assignment_data.dart';
 import 'package:it4788_20241/class_assignment/models/submission_data.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
+import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 
 class AssignmentDetailViewModel extends ChangeNotifier {
   final assignmentService = AssignmentService();
+  final notificationService = NotificationServices();
   AssignmentData assignment;
   SubmissionData submission;
   final ClassData classData;
@@ -112,10 +111,12 @@ class AssignmentDetailViewModel extends ChangeNotifier {
     return await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, null, null);
   }
 
-  Future<void> returnGrade(SubmissionData submission) async {
+  Future<void> returnGrade(SubmissionData submission, String accountId) async {
     if (grade == null) {
       throw Exception('Vui lòng nhập điểm hợp lệ');
     }
     await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, grade, submission.id);
+    String message = 'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
+    await notificationService.sendNotification(message, accountId, null, 'ASSIGNMENT_GRADE');
   }
 }
