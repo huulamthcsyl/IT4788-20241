@@ -39,11 +39,11 @@ class ClassStudentPage extends StatelessWidget {
                               viewModel.newClasses.isEmpty)
                               ? Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text(
+                            /*child: Text(
                               'Bạn chưa đăng ký lớp học nào',
                               style: TextStyle(
                                   color: Colors.red, fontSize: 18.0),
-                            ),
+                            ),*/
                           )
                               : Column(
                             children: [
