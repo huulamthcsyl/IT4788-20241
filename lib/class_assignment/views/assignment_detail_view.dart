@@ -41,7 +41,13 @@ class AssignmentDetailView extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(classData.className),
+              title: Text(
+                classData.className,
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              backgroundColor: Colors.red,
+              iconTheme: const IconThemeData(color: Colors.white),
               actions: <Widget>[
                 if (status == 'UPCOMING' &&
                     submission.submissionTime == '' &&
@@ -49,7 +55,7 @@ class AssignmentDetailView extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Provider.of<AssignmentDetailViewModel>(context,
-                          listen: false)
+                              listen: false)
                           .submitAssignment();
                     },
                     child: const Text(
@@ -90,7 +96,8 @@ class AssignmentDetailView extends StatelessWidget {
                           ),
                           _buildSearchBar(viewModel),
                         ],
-                        if (role == 'LECTURER') _buildResponseList(context, viewModel),
+                        if (role == 'LECTURER')
+                          _buildResponseList(context, viewModel),
                       ],
                     ),
                   );
@@ -106,13 +113,13 @@ class AssignmentDetailView extends StatelessWidget {
   Widget _buildSubmissionStatus(AssignmentDetailViewModel viewModel) {
     return viewModel.assignment.isSubmitted
         ? Text(
-      'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
-      style: const TextStyle(color: Colors.red, fontSize: 16.0),
-    )
+            'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
+            style: const TextStyle(color: Colors.red, fontSize: 16.0),
+          )
         : const Text(
-      'Chưa nộp bài',
-      style: TextStyle(color: Colors.red, fontSize: 16.0),
-    );
+            'Chưa nộp bài',
+            style: TextStyle(color: Colors.red, fontSize: 16.0),
+          );
   }
 
   Widget _buildAssignmentTitle(AssignmentDetailViewModel viewModel) {
@@ -157,21 +164,21 @@ class AssignmentDetailView extends StatelessWidget {
         ),
         viewModel.assignment.fileUrl.isNotEmpty
             ? InkWell(
-          onTap: () async {
-            await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
-          },
-          child: Text(
-            viewModel.assignment.fileUrl,
-            style: const TextStyle(
-                fontSize: 16.0,
-                color: Colors.blue,
-                decoration: TextDecoration.underline),
-          ),
-        )
+                onTap: () async {
+                  await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
+                },
+                child: Text(
+                  viewModel.assignment.fileUrl,
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline),
+                ),
+              )
             : const Text(
-          'Không có',
-          style: TextStyle(fontSize: 16.0),
-        ),
+                'Không có',
+                style: TextStyle(fontSize: 16.0),
+              ),
       ],
     );
   }
@@ -185,10 +192,11 @@ class AssignmentDetailView extends StatelessWidget {
           style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
         ),
         if (assignment.isSubmitted) ...[
-          Text(
-            viewModel.submission.textResponse,
-            style: const TextStyle(fontSize: 16.0),
-          ),
+          if (viewModel.submission.textResponse != '')
+            Text(
+              viewModel.submission.textResponse,
+              style: const TextStyle(fontSize: 16.0),
+            ),
           InkWell(
             onTap: () async {
               await launchUrl(Uri.parse(viewModel.submission.fileUrl ?? ''));
@@ -255,7 +263,7 @@ class AssignmentDetailView extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () async {
                   FilePickerResult? result =
-                  await FilePicker.platform.pickFiles(
+                      await FilePicker.platform.pickFiles(
                     allowMultiple: true,
                     type: FileType.custom,
                     allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -318,7 +326,8 @@ class AssignmentDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildResponseList(BuildContext context, AssignmentDetailViewModel viewModel) {
+  Widget _buildResponseList(
+      BuildContext context, AssignmentDetailViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -326,7 +335,7 @@ class AssignmentDetailView extends StatelessWidget {
         for (var response in viewModel.filteredResponseList)
           ResponseItem(
             name:
-            '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
+                '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
             email: '${response.studentAccount?.email}',
             submissionTime: response.submissionTime,
             grade: response.grade,

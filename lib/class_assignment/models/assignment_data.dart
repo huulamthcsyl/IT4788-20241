@@ -10,7 +10,7 @@ class AssignmentData {
   int id;
   String title;
   String description;
-  int lecturerId;
+  String lecturerId;
   String deadline;
   String fileUrl;
   bool isSubmitted;

@@ -109,7 +109,7 @@ class AssignmentListViewState extends State<AssignmentListView> {
                         ),
                       // Extracted search field
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: TextField(
                           onChanged: (value) {
                             context.read<AssignmentListViewModel>().updateSearchQuery(value);
