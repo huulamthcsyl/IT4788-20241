@@ -6,12 +6,22 @@ import 'package:it4788_20241/chat/views/conversation_view.dart';
 import 'package:it4788_20241/chat/widgets/conversation_tile.dart';
 import 'package:provider/provider.dart';
 
-class ChatOverviewPage extends StatelessWidget {
+class ChatOverviewPage extends StatefulWidget {
   const ChatOverviewPage({super.key});
 
   @override
+  State<ChatOverviewPage> createState() => _ChatOverviewPageState();
+}
+
+class _ChatOverviewPageState extends State<ChatOverviewPage> {
+  @override
   Widget build(BuildContext context) {
     final ChatOverviewViewModel viewModel = context.watch<ChatOverviewViewModel>();
+
+    setState(() {
+      viewModel.refresh();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:it4788_20241/const/api.dart';
 import 'package:it4788_20241/exceptions/GlobalException.dart';
@@ -58,5 +59,26 @@ class NotificationRepository {
     } else {
       throw GlobalException('Không thể đánh dấu thông báo đã đọc');
     }
+  }
+
+  Future<void> sendNotification(String token, String message, String toUser, File? image, String type) async {
+    final httpUrl = Uri.http(BASE_API_URL, '/it5023e/send_notification');
+    final request = http.MultipartRequest('POST', httpUrl)
+      ..fields['token'] = token
+      ..fields['message'] = message
+      ..fields['toUser'] = toUser
+      ..fields['type'] = type;
+    if (image != null) {
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+    }
+    final response = await request.send();
+    if (response.statusCode == 200) {
+      final body = jsonDecode(utf8.decode(await response.stream.first));
+      if(body["meta"]["code"] != "1000") {
+        throw GlobalException(body["meta"]["message"]);
+      }
+    } else {
+      throw GlobalException('Không thể gửi thông báo');
+    } 
   }
 }

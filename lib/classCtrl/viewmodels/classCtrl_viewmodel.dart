@@ -18,21 +18,13 @@ class ClassCtrlViewModel extends ChangeNotifier {
   List<ClassData> _classes = [];
   bool _isLoading = false;
   String? _errorMessage;
-  int _currentPage = 0;
-  final int _pageSize = 6;
+  final int _pageSize = 25;
   bool _hasMore = true;
 
   List<ClassData> get classes => _classes;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get hasMore => _hasMore;
-
-
-  // Load more classes when user scrolls to bottom
-  Future<void> loadMoreClasses() async {
-    if (_isLoading || !_hasMore) return;
-    await fetchClasses(page: _currentPage + 1); // Load next page
-  }
 
   // Fetch classes from API with pagination
   Future<void> fetchClasses({int page = 0}) async {
@@ -53,15 +45,12 @@ class ClassCtrlViewModel extends ChangeNotifier {
         }
 
         _hasMore = response.length == _pageSize;
-        _currentPage = page;
         _errorMessage = null;
       } else {
         _hasMore = false;
       }
     } catch (error) {
       _errorMessage = 'Không thể tải danh sách lớp: $error';
-    } finally {
-      _setLoading(false);
     }
   }
 

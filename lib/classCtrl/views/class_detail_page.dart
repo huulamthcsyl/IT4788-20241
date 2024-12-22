@@ -4,6 +4,9 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
 import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
 import 'package:provider/provider.dart';
+import '../../class_material/views/class_material_view.dart';
+
+import 'classCtrl_view.dart';
 
 import '../../chat/views/conversation_view.dart';
 import '../../class_material/views/class_material_view.dart';
@@ -71,14 +74,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                       const SizedBox(height: 8),
                       _buildInfoRow('Loại lớp:', widget.classData.classType),
                       const SizedBox(height: 8),
-                      _buildInfoRow(
-                          'Số lượng tối đa:', widget.classData.maxStudents.toString()),
+                      _buildInfoRow('Số lượng tối đa:', widget.classData.maxStudents.toString()),
                       const SizedBox(height: 8),
-                      _buildInfoRow('Thời gian bắt đầu:',
-                          widget.classData.startDate ?? "N/A"),
+                      _buildInfoRow('Thời gian bắt đầu:', widget.classData.startDate ?? "N/A"),
                       const SizedBox(height: 8),
-                      _buildInfoRow('Thời gian kết thúc:',
-                          widget.classData.endDate ?? "N/A"),
+                      _buildInfoRow('Thời gian kết thúc:', widget.classData.endDate ?? "N/A"),
                     ],
                   ),
                 ),
@@ -193,16 +193,6 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                                 style: const TextStyle(fontSize: 14),
                               ),
                             ],
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(Icons.chat),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => ConversationPage(partnerId: int.parse(student.accountId))
-                                  )
-                              );
-                            },
                           ),
                         ),
                       );

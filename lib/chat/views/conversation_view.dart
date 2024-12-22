@@ -40,18 +40,12 @@ class ConversationPage extends StatelessWidget {
                   if (item.sender.id == partnerId) {
                     return ListTile(
                       title: Text(item.message ?? ""),
-                      leading: CircleAvatar(
-                        backgroundImage: viewModel.partnerData.avatar != null ? NetworkImage(viewModel.partnerData.avatar ?? "") : null,
-                      ),
                     );
                   } else {
                     return ListTile(
                       title: Text(
                         item.message ?? "",
                         textAlign: TextAlign.right,
-                      ),
-                      trailing: CircleAvatar(
-                        backgroundImage: viewModel.partnerData.avatar != null ? NetworkImage(viewModel.partnerData.avatar ?? "") : null,
                       ),
                     );
                   }

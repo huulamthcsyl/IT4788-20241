@@ -1,8 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:it4788_20241/classCtrl/models/class_data.dart';
-import 'package:it4788_20241/class_assignment/viewmodels/assignment_detail_viewmodel.dart';
 import 'package:it4788_20241/class_assignment/viewmodels/assignment_list_viewmodel.dart';
-import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:it4788_20241/auth/viewmodels/login_viewmodel.dart';
 import 'package:it4788_20241/auth/viewmodels/sign_up_viewmodel.dart';
@@ -35,14 +33,18 @@ import 'package:it4788_20241/class/views/class_register_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_register_viewmodel.dart';
 import 'package:it4788_20241/class/views/class_list_view.dart';
 import 'package:it4788_20241/class/viewmodels/class_list_viewmodel.dart';
-import 'class_attendance/views/class_attendance_view.dart';
 import 'home/views/home_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -95,6 +97,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-
-  const MyApp({super.key});
 }
