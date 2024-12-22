@@ -12,12 +12,10 @@ class ClassCtrlPage extends StatefulWidget {
 }
 
 class _ClassCtrlPageState extends State<ClassCtrlPage> {
-  late TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
     _fetchData(); // Gọi hàm để làm mới dữ liệu khi trang khởi tạo.
   }
 
@@ -64,10 +62,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                     },
                   ),
                 ),
-              ).then((_) {
-                // Làm mới dữ liệu khi quay lại từ trang thêm lớp
-                _fetchData();
-              });
+              );
             },
           ),
         ],
@@ -147,10 +142,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                 MaterialPageRoute(
                   builder: (context) => ClassDetailPage(classData: classData),
                 ),
-              ).then((_) {
-                // Làm mới dữ liệu khi quay lại từ trang chi tiết lớp
-                _fetchData();
-              });
+              );
             },
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -171,10 +163,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                           },
                         ),
                       ),
-                    ).then((_) {
-                      // Làm mới dữ liệu khi quay lại từ trang chỉnh sửa
-                      _fetchData();
-                    });
+                    );
                   },
                 ),
                 IconButton(
