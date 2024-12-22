@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrl_view.dart';
+import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
 import 'package:provider/provider.dart';
 import '../../class_material/views/class_material_view.dart';
 
@@ -94,7 +95,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ClassMaterialPage(classData: widget.classData),
+                            builder: (context) => AssignmentListView(classData: widget.classData),
                           ),
                         );
                       },

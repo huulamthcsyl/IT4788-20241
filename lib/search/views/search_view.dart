@@ -24,7 +24,7 @@ class _SearchViewState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<SearchViewModel>(context);
 return Scaffold(
-appBar: AppBar(backgroundColor: Colors.red, automaticallyImplyLeading: false, title: Center(child: Text("TÌM KIẾM", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))),
+appBar: AppBar(backgroundColor: Colors.red, automaticallyImplyLeading: false, title: Center(child: Text("Tìm kiếm", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)))),
 body: Column(
   children: [
   Padding(
