@@ -18,6 +18,11 @@ class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     final NotificationViewModel viewModel = context.watch<NotificationViewModel>();
+
+    setState(() {
+      viewModel.refresh();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -39,7 +44,8 @@ class _NotificationViewState extends State<NotificationView> {
           pagingController: viewModel.pagingController,
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => NotificationTile(
-              notificationData: item, 
+              notificationData: item,
+              // refresh: viewModel.refresh(),
             )
           ),
         ),

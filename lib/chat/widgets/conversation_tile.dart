@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/chat/models/conversation_data.dart';
+import 'package:it4788_20241/chat/viewmodels/chat_overview_viewmodel.dart';
 import 'package:it4788_20241/layout/viewmodels/layout_viewmodel.dart';
 import 'package:it4788_20241/utils/time_from_now.dart';
 import 'package:it4788_20241/chat/views/conversation_view.dart';
@@ -13,6 +14,7 @@ class ConversationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layoutViewModel = context.read<LayoutViewModel>();
+    final chatViewModel = context.read<ChatOverviewViewModel>();
     return GestureDetector(
       onTap: () {
         if(conversationData.lastMessage.unread == 1){
@@ -40,7 +42,7 @@ class ConversationTile extends StatelessWidget {
               fromNow(conversationData.lastMessage.createdAt),
               style: TextStyle(
                 fontSize: 12,
-                color: conversationData.lastMessage.sender.id == conversationData.partner.id
+                color: conversationData.lastMessage.sender.id == conversationData.partner.id && conversationData.lastMessage.unread == 1
                     ? Colors.red
                     : Colors.grey,
               ),
@@ -48,7 +50,7 @@ class ConversationTile extends StatelessWidget {
           ],
         ),
         leading: CircleAvatar(
-          backgroundImage: conversationData.partner.avatar != null ? NetworkImage(conversationData.partner.avatar ?? "") : null,
+          backgroundImage: conversationData.partner.avatar != null ? NetworkImage(chatViewModel.convertGoogleDriveLink(conversationData.partner.avatar ?? "")) : null,
         ),
       ),
     );

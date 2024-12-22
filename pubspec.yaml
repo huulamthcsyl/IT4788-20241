@@ -49,10 +49,15 @@ dependencies:
   infinite_scroll_pagination: ^4.1.0
   skeletonizer: ^1.4.2
   stomp_dart_client: ^2.1.0
+  url_launcher: ^6.0.20
+
+  firebase_messaging: ^15.1.6
+  firebase_core: ^3.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

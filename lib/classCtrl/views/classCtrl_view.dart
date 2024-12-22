@@ -4,7 +4,6 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrlForm_view.dart';
 import 'package:it4788_20241/classCtrl/widget/editClass.dart'; // Import trang sửa lớp
 import 'package:it4788_20241/classCtrl/views/class_detail_page.dart'; // Import trang chi tiết lớp
-import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class ClassCtrlPage extends StatefulWidget {
@@ -19,15 +18,14 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ClassCtrlViewModel>().fetchClasses(); // Lấy danh sách lớp khi trang được hiển thị
-    });
+    _fetchData(); // Gọi hàm để làm mới dữ liệu khi trang khởi tạo.
   }
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  // Hàm để khởi động lại dữ liệu
+  void _fetchData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ClassCtrlViewModel>().fetchClasses(); // Làm mới danh sách lớp
+    });
   }
 
   @override
@@ -66,7 +64,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                     },
                   ),
                 ),
-              );
+              ).then((_) {
+                // Làm mới dữ liệu khi quay lại từ trang thêm lớp
+                _fetchData();
+              });
             },
           ),
         ],
@@ -78,7 +79,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
           ),
           const SizedBox(height: 10.0),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/class-list'),
+            onTap: () => Navigator.pushNamed(context, '/class-list').then((_) {
+              // Làm mới dữ liệu khi quay lại từ danh sách chi tiết lớp
+              _fetchData();
+            }),
             child: const Text(
               'Thông tin danh sách các lớp',
               style: TextStyle(
@@ -116,12 +120,8 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
 
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      itemCount: viewModel.classes.length + 1,
+      itemCount: viewModel.classes.length,
       itemBuilder: (context, index) {
-        if (index == viewModel.classes.length) {
-          return _buildLoadMoreButton(viewModel);
-        }
-
         final classData = viewModel.classes[index];
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -147,7 +147,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                 MaterialPageRoute(
                   builder: (context) => ClassDetailPage(classData: classData),
                 ),
-              );
+              ).then((_) {
+                // Làm mới dữ liệu khi quay lại từ trang chi tiết lớp
+                _fetchData();
+              });
             },
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -168,7 +171,10 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                           },
                         ),
                       ),
-                    );
+                    ).then((_) {
+                      // Làm mới dữ liệu khi quay lại từ trang chỉnh sửa
+                      _fetchData();
+                    });
                   },
                 ),
                 IconButton(
@@ -184,29 +190,4 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
       },
     );
   }
-
-  Widget _buildLoadMoreButton(ClassCtrlViewModel viewModel) {
-    if (!viewModel.hasMore) {
-      return const SizedBox.shrink(); // Không còn lớp để tải
-    }
-
-    if (viewModel.isLoading) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        child: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () async {
-          await viewModel.loadMoreClasses(); // Tải thêm lớp
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-        child: const Text('Tải thêm'),
-      ),
-    );
-  }
-
 }
