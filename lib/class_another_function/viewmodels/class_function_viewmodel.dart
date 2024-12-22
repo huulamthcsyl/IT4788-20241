@@ -1,6 +1,7 @@
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:flutter/material.dart';
-import 'package:it4788_20241/class_survey/views/class_survey_view.dart';
+import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
+import 'package:it4788_20241/class_attendance/views/class_attendance_view.dart';
 import 'package:it4788_20241/leave/views/leave_request_list_view.dart';
 import 'package:it4788_20241/leave/views/leave_request_view.dart';
 import '../../auth/models/user_data.dart';
@@ -34,7 +35,7 @@ class ClassFunctionViewModel extends ChangeNotifier
       case 0:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ClassSurveyPage()),
+          MaterialPageRoute(builder: (context) => AssignmentListView(classData: classData)),
         );
         break;
       case 1:
@@ -58,7 +59,7 @@ class ClassFunctionViewModel extends ChangeNotifier
         switch (selectedIndex)
         {
           case 0:
-            // Chuyển tới page xem danh sách điểm danh
+            Navigator.push((context), MaterialPageRoute(builder: (context) => ClassAttendanceView(classData: classData)));
             break;
           case 1:
             Navigator.push((context), MaterialPageRoute(builder: (context) => LeaveRequestListPage(classId: classData.classId,)));
