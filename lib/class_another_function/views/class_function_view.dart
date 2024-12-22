@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
@@ -77,6 +79,9 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
   List<String> lecturerFunctions = ['Xem danh sách điểm danh', 'Xem danh sách đơn xin nghỉ'];
   List<String> studentFunctions = ['Gửi đơn xin vắng mặt'];
   Widget buildListViewbyRole(UserData userData, BuildContext context, ClassFunctionViewModel viewModel) {
+    setState(() {
+      viewModel.initUserData();
+    });
     List<String> listTitle = userData.role == "LECTURER" ? lecturerFunctions : studentFunctions;
     return ListView.builder(
       itemCount: listTitle.length,
