@@ -19,10 +19,10 @@ class SubmissionDetailPopup extends StatefulWidget {
   });
 
   @override
-  _SubmissionDetailPopupState createState() => _SubmissionDetailPopupState();
+  SubmissionDetailPopupState createState() => SubmissionDetailPopupState();
 }
 
-class _SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
+class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
   final TextEditingController gradeController = TextEditingController();
   String? errorMessage;
 
