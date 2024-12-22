@@ -37,7 +37,7 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
         appBar: AppBar(
           leading: BackButton(color: Colors.white),
           title: Text("Danh sách đơn xin nghỉ", style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.red,
           elevation: 4,
         ),
         body: Column(
