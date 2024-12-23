@@ -92,25 +92,6 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              TextField(
-                controller: viewModel.materialTypeController,
-                decoration: InputDecoration(
-                  labelText: 'Type [${classMaterial.material_type}]',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                ),
-              ),
               SizedBox(height: 20),
               ElevatedButton.icon(
                 icon: Icon(Icons.attach_file, color: Colors.black),

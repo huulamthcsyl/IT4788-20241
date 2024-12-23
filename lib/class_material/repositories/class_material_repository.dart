@@ -54,6 +54,7 @@ class MaterialRepository {
       print('Failed to delete material: $e');
     }
   }
+
   Future<void> uploadFile({
     required String? token,
     required String classId,
@@ -68,19 +69,18 @@ class MaterialRepository {
       throw Exception("Không xác định được MIME type của file");
     }
     var request = http.MultipartRequest('POST', httpUrl);
-    request.files.add(
-        http.MultipartFile(
-            'file',
-            File(file.path).readAsBytes().asStream(),
-            File(file.path).lengthSync(),
-            filename: file.path.split("/").last
-        )
-    );
+    request.files.add(http.MultipartFile(
+        'file',
+        File(file.path).readAsBytes().asStream(),
+        File(file.path).lengthSync(),
+        filename: file.path.split("/").last));
+
+    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
-    request.fields['classId'] = classId;
-    request.fields['title'] = title;
-    request.fields['description'] = description;
-    request.fields['materialType'] = materialType;
+    request.fields['classId'] = utf8.encode(classId).toString();
+    request.fields['title'] = utf8.encode(title).toString();
+    request.fields['description'] = utf8.encode(description).toString();
+    request.fields['materialType'] = utf8.encode(materialType).toString();
 
     try {
       var response = await request.send();
@@ -94,6 +94,7 @@ class MaterialRepository {
       print("Lỗi khi upload file: $e");
     }
   }
+
   Future<void> editFile({
     required String? token,
     required String materialId,
@@ -108,19 +109,20 @@ class MaterialRepository {
       throw Exception("Không xác định được MIME type của file");
     }
     var request = http.MultipartRequest('POST', httpUrl);
-    request.files.add(
-        http.MultipartFile(
-            'file',
-            File(file.path).readAsBytes().asStream(),
-            File(file.path).lengthSync(),
-            filename: file.path.split("/").last
-        )
-    );
+    request.files.add(http.MultipartFile(
+        'file',
+        File(file.path).readAsBytes().asStream(),
+        File(file.path).lengthSync(),
+        filename: file.path
+            .split("/")
+            .last));
+
+    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
-    request.fields['materialId'] = materialId;
-    request.fields['title'] = title;
-    request.fields['description'] = description;
-    request.fields['materialType'] = materialType;
+    request.fields['materialId'] = utf8.encode(materialId).toString();
+    request.fields['title'] = utf8.encode(title).toString();
+    request.fields['description'] = utf8.encode(description).toString();
+    request.fields['materialType'] = utf8.encode(materialType).toString();
 
     try {
       var response = await request.send();
@@ -128,7 +130,8 @@ class MaterialRepository {
         var responseBody = await response.stream.bytesToString();
         print("Lưu thành công: $responseBody");
       } else {
-        print("Lưu thất bại: ${await response.stream.bytesToString()} ${materialId} ${title} ${description} ${materialType}");
+        print("Lưu thất bại: ${await response.stream
+            .bytesToString()} ${materialId} ${title} ${description} ${materialType}");
       }
     } catch (e) {
       print("Lỗi khi Lưu file: $e");

@@ -62,7 +62,6 @@ class ClassMaterialViewModel extends ChangeNotifier {
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController materialTypeController = TextEditingController();
 
   void resetUploadFields() {
     filePath = "";
@@ -73,7 +72,6 @@ class ClassMaterialViewModel extends ChangeNotifier {
     progress = 0.0;
     titleController.clear();
     descriptionController.clear();
-    materialTypeController.clear();
     notifyListeners();
   }
 
@@ -90,12 +88,11 @@ class ClassMaterialViewModel extends ChangeNotifier {
   }
 
   Future<void> uploadFile() async {
-    if (filePath.isEmpty || titleController.text.isEmpty || descriptionController.text.isEmpty || materialTypeController.text.isEmpty) {
+    if (filePath.isEmpty || titleController.text.isEmpty || descriptionController.text.isEmpty) {
       return;
     }
     title = titleController.text;
     description = descriptionController.text;
-    materialType = materialTypeController.text;
     isUploading = true;
     notifyListeners();
     try {
@@ -121,23 +118,19 @@ class ClassMaterialViewModel extends ChangeNotifier {
     old_material_id = material.ID.toString();
     title = material.material_name;
     description = material.description;
-    materialType = material.material_type;
     filePath = "";
     titleController.text = material.material_name;
     descriptionController.text = material.description;
-    materialTypeController.text = material.material_type;
-
     notifyListeners();
   }
 
   void clearControllers() {
     titleController.clear();
     descriptionController.clear();
-    materialTypeController.clear();
   }
 
   Future<void> editFile() async {
-    if (titleController.text.isEmpty || descriptionController.text.isEmpty || materialTypeController.text.isEmpty) {
+    if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
       return;
     }
     if (filePath.isEmpty) {
@@ -147,7 +140,6 @@ class ClassMaterialViewModel extends ChangeNotifier {
 
     title = titleController.text;
     description = descriptionController.text;
-    materialType = materialTypeController.text;
     isUploading = true;
     notifyListeners();
 
