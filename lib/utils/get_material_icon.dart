@@ -1,15 +1,27 @@
-String getMaterialIcon(String material_type){
-  switch (material_type){
-    case "PDF":
+String getMaterialIcon(String materialType) {
+  switch (materialType.toLowerCase()) {
+    case "pdf":
       return "assets/img/pdf_icon.png";
-    case "XLSX":
+    case "xlsx":
       return "assets/img/xlsx_icon.png";
-    case "PPT":
+    case "xls":
+      return "assets/img/xlsx_icon.png";
+    case "pptx":
       return "assets/img/ppt_icon.png";
-    case "DOC":
+    case "ppt":
+      return "assets/img/ppt_icon.png";
+    case "docx":
       return "assets/img/doc_icon.png";
-    case "TXT":
+    case "doc":
+      return "assets/img/doc_icon.png";
+    case "txt":
       return "assets/img/txt_icon.png";
+    case "png":
+      return "assets/img/image_icon.png";
+    case "jpg":
+      return "assets/img/image_icon.png";
+    case "jpeg":
+      return "assets/img/image_icon.png";
     default:
       return "assets/img/unknown_icon.png";
   }

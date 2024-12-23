@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:path/path.dart' as path;
 import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_assignment/views/assignment_list_view.dart';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
@@ -104,7 +104,7 @@ class ClassMaterialViewModel extends ChangeNotifier {
           classId: classData.classId,
           title: title,
           description: description,
-          materialType: materialType,
+          materialType: path.extension(filePath).toUpperCase(),
           file: File(filePath));
       await getClassMaterials(classData.classId);
     } catch (e) {
@@ -157,7 +157,7 @@ class ClassMaterialViewModel extends ChangeNotifier {
         materialId: old_material_id,
         title: title,
         description: description,
-        materialType: materialType,
+        materialType: path.extension(filePath).toUpperCase(),
         file: File(filePath),
       );
       await getClassMaterials(classData.classId);
