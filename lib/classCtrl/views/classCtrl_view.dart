@@ -4,6 +4,7 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrlForm_view.dart';
 import 'package:it4788_20241/classCtrl/widget/editClass.dart'; // Import trang sửa lớp
 import 'package:it4788_20241/classCtrl/views/class_detail_page.dart'; // Import trang chi tiết lớp
+import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class ClassCtrlPage extends StatefulWidget {

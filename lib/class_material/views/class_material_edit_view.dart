@@ -73,7 +73,6 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                 controller: viewModel.titleController,
                 decoration: InputDecoration(
                   labelText: 'Tiêu đề [${classMaterial.material_name}]',
-<<<<<<< Updated upstream
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -93,31 +92,6 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                 controller: viewModel.descriptionController,
                 decoration: InputDecoration(
                   labelText: 'Ghi chú [${classMaterial.description}]',
-=======
->>>>>>> Stashed changes
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32),
-              TextField(
-                controller: viewModel.materialTypeController,
-                decoration: InputDecoration(
-<<<<<<< Updated upstream
-                  labelText: 'Type [${classMaterial.material_type}]',
-=======
-                  labelText: 'Ghi chú [${classMaterial.description}]',
->>>>>>> Stashed changes
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),

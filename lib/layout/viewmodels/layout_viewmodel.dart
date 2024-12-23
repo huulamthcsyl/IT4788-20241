@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:it4788_20241/chat/services/chat_service.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
@@ -10,6 +11,9 @@ class LayoutViewModel extends ChangeNotifier {
   final _chatServices = ChatService();
 
   LayoutViewModel() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      getUnreadNotificationCount();
+    });
     getUnreadNotificationCount();
     getUnreadMessageCount();
   }

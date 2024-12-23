@@ -70,28 +70,19 @@ class MaterialRepository {
       throw Exception("Không xác định được MIME type của file");
     }
     var request = http.MultipartRequest('POST', httpUrl);
-    request.files.add(
-        http.MultipartFile(
-            'file',
-            File(file.path).readAsBytes().asStream(),
-            File(file.path).lengthSync(),
-            filename: file.path.split("/").last
-        )
-    );
+    request.files.add(http.MultipartFile(
+        'file',
+        File(file.path).readAsBytes().asStream(),
+        File(file.path).lengthSync(),
+        filename: file.path.split("/").last));
+
+    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
+
     request.fields['classId'] = classId;
     request.fields['title'] = title;
     request.fields['description'] = description;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    request.fields['materialType'] = materialType;
-=======
     request.fields['materialType'] = materialType.split('.')[1];
->>>>>>> Stashed changes
-=======
-    request.fields['materialType'] = materialType.split('.')[1];
->>>>>>> Stashed changes
-
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
@@ -104,6 +95,7 @@ class MaterialRepository {
       print("Lỗi khi upload file: $e");
     }
   }
+
   Future<void> editFile({
     required String? token,
     required String materialId,
@@ -118,43 +110,28 @@ class MaterialRepository {
       throw Exception("Không xác định được MIME type của file");
     }
     var request = http.MultipartRequest('POST', httpUrl);
-    request.files.add(
-        http.MultipartFile(
-            'file',
-            File(file.path).readAsBytes().asStream(),
-            File(file.path).lengthSync(),
-            filename: file.path.split("/").last
-        )
-    );
+    request.files.add(http.MultipartFile(
+        'file',
+        File(file.path).readAsBytes().asStream(),
+        File(file.path).lengthSync(),
+        filename: file.path
+            .split("/")
+            .last));
+
+    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
     request.fields['materialId'] = materialId;
     request.fields['title'] = title;
     request.fields['description'] = description;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    request.fields['materialType'] = materialType;
-=======
     request.fields['materialType'] = materialType.split('.')[1];
->>>>>>> Stashed changes
-=======
-    request.fields['materialType'] = materialType.split('.')[1];
->>>>>>> Stashed changes
-
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
         var responseBody = await response.stream.bytesToString();
         print("Lưu thành công: $responseBody");
       } else {
-<<<<<<< Updated upstream
-        print("Lưu thất bại: ${await response.stream.bytesToString()} ${materialId} ${title} ${description} ${materialType}");
-=======
         print("Lưu thất bại: ${await response.stream
             .bytesToString()} ${materialId} ${title} ${description} ${materialType.split('.')[1]}");
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
       }
     } catch (e) {
       print("Lỗi khi Lưu file: $e");

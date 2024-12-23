@@ -24,7 +24,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'UPLOAD TÀI LIỆU',
+          'ĐĂNG TẢI TÀI LIỆU',
           style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -53,7 +53,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
               TextField(
                 controller: viewModel.titleController,
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Tiêu đề',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -72,7 +72,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
               TextField(
                   controller: viewModel.descriptionController,
                   decoration: InputDecoration(
-                    labelText: 'Description',
+                    labelText: 'Ghi chú',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -86,25 +86,6 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                       borderSide: BorderSide(color: Colors.red, width: 2.0),
                     ),
                   )),
-              SizedBox(height: 10),
-              TextField(
-                controller: viewModel.materialTypeController,
-                decoration: InputDecoration(
-                  labelText: 'Type',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: Colors.red, width: 2.0),
-                  ),
-                ),
-              ),
               SizedBox(height: 20),
               ElevatedButton.icon(
                 icon: Icon(Icons.attach_file, color: Colors.black,),
@@ -152,7 +133,7 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                   ),
                   child: viewModel.isUploading
                       ? CircularProgressIndicator(color: Colors.white)
-                      : Text('Upload'),
+                      : Text('Đăng tải tài liệu'),
                 ),
               ),
               if (viewModel.isUploading)
