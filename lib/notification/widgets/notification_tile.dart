@@ -9,12 +9,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class NotificationTile extends StatelessWidget {
   final NotificationData notificationData;
-  final Future<void>? refresh;
 
   const NotificationTile({
     super.key,
     required this.notificationData,
-    this.refresh
   });
 
   @override
@@ -31,7 +29,7 @@ class NotificationTile extends StatelessWidget {
                 notificationData: notificationData, 
                 senderInfo: snapshot.data,
               ))
-            ).then((value) => refresh),
+            ),
             child: ListTile(
               title: RichText(
                 text: TextSpan(
