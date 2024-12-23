@@ -72,11 +72,7 @@ class _ChatOverviewPageState extends State<ChatOverviewPage> {
             padding: const EdgeInsets.only(top: 64.0),
             child: RefreshIndicator(
               onRefresh: viewModel.refresh,
-              child: viewModel.pagingController.itemList == null ?
-              const Center(
-                child: Text("Không có tin nhắn nào"),
-              ) :
-              PagedListView<int, ConversationData>(
+              child: PagedListView<int, ConversationData>(
                 pagingController: viewModel.pagingController,
                 builderDelegate: PagedChildBuilderDelegate<ConversationData>(
                   itemBuilder: (context, item, index) => ConversationTile(
