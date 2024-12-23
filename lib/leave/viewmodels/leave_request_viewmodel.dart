@@ -111,7 +111,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
         print("Yêu cầu nghỉ phép thành công");
         print("Absence Request ID: ${response['data']['absence_request_id']}");
         // Gọi hàm gửi thông báo sau khi gửi yêu cầu thành công
-        await notifyLecturer(classId, title, File(proofImage!.path));
+        await notifyLecturer(classId, title);
       } else {
         print("Lỗi từ server: ${response['meta']['message']}");
       }
@@ -121,7 +121,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
   }
 
   // Hàm xử lý gửi thông báo
-  Future<void> notifyLecturer(String classId, String title, File? proofImage) async {
+  Future<void> notifyLecturer(String classId, String title) async {
     try {
       final classInfo = await _classRepository.getBasicClassInfo(userData.token, classId, userData.id);
       if (classInfo != null) {
@@ -129,7 +129,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
         await _notificationServices.sendNotification(
           title, // Tiêu đề là nội dung thông báo
           lecturerId,
-          proofImage,
+          null,
           "ABSENCE", // Loại thông báo
         );
         print("Gửi thông báo thành công đến giảng viên $lecturerId");
