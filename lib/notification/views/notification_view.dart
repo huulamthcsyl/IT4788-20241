@@ -39,11 +39,7 @@ class _NotificationViewState extends State<NotificationView> {
       ),
       body: RefreshIndicator(
         onRefresh: viewModel.refresh,
-        child: viewModel.pagingController.itemList == null ?
-          const Center(
-            child: Text('Không có thông báo nào'),
-          ) :
-          PagedListView<int, NotificationData>(
+        child: PagedListView<int, NotificationData>(
           pagingController: viewModel.pagingController,
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => NotificationTile(

@@ -33,9 +33,7 @@ class ConversationPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: viewModel.pagingController.itemList == null
-            ? Container() :
-            PagedListView<int, MessageData>(
+            child: PagedListView<int, MessageData>(
               reverse: true,
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<MessageData>(
