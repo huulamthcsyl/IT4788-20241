@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:it4788_20241/chat/models/conversation_data.dart';
 import 'package:it4788_20241/chat/viewmodels/chat_overview_viewmodel.dart';
 import 'package:it4788_20241/chat/views/conversation_view.dart';
@@ -14,13 +13,18 @@ class ChatOverviewPage extends StatefulWidget {
 }
 
 class _ChatOverviewPageState extends State<ChatOverviewPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final ChatOverviewViewModel viewModel = context.read<ChatOverviewViewModel>();
+    viewModel.initPagingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ChatOverviewViewModel viewModel = context.watch<ChatOverviewViewModel>();
-
-    setState(() {
-      viewModel.refresh();
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -72,14 +76,14 @@ class _ChatOverviewPageState extends State<ChatOverviewPage> {
             padding: const EdgeInsets.only(top: 64.0),
             child: RefreshIndicator(
               onRefresh: viewModel.refresh,
-              child: PagedListView<int, ConversationData>(
-                pagingController: viewModel.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<ConversationData>(
-                  itemBuilder: (context, item, index) => ConversationTile(
-                    conversationData: item,
-                  )
-                ),
-              ),
+              child: ListView.builder(
+                itemCount: viewModel.listConversation.length,
+                itemBuilder: (context, index) {
+                  return ConversationTile(
+                    conversationData: viewModel.listConversation[index],
+                  );
+                }
+              )
             ),
           ),
         ],
