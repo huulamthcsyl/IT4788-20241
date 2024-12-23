@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import '../../auth/models/user_data.dart';
 import '../../classCtrl/models/class_data.dart';
+import 'package:it4788_20241/notification/services/notification_services.dart';
+import 'package:it4788_20241/class/repositories/class_repository.dart';
 
 class LeaveRequestViewModel extends ChangeNotifier {
   final titleController = TextEditingController();
@@ -14,6 +16,8 @@ class LeaveRequestViewModel extends ChangeNotifier {
   XFile? proofImage;
 
   final LeaveRequestRepository _repository = LeaveRequestRepository();
+  final _notificationServices = NotificationServices();
+  final ClassRepository _classRepository = ClassRepository();
 
   LeaveRequestViewModel() {
     initUserData();
@@ -106,11 +110,34 @@ class LeaveRequestViewModel extends ChangeNotifier {
       if (response['meta']['code'] == "1000") {
         print("Yêu cầu nghỉ phép thành công");
         print("Absence Request ID: ${response['data']['absence_request_id']}");
+        // Gọi hàm gửi thông báo sau khi gửi yêu cầu thành công
+        await notifyLecturer(classId, title, File(proofImage!.path));
       } else {
         print("Lỗi từ server: ${response['meta']['message']}");
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  // Hàm xử lý gửi thông báo
+  Future<void> notifyLecturer(String classId, String title, File? proofImage) async {
+    try {
+      final classInfo = await _classRepository.getBasicClassInfo(userData.token, classId, userData.id);
+      if (classInfo != null) {
+        final lecturerId = classInfo.lecturer_account_id; // Lấy thông tin giảng viên
+        await _notificationServices.sendNotification(
+          title, // Tiêu đề là nội dung thông báo
+          lecturerId,
+          proofImage,
+          "ABSENCE", // Loại thông báo
+        );
+        print("Gửi thông báo thành công đến giảng viên $lecturerId");
+      } else {
+        print("Không thể lấy thông tin lớp học.");
+      }
+    } catch (e) {
+      print("Lỗi khi gửi thông báo: $e");
     }
   }
 
