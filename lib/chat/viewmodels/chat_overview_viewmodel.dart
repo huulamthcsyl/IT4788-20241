@@ -7,42 +7,28 @@ import 'package:it4788_20241/search/models/search_result_model.dart';
 import 'package:it4788_20241/search/services/search_service.dart';
 
 class ChatOverviewViewModel extends ChangeNotifier {
-  int currentChatIndex = 0;
-  final chatPageSize = 5;
 
   final _chatService = ChatService();
   final _searchService = SearchService();
 
   final _layoutViewModel = LayoutViewModel();
+  final listConversation = <ConversationData>[];
 
-  final pagingController = PagingController<int, ConversationData>(
-    firstPageKey: 0,
-  );
+  void initPagingController() {
+    fetchListConversation();
+    _layoutViewModel.getUnreadMessageCount();
+  }
 
-  ChatOverviewViewModel() {
-    pagingController.addPageRequestListener((pageKey) {
-      fetchPage(pageKey);
+  void fetchListConversation() {
+    listConversation.clear();
+    _chatService.getListConversation(0, 100).then((value) {
+      listConversation.addAll(value);
+      notifyListeners();
     });
   }
 
-  Future<void> fetchPage(int pageKey) async {
-    try {
-      final newItems = await _chatService.getListConversation(pageKey, chatPageSize);
-      final isLastPage = newItems.length < chatPageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      pagingController.error = error;
-    }
-  }
-
   Future<void> refresh() async {
-    _layoutViewModel.getUnreadMessageCount();
-    pagingController.refresh();
+    initPagingController();
   }
 
   String convertGoogleDriveLink(String link) {
