@@ -46,7 +46,6 @@ class ClassCtrlViewModel extends ChangeNotifier {
 
         _hasMore = response.length == _pageSize;
         _errorMessage = null;
-        showNotification('Tải danh sách lớp thành công!', Colors.green);
       } else {
         _hasMore = false;
       }
@@ -139,6 +138,7 @@ class ClassCtrlViewModel extends ChangeNotifier {
     } catch (e) {
       showNotification('Lỗi khi cập nhật lớp: $e',  Colors.red);
     }
+    await fetchClasses();
   }
 
   Future<void> getStudentListForClass(String classId) async {
@@ -156,7 +156,6 @@ class ClassCtrlViewModel extends ChangeNotifier {
         if (classIndex != -1) {
           _classes[classIndex].studentAccounts = studentList;
           _errorMessage = null;
-          showNotification('Tải danh sách sinh viên thành công!',  Colors.green);
         } else {
           _errorMessage = 'Lớp không tồn tại.';
           showNotification(_errorMessage!,  Colors.red);

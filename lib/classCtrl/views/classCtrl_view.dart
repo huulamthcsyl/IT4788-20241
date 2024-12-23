@@ -64,15 +64,6 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (viewModel.errorMessage != null) {
-      return Center(
-        child: Text(
-          viewModel.errorMessage!,
-          style: const TextStyle(color: Colors.red),
-        ),
-      );
-    }
-
     if (viewModel.classes.isEmpty) {
       return const Center(child: Text('Không có lớp học nào.'));
     }

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; // Thư viện định dạng ngày tháng
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrlForm_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart'; // Import model ClassData
-import 'package:it4788_20241/auth/models/user_data.dart'; // Import model UserData
 
 class CreateClassWidget extends StatelessWidget {
   final GlobalKey<FormState> formKey;
