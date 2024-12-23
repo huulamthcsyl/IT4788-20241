@@ -139,6 +139,7 @@ class ClassCtrlViewModel extends ChangeNotifier {
     } catch (e) {
       showNotification('Lỗi khi cập nhật lớp: $e',  Colors.red);
     }
+    await fetchClasses();
   }
 
   Future<void> getStudentListForClass(String classId) async {
