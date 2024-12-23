@@ -51,10 +51,10 @@ class _ChatOverviewPageState extends State<ChatOverviewPage> {
                   focusNode: focusNode,
                   decoration: InputDecoration(
                     hintText: "Tìm kiếm",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
                     contentPadding: const EdgeInsets.all(8),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
                   ),
                 );
               },
