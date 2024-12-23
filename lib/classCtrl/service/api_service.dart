@@ -13,16 +13,16 @@ class ApiService {
 
   // Hàm để khởi tạo hoặc cập nhật UserData
   Future<void> initializeUserData() async {
-    if (userData == null) {
+    // if (userData == null) {
       userData = await getUserData();
-    }
+    // }
   }
 
   // Hàm đảm bảo userData luôn được khởi tạo
   Future<void> _ensureUserDataInitialized() async {
-    if (userData == null) {
+    // if (userData == null) {
       await initializeUserData();  // Khởi tạo userData chỉ khi cần thiết
-    }
+    // }
   }
 
   // Fetch class list
