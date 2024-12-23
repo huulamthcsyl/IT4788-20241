@@ -6,7 +6,7 @@ class SubmissionDetailPopup extends StatefulWidget {
   final String? fileUrl;
   final double? grade;
   final ValueChanged<double> onGradeChange;
-  final VoidCallback onSubmit;
+  final Future<void> Function() onSubmit; // Change to Future<void>
 
   const SubmissionDetailPopup({
     super.key,
@@ -32,7 +32,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
     gradeController.text = widget.grade?.toString() ?? '';
   }
 
-  void handleSubmit() {
+  void handleSubmit() async {
     String gradeText = gradeController.text.replaceAll(',', '.');
     final double? newGrade = double.tryParse(gradeText);
     if (newGrade == null) {
@@ -41,7 +41,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
       });
     } else {
       widget.onGradeChange(newGrade);
-      widget.onSubmit();
+      await widget.onSubmit(); // Await the Future<void> function
       Navigator.of(context).pop();
     }
   }
@@ -114,7 +114,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
               child: TextField(
                 controller: gradeController,
                 keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   hintText: 'Nhập điểm',
                   filled: true,
@@ -155,7 +155,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
             backgroundColor: Colors.redAccent.withOpacity(0.8),
             // Background color for "Thoát" button
             padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
             ),
@@ -172,7 +172,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
             backgroundColor: Colors.green.withOpacity(0.8),
             // Background color for "Trả điểm" button
             padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             textStyle: const TextStyle(fontSize: 18.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),

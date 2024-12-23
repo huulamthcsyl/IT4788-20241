@@ -208,8 +208,6 @@ class AssignmentRepository {
     final response = await request.send();
     final responseString = await http.Response.fromStream(response);
     final Map<String, dynamic> jsonResponse = jsonDecode(responseString.body);
-    print(jsonResponse);
-    print(jsonResponse['meta']['message']);
     if (response.statusCode == 200) {
       if (jsonResponse['meta']['code'] == '1000') {
         String submissionId = jsonResponse['data']['submission_id'];

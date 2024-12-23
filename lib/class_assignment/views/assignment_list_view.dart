@@ -46,53 +46,54 @@ class AssignmentListViewState extends State<AssignmentListView> {
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              final viewModel =
-                  Provider.of<AssignmentListViewModel>(context, listen: false);
-              if (viewModel.userData.role == "LECTURER") {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ClassDetailPage(classData: widget.classData),
-                  ),
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ClassStudentPage(),
-                  ),
-                );
-              }
-            },
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          title: Text(
-            className,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+            leading: IconButton(
+              onPressed: () {
+                final viewModel = Provider.of<AssignmentListViewModel>(context,
+                    listen: false);
+                if (viewModel.userData.role == "LECTURER") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ClassDetailPage(classData: widget.classData),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ClassStudentPage(),
+                    ),
+                  );
+                }
+              },
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
             ),
-          ),
-          bottom: TabBar(
-            onTap: (int index) {
-              final viewModel =
-                  Provider.of<AssignmentListViewModel>(context, listen: false);
-              viewModel.onClickTabBar(index, context);
-            },
-            indicatorColor: Colors.red,
-            labelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
-            tabs: const [
-              Tab(text: "Kiểm tra"),
-              Tab(text: "Tài liệu"),
-              Tab(text: "Khác")
-            ],
-          ),
-          backgroundColor: Colors.red
-        ),
+            title: Text(
+              className,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            bottom: TabBar(
+              onTap: (int index) {
+                final viewModel = Provider.of<AssignmentListViewModel>(context,
+                    listen: false);
+                viewModel.onClickTabBar(index, context);
+              },
+              indicatorColor: Colors.red,
+              labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold, color: Colors.white),
+              unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.normal, color: Colors.white),
+              tabs: const [
+                Tab(text: "Kiểm tra"),
+                Tab(text: "Tài liệu"),
+                Tab(text: "Khác")
+              ],
+            ),
+            backgroundColor: Colors.red),
         body: FutureBuilder(
           future: Provider.of<AssignmentListViewModel>(context, listen: false)
               .initialize(),
@@ -300,6 +301,8 @@ class AssignmentListViewState extends State<AssignmentListView> {
                           classData: widget.classData,
                           status: viewModel.selectedStatus,
                           role: viewModel.userData.role,
+                          refreshListData:
+                              _refreshData, // Truyền hàm refreshData
                         ),
                       ),
                     );

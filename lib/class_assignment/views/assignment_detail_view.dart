@@ -14,6 +14,7 @@ class AssignmentDetailView extends StatefulWidget {
   final ClassData classData;
   final String status;
   final String role;
+  final VoidCallback refreshListData; // Thêm tham số refreshListData
 
   const AssignmentDetailView({
     super.key,
@@ -22,6 +23,7 @@ class AssignmentDetailView extends StatefulWidget {
     required this.submission,
     required this.classData,
     required this.role,
+    required this.refreshListData, // Thêm tham số refreshListData
   });
 
   @override
@@ -31,7 +33,7 @@ class AssignmentDetailView extends StatefulWidget {
 class AssignmentDetailViewState extends State<AssignmentDetailView> {
   Future<void> _refreshData() async {
     final viewModel =
-        Provider.of<AssignmentDetailViewModel>(context, listen: false);
+    Provider.of<AssignmentDetailViewModel>(context, listen: false);
     await viewModel.initialize(); // Re-fetch data
   }
 
@@ -59,6 +61,13 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
               ),
               backgroundColor: Colors.red,
               iconTheme: const IconThemeData(color: Colors.white),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  widget.refreshListData(); // Gọi hàm refreshListData khi quay lại
+                  Navigator.of(context).pop();
+                },
+              ),
               actions: <Widget>[
                 if (widget.status == 'UPCOMING' &&
                     widget.submission.submissionTime == '' &&
@@ -66,12 +75,15 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
                   TextButton(
                     onPressed: () {
                       Provider.of<AssignmentDetailViewModel>(context,
-                              listen: false)
+                          listen: false)
                           .submitAssignment();
                     },
                     child: const Text(
                       'Nộp bài',
-                      style: TextStyle(color: Colors.black, fontSize: 16.0),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
               ],
@@ -79,8 +91,8 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
             backgroundColor: Colors.white,
             body: FutureBuilder(
               future:
-                  Provider.of<AssignmentDetailViewModel>(context, listen: false)
-                      .initialize(),
+              Provider.of<AssignmentDetailViewModel>(context, listen: false)
+                  .initialize(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -144,13 +156,13 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
   Widget _buildSubmissionStatus(AssignmentDetailViewModel viewModel) {
     return viewModel.assignment.isSubmitted
         ? Text(
-            'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
-            style: const TextStyle(color: Colors.red, fontSize: 16.0),
-          )
+      'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
+      style: const TextStyle(color: Colors.red, fontSize: 16.0),
+    )
         : const Text(
-            'Chưa nộp bài',
-            style: TextStyle(color: Colors.red, fontSize: 16.0),
-          );
+      'Chưa nộp bài',
+      style: TextStyle(color: Colors.red, fontSize: 16.0),
+    );
   }
 
   Widget _buildAssignmentTitle(AssignmentDetailViewModel viewModel) {
@@ -195,21 +207,21 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
         ),
         viewModel.assignment.fileUrl.isNotEmpty
             ? InkWell(
-                onTap: () async {
-                  await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
-                },
-                child: Text(
-                  viewModel.assignment.fileUrl,
-                  style: const TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline),
-                ),
-              )
+          onTap: () async {
+            await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
+          },
+          child: Text(
+            viewModel.assignment.fileUrl,
+            style: const TextStyle(
+                fontSize: 16.0,
+                color: Colors.blue,
+                decoration: TextDecoration.underline),
+          ),
+        )
             : const Text(
-                'Không có',
-                style: TextStyle(fontSize: 16.0),
-              ),
+          'Không có',
+          style: TextStyle(fontSize: 16.0),
+        ),
       ],
     );
   }
@@ -275,7 +287,7 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
                           fontSize: 16.0,
                           fontFamily: 'Roboto',
                           color: Color(0xFF212121),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -294,7 +306,7 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
               ElevatedButton.icon(
                 onPressed: () async {
                   FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
+                  await FilePicker.platform.pickFiles(
                     allowMultiple: true,
                     type: FileType.custom,
                     allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -373,7 +385,7 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
             // Remove the outline when focused
             prefixIcon: Icon(Icons.search, color: Colors.black),
             contentPadding:
-                EdgeInsets.symmetric(vertical: 16.0), // Center vertically
+            EdgeInsets.symmetric(vertical: 16.0), // Center vertically
           ),
           style: const TextStyle(color: Colors.black),
           textInputAction: TextInputAction.search,
@@ -391,20 +403,18 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
         for (var response in viewModel.filteredResponseList)
           ResponseItem(
             name:
-                '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
+            '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
             email: '${response.studentAccount?.email}',
             submissionTime: response.submissionTime,
             grade: response.grade,
             textResponse: response.textResponse,
             fileUrl: response.fileUrl,
             accountId: response.studentAccount!.accountId,
-            context: context,
             onGradeChange: (double? newGrade) {
               viewModel.updateGrade(newGrade);
             },
-            onSubmit: (String studentId) {
+            onSubmit: (String studentId) async {
               viewModel.returnGrade(response, studentId);
-              _refreshData(); // Reload data after returning grade
             },
           ),
       ],

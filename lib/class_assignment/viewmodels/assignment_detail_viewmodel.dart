@@ -7,7 +7,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:it4788_20241/utils/show_notifacation.dart';
 
 class AssignmentDetailViewModel extends ChangeNotifier {
@@ -25,6 +24,7 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   String searchQuery = '';
   double? grade = 0;
   bool _isDisposed = false;
+  bool isSubmitting = false;
 
   AssignmentDetailViewModel(this.assignment, this.submission, this.classData) {
     initialize();
@@ -32,8 +32,10 @@ class AssignmentDetailViewModel extends ChangeNotifier {
 
   Future<void> initialize() async {
     userData = await getUserData();
-    responseList = await fetchAssignmentResponse();
-    filteredResponseList = responseList;
+    if (userData.role == 'LECTURER') {
+      responseList = await fetchAssignmentResponse();
+      filteredResponseList = responseList;
+    }
     if (!_isDisposed) {
       notifyListeners();
     }
@@ -42,7 +44,9 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   void updateSearchQuery(String query) {
     searchQuery = query;
     filteredResponseList = responseList.where((response) {
-      final fullName = '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}'.toLowerCase();
+      final fullName =
+          '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}'
+              .toLowerCase();
       return fullName.contains(searchQuery.toLowerCase());
     }).toList();
     if (!_isDisposed) {
@@ -96,11 +100,18 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> submitAssignment() async {
-    if (assignment.isSubmitted == true) {
-      showNotification('Bài tập đã được nộp', true);
+    if (isSubmitting == true) {
+      showNotification('Bài tập đang được nộp', true);
+      return;
+    }
+    if (textController.text == '' && selectedFiles.isEmpty) {
+      showNotification('Vui lòng nhập bài làm của bạn', true);
       return ;
     }
+    showNotification('Vui lòng chờ trong giây lát', false);
+
     try {
+      isSubmitting = true;
       String submissionId = await assignmentService.submitAssignment(
         userData.token,
         assignment.id,
@@ -131,7 +142,8 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   }
 
   Future<List<SubmissionData>> fetchAssignmentResponse() async {
-    return await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, null, null);
+    return await assignmentService.fetchAssignmentResponse(
+        userData.token, assignment.id, null, null);
   }
 
   Future<void> returnGrade(SubmissionData submission, String accountId) async {
@@ -139,15 +151,18 @@ class AssignmentDetailViewModel extends ChangeNotifier {
       throw Exception('Vui lòng nhập điểm hợp lệ');
     }
     try {
-      await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, grade, submission.id);
+      await assignmentService.fetchAssignmentResponse(
+          userData.token, assignment.id, grade, submission.id);
       for (var response in responseList) {
         if (response.id == submission.id) {
           response.grade = grade;
         }
       }
       updateSearchQuery(searchQuery);
-      String message = 'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
-      await notificationService.sendNotification(message, accountId, null, 'ASSIGNMENT_GRADE');
+      String message =
+          'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
+      await notificationService.sendNotification(
+          message, accountId, null, 'ASSIGNMENT_GRADE');
       showNotification('Trả điểm thành công', false);
     } catch (e) {
       showNotification('Trả điểm thất bại', true);
