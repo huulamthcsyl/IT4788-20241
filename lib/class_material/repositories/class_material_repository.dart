@@ -10,31 +10,33 @@ class MaterialRepository {
 
   Future<List<ClassMaterial>> getClassMaterial(String? token, String classCode) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_material_list');
-      final response = await http.post(
-        httpUrl,
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        body: jsonEncode({
-          "token": token,
-          "class_id": classCode,
-        }),
-      );
+    final response = await http.post(
+      httpUrl,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: jsonEncode({
+        "token": token,
+        "class_id": classCode,
+      }),
+    );
 
-      if (response.statusCode == 200)
-      {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        if (responseData['code'] == "1000") {
-          List<dynamic> data = responseData['data'];
-          return data.map((item) => ClassMaterial.fromJson(item)).toList();
-        } else {
-          print('Error: ${responseData['message']}');
-          return [];
-        }
+    if (response.statusCode == 200) {
+      // Decode response body using utf8.decode()
+      final String responseBody = utf8.decode(response.bodyBytes);
+      final Map<String, dynamic> responseData = jsonDecode(responseBody);
+
+      if (responseData['code'] == "1000") {
+        List<dynamic> data = responseData['data'];
+        return data.map((item) => ClassMaterial.fromJson(item)).toList();
       } else {
-        print('Error: ${token} ${classCode}');
+        print('Error: ${responseData['message']}');
         return [];
       }
+    } else {
+      print('Error: ${token} ${classCode}');
+      return [];
+    }
   }
   Future<void> deleteMaterial({required String? token, required String material_id}) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/delete_material');
@@ -77,18 +79,18 @@ class MaterialRepository {
 
     // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
-    request.fields['classId'] = utf8.encode(classId).toString();
-    request.fields['title'] = utf8.encode(title).toString();
-    request.fields['description'] = utf8.encode(description).toString();
-    request.fields['materialType'] = utf8.encode(materialType).toString();
 
+    request.fields['classId'] = classId;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['materialType'] = materialType.split('.')[1];
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
         var responseBody = await response.stream.bytesToString();
         print("Upload thành công: $responseBody");
       } else {
-        print("Upload thất bại: ${await response.stream.bytesToString()} ${classId} ${title} ${description} ${materialType}");
+        print("Upload thất bại: ${await response.stream.bytesToString()} ${classId} ${title} ${description} ${materialType.split('.')[1]}");
       }
     } catch (e) {
       print("Lỗi khi upload file: $e");
@@ -119,11 +121,10 @@ class MaterialRepository {
 
     // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
-    request.fields['materialId'] = utf8.encode(materialId).toString();
-    request.fields['title'] = utf8.encode(title).toString();
-    request.fields['description'] = utf8.encode(description).toString();
-    request.fields['materialType'] = utf8.encode(materialType).toString();
-
+    request.fields['materialId'] = materialId;
+    request.fields['title'] = title;
+    request.fields['description'] = description;
+    request.fields['materialType'] = materialType.split('.')[1];
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
@@ -131,7 +132,7 @@ class MaterialRepository {
         print("Lưu thành công: $responseBody");
       } else {
         print("Lưu thất bại: ${await response.stream
-            .bytesToString()} ${materialId} ${title} ${description} ${materialType}");
+            .bytesToString()} ${materialId} ${title} ${description} ${materialType.split('.')[1]}");
       }
     } catch (e) {
       print("Lỗi khi Lưu file: $e");

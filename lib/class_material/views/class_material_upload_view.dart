@@ -120,6 +120,12 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
                 child: ElevatedButton(
                   onPressed: () {
                     viewModel.uploadFile();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Upload tài liệu thành công!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,

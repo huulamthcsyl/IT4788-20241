@@ -4,13 +4,14 @@ class ClassMaterial{
   String material_name;
   String description;
   String material_type;
-
+  String material_link;
   ClassMaterial({
     required this.ID,
     required this.class_id,
     required this.material_name,
     required this.description,
-    required this.material_type
+    required this.material_type,
+    required this.material_link
   });
   factory ClassMaterial.fromJson(Map<String, dynamic> json){
     return ClassMaterial(
@@ -19,6 +20,7 @@ class ClassMaterial{
       material_name: json['material_name'],
       description: json['description'],
       material_type: json['material_type'],
+      material_link: json['material_link'],
     );
   }
 }

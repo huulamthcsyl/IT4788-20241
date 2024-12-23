@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:it4788_20241/class/views/class_student_view.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
@@ -7,6 +7,7 @@ import 'package:it4788_20241/class_material/views/class_material_edit_view.dart'
 import 'package:it4788_20241/class_material/views/class_material_upload_view.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../classCtrl/views/class_detail_page.dart';
 import '../../home/views/home_view.dart';
@@ -74,6 +75,9 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                 icon: const Icon(Icons.add),
                 color: Colors.white,
                 onPressed: () {
+                  viewModel.filePath = "";
+                  viewModel.titleController.text = "";
+                  viewModel.descriptionController.text = "";
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
                 },
               ),
@@ -155,7 +159,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
       ),
     );
   }
-  void showFileOptions(BuildContext context, ClassMaterial classMaterial) {
+  void showFileOptions(BuildContext context, ClassMaterial classMaterial){
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -172,7 +176,15 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
               ListTile(
                 leading: Icon(Icons.open_in_new),
                 title: Text('Mở'),
-                onTap: () {},
+                onTap: () async {
+                  final url = Uri.parse(classMaterial.material_link);
+                  if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication,);
+                  } else {
+                  // Handle error: cannot launch URL
+                  print('Could not launch $url');
+                  }
+                },
               ),
               ListTile(
                 leading: Icon(Icons.drive_file_rename_outline),
@@ -204,14 +216,16 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.share),
-                title: Text('Chia sẻ'),
-                onTap: () {},
-              ),
-              ListTile(
                 leading: Icon(Icons.link),
                 title: Text('Sao chép liên kết'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  FlutterClipboard.copy(classMaterial.material_link).then((value) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Đã sao chép vào clipboard!'),duration: Duration(seconds: 2),),
+                    );
+                  });
+                },
               ),
             ],
           ),
