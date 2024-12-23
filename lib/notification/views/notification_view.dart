@@ -45,7 +45,6 @@ class _NotificationViewState extends State<NotificationView> {
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => NotificationTile(
               notificationData: item,
-              // refresh: viewModel.refresh(),
             )
           ),
         ),
