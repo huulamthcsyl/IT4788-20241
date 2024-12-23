@@ -3,6 +3,7 @@ import '../models/class_model.dart';
 import '../repositories/class_repository.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import '../../auth/models/user_data.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class ClassRegisterViewModel with ChangeNotifier {
   final ClassRepository _classRepository = ClassRepository();
@@ -62,7 +63,7 @@ class ClassRegisterViewModel with ChangeNotifier {
   Future<void> addNewClass(String classId) async {
     try {
       if (newClassIds.contains(classId) || registeredClasses.any((classItem) => classItem.class_id == classId)) {
-        print("Class already registered or pending registration.");
+        showNotification("Lớp học đã được đăng ký hoặc đang chờ gửi đăng ký", Colors.yellow);
         return;
       } else {
         final classInfo = await _classRepository.getBasicClassInfo(userData.token, classId, userData.id);
@@ -85,6 +86,7 @@ class ClassRegisterViewModel with ChangeNotifier {
           registeredClasses.addAll(newClasses);
           newClasses.clear();
           newClassIds.clear();
+          showNotification("Gửi đăng ký thành công", Colors.green);
           notifyListeners();
         }
       }

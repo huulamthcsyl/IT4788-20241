@@ -196,9 +196,6 @@ class RegisterClassPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () async {
                           await viewModel.submitRegistration();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Gửi đăng ký thành công!')),
-                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
