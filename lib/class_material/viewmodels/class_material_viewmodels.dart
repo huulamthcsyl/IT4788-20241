@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../auth/models/user_data.dart';
 import '../../classCtrl/models/class_data.dart';
 import '../../utils/get_data_user.dart';
+import '../../utils/show_notification.dart';
 import '../views/class_material_view.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -88,7 +89,16 @@ class ClassMaterialViewModel extends ChangeNotifier {
   }
 
   Future<void> uploadFile() async {
-    if (filePath.isEmpty || titleController.text.isEmpty || descriptionController.text.isEmpty) {
+    if (titleController.text.isEmpty){
+      showNotification('Tiêu đề không được để trống!', Colors.yellow.withOpacity(0.9));
+      return;
+    }
+    if (descriptionController.text.isEmpty){
+      showNotification('Ghi chú không được để trống!', Colors.yellow.withOpacity(0.9));
+      return;
+    }
+    if (filePath.isEmpty){
+      showNotification('Chưa chọn File!', Colors.yellow.withOpacity(0.9));
       return;
     }
     title = titleController.text;
@@ -130,14 +140,18 @@ class ClassMaterialViewModel extends ChangeNotifier {
   }
 
   Future<void> editFile() async {
-    if (titleController.text.isEmpty || descriptionController.text.isEmpty) {
+    if (titleController.text.isEmpty){
+      showNotification('Tiêu đề không được để trống!', Colors.yellow.withOpacity(0.9));
       return;
     }
-    if (filePath.isEmpty) {
-      print("Please select a file to edit.");
+    if (descriptionController.text.isEmpty){
+      showNotification('Ghi chú không được để trống!', Colors.yellow.withOpacity(0.9));
       return;
     }
-
+    if (filePath.isEmpty){
+      showNotification('Chưa chọn File!', Colors.yellow.withOpacity(0.9));
+      return;
+    }
     title = titleController.text;
     description = descriptionController.text;
     isUploading = true;

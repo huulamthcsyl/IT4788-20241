@@ -6,7 +6,7 @@ import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:it4788_20241/class_assignment/models/assignment_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:it4788_20241/utils/show_notifacation.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class CreateAssignmentViewModel extends ChangeNotifier {
   late UserData userData;
@@ -62,14 +62,14 @@ class CreateAssignmentViewModel extends ChangeNotifier {
   bool validateInputs() {
     bool isValid = true;
     if (titleController.text.isEmpty) {
-      showNotification('Tiêu đề không được để trống', true);
+      showNotification('Tiêu đề không được để trống', Colors.yellow.withOpacity(0.9));
       isValid = false;
     }
     if (selectedDate == null) {
-      showNotification('Ngày đến hạn không được để trống', true);
+      showNotification('Ngày đến hạn không được để trống', Colors.yellow.withOpacity(0.9));
       isValid = false;
     } else if (selectedDate!.isBefore(DateTime.now())) {
-      showNotification('Ngày đến hạn không được trước thời gian hiện tại', true);
+      showNotification('Ngày đến hạn không được trước thời gian hiện tại', Colors.yellow.withOpacity(0.9));
       isValid = false;
     }
     notifyListeners();
@@ -90,7 +90,7 @@ class CreateAssignmentViewModel extends ChangeNotifier {
             selectedDate!,
             selectedFiles,
           );
-          showNotification('Tạo bài tập thành công', false);
+          showNotification('Tạo bài tập thành công', Colors.green.withOpacity(0.9));
         } else {
           await assignmentService.editAssignment(
             userData.token,
@@ -99,11 +99,11 @@ class CreateAssignmentViewModel extends ChangeNotifier {
             selectedDate!,
             selectedFiles,
           );
-          showNotification('Cập nhật bài tập thành công', false);
+          showNotification('Cập nhật bài tập thành công', Colors.green.withOpacity(0.9));
         }
         Navigator.of(context).pop(true);
       } catch (e) {
-        showNotification('Đã xảy ra lỗi. $e', true);
+        showNotification('Đã xảy ra lỗi. $e', Colors.red.withOpacity(0.9));
       } finally {
         isLoading = false;
         notifyListeners();
