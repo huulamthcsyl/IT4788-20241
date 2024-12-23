@@ -58,7 +58,7 @@ class _HomeViewState extends State<HomeView> {
                   title: 'Quản lý lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
                   onPressed: () {Navigator.pushNamed(context, '/class-control');}),
                  HomeButton(
-                  title: 'Tạo lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
+                  title: 'Tạo lớp học', icon: const ImageIcon(AssetImage('assets/img/class_create_icon.png'), size: 50, color: Colors.red),
                   onPressed: () {Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -70,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );}),
                 HomeButton(
-                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
+                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_open_list_icon.png'), size: 50, color: Colors.red,),
                     onPressed: () {Navigator.pushNamed(context, '/class-list');}),
               ],
             ),
@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
                 HomeButton(title: 'Lớp học trong kỳ', icon: const ImageIcon(AssetImage('assets/img/class_schedule_icon.png'), size: 50, color: Colors.red),
                   onPressed: () {Navigator.pushNamed(context, '/students-class');}),
                 HomeButton(
-                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
+                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_open_list_icon.png'), size: 50, color: Colors.red,),
                     onPressed: () {Navigator.pushNamed(context, '/class-list');}),
               ],
             ),

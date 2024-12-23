@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:it4788_20241/chat/models/message_data.dart';
 import 'package:it4788_20241/chat/viewmodels/conversation_viewmodel.dart';
+import 'package:it4788_20241/utils/convert_gg_drive_image_link.dart';
 import 'package:provider/provider.dart';
 
 class ConversationPage extends StatelessWidget {
@@ -32,7 +33,9 @@ class ConversationPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: PagedListView<int, MessageData>(
+            child: viewModel.pagingController.itemList != null && viewModel.pagingController.itemList!.isEmpty
+            ? Container() :
+            PagedListView<int, MessageData>(
               reverse: true,
               pagingController: viewModel.pagingController,
               builderDelegate: PagedChildBuilderDelegate<MessageData>(
@@ -40,12 +43,22 @@ class ConversationPage extends StatelessWidget {
                   if (item.sender.id == partnerId) {
                     return ListTile(
                       title: Text(item.message ?? ""),
+                      leading: CircleAvatar(
+                        backgroundImage: item.sender.avatar != null
+                            ? NetworkImage(convertGoogleDriveLink(item.sender.avatar!))
+                            : const AssetImage('assets/img/default_avatar.jpg'),
+                      ),
                     );
                   } else {
                     return ListTile(
                       title: Text(
                         item.message ?? "",
                         textAlign: TextAlign.right,
+                      ),
+                      trailing: CircleAvatar(
+                        backgroundImage: item.sender.avatar != null
+                            ? NetworkImage(convertGoogleDriveLink(item.sender.avatar!))
+                            : const AssetImage('assets/img/default_avatar.jpg'),
                       ),
                     );
                   }
