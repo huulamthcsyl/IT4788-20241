@@ -53,9 +53,16 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
                   ),
                 );
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black,),
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
-          title: Text(className),
+          title: Text(
+              className,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20
+              ),
+          ),
+          centerTitle: true,
           bottom: TabBar(
             onTap: (int index){
               setState(() {
@@ -63,14 +70,21 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
               });
             },
             indicatorColor: Colors.red,
-            labelColor: Colors.black,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+            ),
             tabs: [
               Tab(text: "Kiểm tra"),
               Tab(text: "Tài liệu"),
               Tab(text: "Khác")
             ],
           ),
+          backgroundColor: Colors.red,
         ),
         body: buildListViewbyRole(viewModel.userData, context, viewModel),
       )

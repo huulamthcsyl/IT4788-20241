@@ -25,9 +25,8 @@ class _ChatOverviewPageState extends State<ChatOverviewPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Tin nhắn",
+          "TIN NHẮN",
           style: TextStyle(
-            fontWeight: FontWeight.bold,
             fontSize: 20,
             color: Colors.white
           ),

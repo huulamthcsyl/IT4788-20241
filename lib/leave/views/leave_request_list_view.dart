@@ -29,15 +29,15 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LeaveRequestListViewModel>(context);
     final displayedLeaveRequests = viewModel.getDisplayedLeaveRequests(DateFormat('yyyy-MM-dd').format(_selectedDate));
-
     return DefaultTabController(
       length: 2,
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(color: Colors.white),
-          title: Text("Danh sách đơn xin nghỉ", style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.redAccent,
+          title: Text("Danh sách đơn xin nghỉ", style: TextStyle(color: Colors.white, fontSize: 20)),
+          centerTitle: true,
+          backgroundColor: Colors.red,
           elevation: 4,
         ),
         body: Column(
@@ -82,7 +82,7 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
+                      backgroundColor: Colors.red,
                       foregroundColor: Colors.white,
                       elevation: 3,
                       shape: RoundedRectangleBorder(

@@ -50,7 +50,7 @@ class ConversationTile extends StatelessWidget {
           ],
         ),
         leading: CircleAvatar(
-          backgroundImage: conversationData.partner.avatar != null ? NetworkImage(chatViewModel.convertGoogleDriveLink(conversationData.partner.avatar ?? "")) : null,
+          backgroundImage: conversationData.partner.avatar != null ? NetworkImage(chatViewModel.convertGoogleDriveLink(conversationData.partner.avatar ?? "")) : const AssetImage('assets/img/default_avatar.jpg') as ImageProvider,
         ),
       ),
     );

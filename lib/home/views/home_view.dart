@@ -4,6 +4,8 @@ import 'package:it4788_20241/home/viewmodels/home_viewmodel.dart';
 import 'package:it4788_20241/home/widgets/profile.dart';
 import 'package:provider/provider.dart';
 
+import '../../classCtrl/viewmodels/classCtrl_viewmodel.dart';
+import '../../classCtrl/views/classCtrlForm_view.dart';
 import '../../profile/viewmodels/profile_viewmodel.dart';
 import '../widgets/home_button.dart';
 
@@ -55,15 +57,21 @@ class _HomeViewState extends State<HomeView> {
                 HomeButton(
                   title: 'Quản lý lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
                   onPressed: () {Navigator.pushNamed(context, '/class-control');}),
-                HomeButton(
-                  title: 'Lịch dạy', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
-                  onPressed: () {Navigator.pushNamed(context, '/class-material');}),
-                HomeButton(
+                 HomeButton(
                   title: 'Tạo lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
-                  onPressed: () {Navigator.pushNamed(context, '/teaching-schedule');}),
+                  onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ClassCtrlFormPage(
+                        onSave: (newClass) {
+                          context.read<ClassCtrlViewModel>().addClass(newClass);
+                        },
+                      ),
+                    ),
+                  );}),
                 HomeButton(
-                  title: 'Lịch dạy', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
-                  onPressed: () {Navigator.pushNamed(context, '/class-material');}),
+                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
+                    onPressed: () {Navigator.pushNamed(context, '/class-list');}),
               ],
             ),
           ),
@@ -83,13 +91,11 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 HomeButton(title: 'Đăng ký lớp học', icon: const ImageIcon(AssetImage('assets/img/class_registration_icon.png'), size: 50, color: Colors.red),
                   onPressed: () {Navigator.pushNamed(context, '/class-register');}),
-                HomeButton(title: 'Lịch học', icon: const ImageIcon(AssetImage('assets/img/class_schedule_icon.png'), size: 50, color: Colors.red),
-                  onPressed: () {Navigator.pushNamed(context, '/');}),
-                HomeButton(title: 'Lớp học trong kỳ', icon: const ImageIcon(AssetImage('assets/img/absence_icon.png'), size: 50, color: Colors.red),
+                HomeButton(title: 'Lớp học trong kỳ', icon: const ImageIcon(AssetImage('assets/img/class_schedule_icon.png'), size: 50, color: Colors.red),
                   onPressed: () {Navigator.pushNamed(context, '/students-class');}),
-                HomeButton(title: 'Quản lý lớp học', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red),
-                  onPressed: () {Navigator.pushNamed(context, '/search');},
-                ),
+                HomeButton(
+                    title: 'Danh sách lớp mở', icon: const ImageIcon(AssetImage('assets/img/class_management_icon.png'), size: 50, color: Colors.red,),
+                    onPressed: () {Navigator.pushNamed(context, '/class-list');}),
               ],
             ),
           ),

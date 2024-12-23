@@ -27,11 +27,10 @@ class _NotificationViewState extends State<NotificationView> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Thông báo',
+            'THÔNG BÁO',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),

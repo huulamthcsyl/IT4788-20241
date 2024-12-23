@@ -21,7 +21,7 @@ class ApiService {
   // Hàm đảm bảo userData luôn được khởi tạo
   Future<void> _ensureUserDataInitialized() async {
     if (userData == null) {
-      await initializeUserData();
+      await initializeUserData();  // Khởi tạo userData chỉ khi cần thiết
     }
   }
 
@@ -30,34 +30,40 @@ class ApiService {
     required int page,
     required int pageSize,
   }) async {
-    await _ensureUserDataInitialized();
+    // Tách logic khởi tạo dữ liệu người dùng ra khỏi các API calls chính
+    await _ensureUserDataInitialized();  // Chỉ gọi khi chưa khởi tạo userData
+
     final httpUrl = Uri.http(baseUrl, '/it5023e/get_class_list');
-    final response = await http.post(
-      httpUrl,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        "token": userData!.token,  // Use token from UserData
-        "role": userData!.role,    // Use role from UserData
-        "account_id": userData!.id,  // Use account_id from UserData
-        "pageable_request": {
-          "page": page.toString(),
-          "page_size": pageSize.toString(),
+    try {
+      final response = await http.post(
+        httpUrl,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "token": userData!.token,  // Use token from UserData
+          "role": userData!.role,    // Use role from UserData
+          "account_id": userData!.id,  // Use account_id from UserData
+          "pageable_request": {
+            "page": page.toString(),
+            "page_size": pageSize.toString(),
+          }
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> resData = jsonDecode(utf8.decode(response.bodyBytes));
+
+        if (resData['meta']['code'] == '1000') {
+          return resData['data']['page_content'] ?? [];
+        } else {
+          throw Exception('Error: ${resData['meta']['message']}');
         }
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> resData = jsonDecode(utf8.decode(response.bodyBytes));
-
-      if (resData['meta']['code'] == '1000') {
-        return resData['data']['page_content'] ?? [];
       } else {
-        throw Exception('Error: ${resData['meta']['message']}');
+        throw Exception('Failed to fetch class list. Status code: ${response.statusCode}');
       }
-    } else {
-      throw Exception('Failed to fetch class list. Status code: ${response.statusCode}');
+    } catch (e) {
+      throw Exception('Error fetching class list: $e');
     }
   }
 
@@ -67,29 +73,33 @@ class ApiService {
   }) async {
     await _ensureUserDataInitialized();
     final httpUrl = Uri.http(baseUrl, '/it5023e/get_class_info');
-    final response = await http.post(
-      httpUrl,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        "token": userData!.token,  // Use token from UserData
-        "role": userData!.role,    // Use role from UserData
-        "account_id": userData!.id,  // Use account_id from UserData
-        "class_id": classId,
-      }),
-    );
+    try {
+      final response = await http.post(
+        httpUrl,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "token": userData!.token,  // Use token from UserData
+          "role": userData!.role,    // Use role from UserData
+          "account_id": userData!.id,  // Use account_id from UserData
+          "class_id": classId,
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> resData = jsonDecode(utf8.decode(response.bodyBytes));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> resData = jsonDecode(utf8.decode(response.bodyBytes));
 
-      if (resData['meta']['code'] == '1000') {
-        return resData['data'];
+        if (resData['meta']['code'] == '1000') {
+          return resData['data'];
+        } else {
+          throw Exception('Error: ${resData['meta']['message']}');
+        }
       } else {
-        throw Exception('Error: ${resData['meta']['message']}');
+        throw Exception('Failed to fetch class info. Status code: ${response.statusCode}');
       }
-    } else {
-      throw Exception('Failed to fetch class info. Status code: ${response.statusCode}');
+    } catch (e) {
+      throw Exception('Error fetching class info: $e');
     }
   }
 
@@ -205,30 +215,6 @@ class ApiService {
     } catch (e) {
       print('Error deleting class: $e');
       return false;
-    }
-  }
-
-  // Update class status
-  Future<bool> updateClassStatus(String classId, String status) async {
-    await _ensureUserDataInitialized();
-    final url = Uri.parse('$baseUrl/update_class_status');
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        "token": userData!.token,  // Use token from UserData
-        "role": userData!.role,    // Use role from UserData
-        "class_id": classId,
-        "status": status,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception('Failed to update class status. Status code: ${response.statusCode}');
     }
   }
 }

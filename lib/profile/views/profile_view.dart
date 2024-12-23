@@ -22,6 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+          centerTitle: true,
         title: Center(
             child: Text(
               (_profileviewmodel.userData.role == "LECTURER"
@@ -29,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   : "THÔNG TIN SINH VIÊN"),
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontSize: 20
               ),
             )),
         backgroundColor: Colors.red,

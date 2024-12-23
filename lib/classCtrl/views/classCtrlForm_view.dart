@@ -31,9 +31,9 @@ class _ClassCtrlFormPageState extends State<ClassCtrlFormPage> {
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
-            fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

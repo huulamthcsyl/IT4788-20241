@@ -29,7 +29,10 @@ class CreateClassWidget extends StatelessWidget {
     }
 
     // Hàm chọn ngày từ lịch
-    Future<void> _selectDate(BuildContext context, TextEditingController controller, bool isStartDate) async {
+    Future<void> _selectDate(
+        BuildContext context,
+        TextEditingController controller,
+        bool isStartDate) async {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -59,34 +62,40 @@ class CreateClassWidget extends StatelessWidget {
             initialValue: viewModel.classId,
             decoration: const InputDecoration(labelText: 'Mã lớp'),
             onChanged: (value) => viewModel.classId = value,
-            validator: (value) => value!.isEmpty ? 'Vui lòng nhập mã lớp' : null,
+            validator: (value) =>
+            value!.isEmpty ? 'Vui lòng nhập mã lớp' : null,
           ),
           // Tên lớp
           TextFormField(
             initialValue: viewModel.name,
             decoration: const InputDecoration(labelText: 'Tên lớp'),
             onChanged: (value) => viewModel.name = value,
-            validator: (value) => value!.isEmpty ? 'Vui lòng nhập tên lớp' : null,
+            validator: (value) =>
+            value!.isEmpty ? 'Vui lòng nhập tên lớp' : null,
           ),
           // Ngày bắt đầu
           TextFormField(
             controller: startDateController,
             decoration: const InputDecoration(labelText: 'Ngày bắt đầu'),
             onTap: () => _selectDate(context, startDateController, true),
-            validator: (value) => value!.isEmpty ? 'Vui lòng chọn ngày bắt đầu' : null,
-            readOnly: true,  // Không cho phép nhập trực tiếp, chỉ chọn từ lịch
+            validator: (value) =>
+            value!.isEmpty ? 'Vui lòng chọn ngày bắt đầu' : null,
+            readOnly: true, // Không cho phép nhập trực tiếp, chỉ chọn từ lịch
           ),
           // Ngày kết thúc
           TextFormField(
             controller: endDateController,
             decoration: const InputDecoration(labelText: 'Ngày kết thúc'),
             onTap: () => _selectDate(context, endDateController, false),
-            validator: (value) => value!.isEmpty ? 'Vui lòng chọn ngày kết thúc' : null,
-            readOnly: true,  // Không cho phép nhập trực tiếp, chỉ chọn từ lịch
+            validator: (value) =>
+            value!.isEmpty ? 'Vui lòng chọn ngày kết thúc' : null,
+            readOnly: true, // Không cho phép nhập trực tiếp, chỉ chọn từ lịch
           ),
           // Loại lớp
           DropdownButtonFormField<String>(
-            value: classTypes.contains(viewModel.classType) ? viewModel.classType : null,
+            value: classTypes.contains(viewModel.classType)
+                ? viewModel.classType
+                : null,
             decoration: const InputDecoration(labelText: 'Loại lớp'),
             items: classTypes.map((String type) {
               return DropdownMenuItem<String>(
@@ -103,38 +112,62 @@ class CreateClassWidget extends StatelessWidget {
             initialValue: viewModel.maxStudents.toString(),
             decoration: const InputDecoration(labelText: 'Số học sinh tối đa'),
             keyboardType: TextInputType.number,
-            onChanged: (value) => viewModel.maxStudents = int.tryParse(value) ?? 0,
-            validator: (value) =>
-            value!.isEmpty ? 'Vui lòng nhập số học sinh tối đa' : null,
+            onChanged: (value) =>
+            viewModel.maxStudents = int.tryParse(value) ?? 0,
+            validator: (value) => value!.isEmpty
+                ? 'Vui lòng nhập số học sinh tối đa'
+                : null,
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                final classData = viewModel.saveClass();
-                classData.status = 'ACTIVE'; // Trạng thái lớp mặc định là 'ACTIVE'
-                classData.studentAccounts = []; // Giả sử không có sinh viên khi tạo mới lớp
+          // Sử dụng SizedBox để giới hạn chiều rộng của nút
+          SizedBox(
+            width: double.infinity, // Đặt chiều rộng bằng chiều rộng tối đa
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                    vertical: 15), // Tăng padding cho nút
+                // **Thay đổi BorderRadius ở đây**
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(9.0), // Giảm radius xuống 8.0
+                ),
+                elevation: 2.0, // Thêm độ nổi (elevation)
+                shadowColor: Colors.grey, // Thêm màu cho shadow
+              ),
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  final classData = viewModel.saveClass();
+                  classData.status =
+                  'ACTIVE'; // Trạng thái lớp mặc định là 'ACTIVE'
+                  classData.studentAccounts =
+                  []; // Giả sử không có sinh viên khi tạo mới lớp
 
-                // Gọi phương thức createClass từ ViewModel để gọi API
-                await viewModel.createClass(classData);
+                  // Gọi phương thức createClass từ ViewModel để gọi API
+                  await viewModel.createClass(classData);
 
+                  // Sau khi gọi API thành công, bạn có thể thực hiện các hành động như
+                  // hiển thị thông báo thành công, hoặc quay lại trang trước.
+                  //onSave(classData);  // Gọi lại hàm onSave nếu cần
 
-                // Sau khi gọi API thành công, bạn có thể thực hiện các hành động như
-                // hiển thị thông báo thành công, hoặc quay lại trang trước.
-                //onSave(classData);  // Gọi lại hàm onSave nếu cần
+                  // Reset dữ liệu đã nhập
+                  viewModel.reset(); // Reset viewModel về trạng thái ban đầu
 
-                // Reset dữ liệu đã nhập
-                viewModel.reset();  // Reset viewModel về trạng thái ban đầu
+                  // Xóa nội dung của các TextEditingController
+                  startDateController.clear();
+                  endDateController.clear();
+                  formKey.currentState!.reset(); // Reset lại form
 
-                // Xóa nội dung của các TextEditingController
-                startDateController.clear();
-                endDateController.clear();
-                formKey.currentState!.reset();  // Reset lại form
-
-                Navigator.pop(context);  // Quay lại màn hình trước sau khi lưu
-              }
-            },
-            child: const Text('Lưu'),
+                  Navigator.pop(context); // Quay lại màn hình trước sau khi lưu
+                }
+              },
+              child: const Text(
+                'TẠO LỚP',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
         ],
       ),

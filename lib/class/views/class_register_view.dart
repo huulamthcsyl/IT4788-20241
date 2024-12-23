@@ -17,32 +17,23 @@ class RegisterClassPage extends StatelessWidget {
               backgroundColor: Colors.white,
               appBar: AppBar(
                 leading: IconButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushNamed(context, '/');
-                    }, icon: Icon(Icons.arrow_back, color: Colors.white)),
+                    },
+                    icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
-                title: Center(
-                  child: Text(
-                    'Đăng ký lớp học',
-                    style: TextStyle(color: Colors.white),
+                title: const Text(
+                  'ĐĂNG KÝ LỚP HỌC',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
                   ),
                 ),
+                centerTitle: true,
               ),
               body: Column(
                 children: [
-                /*  // Phần ảnh logo cố định
-                  Container(
-                    color: Colors.red,
-                    padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                    child: Center(
-                      child: Image(
-                        image: AssetImage('assets/img/logo_hust_white.png'),
-                        width: MediaQuery.of(context).size.width * 0.4,
-                      ),
-                    ),
-                  ),
-                  // Phần input và nút đăng ký cố định*/
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
@@ -99,7 +90,7 @@ class RegisterClassPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Phần scrollable (danh sách lớp và nút gửi đăng ký)
+                  // Phần scrollable (danh sách lớp)
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -121,24 +112,33 @@ class RegisterClassPage extends StatelessWidget {
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: viewModel.registeredClasses.length,
+                                itemCount:
+                                viewModel.registeredClasses.length,
                                 itemBuilder: (context, index) {
-                                  final classItem = viewModel.registeredClasses[index];
+                                  final classItem =
+                                  viewModel.registeredClasses[index];
                                   return Card(
                                     margin: EdgeInsets.symmetric(
                                         vertical: 5.0, horizontal: 10.0),
                                     child: ListTile(
                                       title: Text(classItem.class_name),
                                       subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text('Mã lớp: ${classItem.class_id}'),
-                                          Text('Loại lớp: ${classItem.class_type}'),
+                                          Text(
+                                              'Mã lớp: ${classItem.class_id}'),
+                                          Text(
+                                              'Loại lớp: ${classItem.class_type}'),
                                         ],
                                       ),
                                       trailing: TextButton(
-                                        onPressed: () => viewModel.showClassDetails(context, classItem),
-                                        child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
+                                        onPressed: () => viewModel
+                                            .showClassDetails(
+                                            context, classItem),
+                                        child: Text('Chi tiết',
+                                            style: TextStyle(
+                                                color: Colors.red)),
                                       ),
                                     ),
                                   );
@@ -150,21 +150,30 @@ class RegisterClassPage extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: viewModel.newClasses.length,
                                 itemBuilder: (context, index) {
-                                  final classItem = viewModel.newClasses[index];
+                                  final classItem =
+                                  viewModel.newClasses[index];
                                   return Card(
-                                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 10.0),
                                     child: ListTile(
                                       title: Text(classItem.class_name),
                                       subtitle: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         children: [
-                                          Text('Mã lớp: ${classItem.class_id}'),
-                                          Text('Loại lớp: ${classItem.class_type}'),
+                                          Text(
+                                              'Mã lớp: ${classItem.class_id}'),
+                                          Text(
+                                              'Loại lớp: ${classItem.class_type}'),
                                         ],
                                       ),
                                       trailing: TextButton(
-                                        onPressed: () => viewModel.showClassDetails(context, classItem),
-                                        child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
+                                        onPressed: () => viewModel
+                                            .showClassDetails(
+                                            context, classItem),
+                                        child: Text('Chi tiết',
+                                            style: TextStyle(
+                                                color: Colors.red)),
                                       ),
                                     ),
                                   );
@@ -172,50 +181,38 @@ class RegisterClassPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // Nút gửi đăng ký
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    await viewModel.submitRegistration();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Gửi đăng ký thành công!')),
-                                    );
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-                                  ),
-                                  child: Text('Gửi đăng ký', style: TextStyle(color: Colors.white, fontSize: 20.0)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/class-list');
-                            },
-                            child: Text(
-                              'Thông tin danh sách các lớp mở',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontStyle: FontStyle.italic,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
                   ),
+                  // Nút gửi đăng ký
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 10.0),
+                    child: SizedBox(
+                      width: double.infinity, // Chiếm toàn bộ chiều rộng
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await viewModel.submitRegistration();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Gửi đăng ký thành công!')),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                        ),
+                        child: Text('Gửi đăng ký',
+                            style:
+                            TextStyle(color: Colors.white, fontSize: 20.0)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
                 ],
               ),
             );

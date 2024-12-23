@@ -23,9 +23,16 @@ class _ClassListPageState extends State<ClassListPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Danh sách các lớp mở', style: TextStyle(color: Colors.white)),
+        title: const Text(
+            'DANH SÁCH CÁC LỚP MỞ',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )
+        ),
         backgroundColor: Colors.red,
         iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
       ),
       backgroundColor: Colors.white,
       body: Padding(

@@ -12,12 +12,10 @@ class ClassCtrlPage extends StatefulWidget {
 }
 
 class _ClassCtrlPageState extends State<ClassCtrlPage> {
-  late TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
     _fetchData(); // Gọi hàm để làm mới dữ liệu khi trang khởi tạo.
   }
 
@@ -41,58 +39,18 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
             },
             icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
-        title: const Center(
-          child: Text(
-            'DANH SÁCH LỚP',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        title: Text(
+        'DANH SÁCH LỚP',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClassCtrlFormPage(
-                    onSave: (newClass) {
-                      context.read<ClassCtrlViewModel>().addClass(newClass);
-                    },
-                  ),
-                ),
-              ).then((_) {
-                // Làm mới dữ liệu khi quay lại từ trang thêm lớp
-                _fetchData();
-              });
-            },
-          ),
-        ],
+      ), centerTitle: true,
       ),
       body: Column(
         children: [
           Expanded(
             child: _buildBody(viewModel),
-          ),
-          const SizedBox(height: 10.0),
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/class-list').then((_) {
-              // Làm mới dữ liệu khi quay lại từ danh sách chi tiết lớp
-              _fetchData();
-            }),
-            child: const Text(
-              'Thông tin danh sách các lớp',
-              style: TextStyle(
-                color: Colors.red,
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.red,
-                fontSize: 16,
-                fontWeight: FontWeight.bold
-              ),
-            ),
           ),
           const SizedBox(height: 10.0),
         ],
@@ -147,10 +105,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                 MaterialPageRoute(
                   builder: (context) => ClassDetailPage(classData: classData),
                 ),
-              ).then((_) {
-                // Làm mới dữ liệu khi quay lại từ trang chi tiết lớp
-                _fetchData();
-              });
+              );
             },
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -171,10 +126,7 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
                           },
                         ),
                       ),
-                    ).then((_) {
-                      // Làm mới dữ liệu khi quay lại từ trang chỉnh sửa
-                      _fetchData();
-                    });
+                    );
                   },
                 ),
                 IconButton(

@@ -18,7 +18,7 @@ class AssignmentService {
         token, classId, description, title, deadline, files);
   }
 
-  Future<AssignmentData> editAssignment(String? token, int assignmentId,
+  Future<void> editAssignment(String? token, int assignmentId,
       String description, DateTime deadline, List<PlatformFile> files) async {
     return await assignmentRepository.editAssignment(
         token, assignmentId, description, deadline, files);
