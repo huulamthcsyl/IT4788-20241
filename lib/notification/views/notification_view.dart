@@ -15,13 +15,18 @@ class NotificationView extends StatefulWidget {
 }
 
 class _NotificationViewState extends State<NotificationView> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final NotificationViewModel viewModel = context.read<NotificationViewModel>();
+    viewModel.initNotification();
+  }
+
   @override
   Widget build(BuildContext context) {
     final NotificationViewModel viewModel = context.watch<NotificationViewModel>();
-
-    setState(() {
-      viewModel.refresh();
-    });
 
     return Scaffold(
       appBar: AppBar(
@@ -40,15 +45,16 @@ class _NotificationViewState extends State<NotificationView> {
       ),
       body: RefreshIndicator(
         onRefresh: viewModel.refresh,
-        child: PagedListView<int, NotificationData>(
-          pagingController: viewModel.pagingController,
-          builderDelegate: PagedChildBuilderDelegate<NotificationData>(
-            itemBuilder: (context, item, index) => NotificationTile(
-              notificationData: item,
+        child: ListView.builder(
+          itemCount: viewModel.notificationList.length,
+          itemBuilder: (context, index) {
+            final notification = viewModel.notificationList[index];
+            return NotificationTile(
+              notificationData: notification,
               // refresh: viewModel.refresh(),
-            )
-          ),
-        ),
+            );
+          },
+        )
       ),
     );
   }
