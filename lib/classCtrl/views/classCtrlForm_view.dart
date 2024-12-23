@@ -35,7 +35,8 @@ class _ClassCtrlFormPageState extends State<ClassCtrlFormPage> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SafeArea(child: SingleChildScrollView(child:
+      Padding(
         padding: const EdgeInsets.all(16.0),
         child: CreateClassWidget(
           formKey: _formKey,
@@ -43,7 +44,8 @@ class _ClassCtrlFormPageState extends State<ClassCtrlFormPage> {
             widget.onSave(newClass); // Gọi lại hàm onSave để cập nhật lớp
           },
         ),
-      ),
+      ),))
+
     );
   }
 }
