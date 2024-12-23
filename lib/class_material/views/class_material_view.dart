@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../classCtrl/views/class_detail_page.dart';
 import '../../home/views/home_view.dart';
 import '../../utils/get_material_icon.dart';
+import '../../utils/show_notification.dart';
 import '../models/class_material_model.dart';
 
 class ClassMaterialPage extends StatefulWidget {
@@ -182,7 +183,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                   await launchUrl(url, mode: LaunchMode.externalApplication,);
                   } else {
                   // Handle error: cannot launch URL
-                  print('Could not launch $url');
+                    showNotification("Không thể mở tệp này!", Colors.red.withOpacity(0.9));
                   }
                 },
               ),
@@ -207,12 +208,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                 onTap: () {
                   Navigator.pop(context);
                   viewModel.deleteMaterial(classMaterial);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Xóa tài liệu thành công!'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                  showNotification("Xóa tài liệu thành công!", Colors.green.withOpacity(0.9));
                 },
               ),
               ListTile(

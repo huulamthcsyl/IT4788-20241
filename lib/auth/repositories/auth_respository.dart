@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:it4788_20241/auth/models/login_data.dart';
 import 'package:it4788_20241/auth/models/sign_up_data.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:it4788_20241/auth/models/verify_data.dart';
 import 'package:it4788_20241/const/api.dart';
 import 'package:it4788_20241/exceptions/GlobalException.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 import 'package:mime/mime.dart';
 
 class AuthRepository {
@@ -124,15 +126,13 @@ class AuthRepository {
             key: 'user',
             value: utf8.encode(jsonEncode(dataDecoded)).toString(),
           );
-          print("Avatar updated successfully in secure storage.");
-        } else {
-          print("No user data found in secure storage.");
+          showNotification("Đổi ảnh đại diện thành công", Colors.green.withOpacity(0.9));
         }
       } else {
-        print("Invalid response: 'data' is not a valid map.");
+        showNotification("Đổi mật khẩu thất bại [1]", Colors.green.withOpacity(0.9));
       }
     } catch (e) {
-      print("Lỗi khi đổi ảnh đại diện: $e");
+      showNotification("Đổi ảnh đại diện tht bại [2]", Colors.green.withOpacity(0.9));
     }
   }
   Future<void> changePassword({
@@ -156,13 +156,12 @@ class AuthRepository {
         body: jsonEncode(body),
       );
       if (response.statusCode == 200) {
-        print("Đổi mật khẩu thành công: ${response.body}");
+        showNotification("Đổi mật khẩu thành công", Colors.green.withOpacity(0.9));
       } else {
-        print("Đổi mật khẩu thất bại. Mã lỗi: ${response.statusCode}");
-        print("Nội dung response: ${response.body}");
+        showNotification("Đổi mật khẩu thất bại [1]", Colors.red.withOpacity(0.9));
       }
     } catch (e) {
-      print('Lỗi khi gọi API đổi mật khẩu: $e');
+      showNotification("Đổi mật khẩu thất bại [2]", Colors.red.withOpacity(0.9));
     }
   }
 }
