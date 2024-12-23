@@ -104,35 +104,6 @@ class ProfileViewModel extends ChangeNotifier
     final token = (await getUserData()).token ?? "";
     await _authService.changePassword(token: token, old_password: old_password!, new_password: new_password!);
     Navigator.of(context).pop();
-    showSuccessToast(context);
-  }
-  void showSuccessToast(BuildContext context) {
-    final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: 50.0,
-        left: 20.0,
-        right: 20.0,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              'Đổi mật khẩu thành công!',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ),
-    );
-    overlay.insert(overlayEntry);
-    Future.delayed(Duration(seconds: 3), () {
-      overlayEntry.remove();
-    });
   }
 
   ImagePicker _picker = ImagePicker();

@@ -10,7 +10,7 @@ import 'package:it4788_20241/class_another_function/views/class_function_view.da
 import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:it4788_20241/utils/show_notifacation.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class AssignmentAndSubmission {
   final AssignmentData assignment;
@@ -189,9 +189,9 @@ class AssignmentListViewModel extends ChangeNotifier {
   Future<void> deleteAssignment(int assignmentId) async {
     try {
       await assignmentService.deleteAssignment(userData.token, assignmentId);
-      showNotification('Xóa bài tập thành công', false);
+      showNotification('Xóa bài tập thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
-      showNotification('Xóa bài tập thất bại', true);
+      showNotification('Xóa bài tập thất bại', Colors.red.withOpacity(0.9));
     } finally {
       notifyListeners();
 

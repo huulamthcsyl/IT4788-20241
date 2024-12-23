@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:it4788_20241/const/api.dart';
 import 'package:mime/mime.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import '../../utils/show_notification.dart';
 
 class MaterialRepository {
 
@@ -53,7 +56,7 @@ class MaterialRepository {
         body: jsonEncode(body),
       );
     } catch (e) {
-      print('Failed to delete material: $e');
+      showNotification("Xóa tài liệu thất bại", Colors.red.withOpacity(0.9));
     }
   }
   Future<void> uploadFile({
@@ -65,20 +68,13 @@ class MaterialRepository {
     required File file,
   }) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/upload_material');
-    final mimeType = lookupMimeType(file.path);
-    if (mimeType == null) {
-      throw Exception("Không xác định được MIME type của file");
-    }
     var request = http.MultipartRequest('POST', httpUrl);
     request.files.add(http.MultipartFile(
         'file',
         File(file.path).readAsBytes().asStream(),
         File(file.path).lengthSync(),
         filename: file.path.split("/").last));
-
-    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
-
     request.fields['classId'] = classId;
     request.fields['title'] = title;
     request.fields['description'] = description;
@@ -87,12 +83,12 @@ class MaterialRepository {
       var response = await request.send();
       if (response.statusCode == 201) {
         var responseBody = await response.stream.bytesToString();
-        print("Upload thành công: $responseBody");
+        showNotification("Upload thành công", Colors.green.withOpacity(0.9));
       } else {
-        print("Upload thất bại: ${await response.stream.bytesToString()} ${classId} ${title} ${description} ${materialType.split('.')[1]}");
+        showNotification("Upload thất bại", Colors.red.withOpacity(0.9));
       }
     } catch (e) {
-      print("Lỗi khi upload file: $e");
+      showNotification("Upload thất bại", Colors.red.withOpacity(0.9));
     }
   }
 
@@ -105,10 +101,6 @@ class MaterialRepository {
     required File file,
   }) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/edit_material');
-    final mimeType = lookupMimeType(file.path);
-    if (mimeType == null) {
-      throw Exception("Không xác định được MIME type của file");
-    }
     var request = http.MultipartRequest('POST', httpUrl);
     request.files.add(http.MultipartFile(
         'file',
@@ -118,7 +110,6 @@ class MaterialRepository {
             .split("/")
             .last));
 
-    // Mã hóa UTF-8 cho các trường dữ liệu
     request.fields['token'] = token!;
     request.fields['materialId'] = materialId;
     request.fields['title'] = title;
@@ -128,13 +119,12 @@ class MaterialRepository {
       var response = await request.send();
       if (response.statusCode == 201) {
         var responseBody = await response.stream.bytesToString();
-        print("Lưu thành công: $responseBody");
+        showNotification("Lưu thành công!", Colors.green.withOpacity(0.9));
       } else {
-        print("Lưu thất bại: ${await response.stream
-            .bytesToString()} ${materialId} ${title} ${description} ${materialType.split('.')[1]}");
+        showNotification("Lưu thất bại [1]", Colors.red.withOpacity(0.9));
       }
     } catch (e) {
-      print("Lỗi khi Lưu file: $e");
+      showNotification("Lưu thất bại [2]", Colors.red.withOpacity(0.9));
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/show_notification.dart';
 import '../viewmodels/profile_viewmodel.dart';
 
 class ChangeAvatarDialog extends StatefulWidget {
@@ -109,6 +110,9 @@ class _ChangeAvatarDialogState extends State<ChangeAvatarDialog> {
                         widget.selectedImage.path.isNotEmpty) {
                       _profileViewModel.changeAvatar(
                           context, widget.selectedImage);
+                    }
+                    else {
+                      showNotification("Vui lòng chọn ảnh", Colors.yellow.withOpacity(0.9));
                     }
                   },
                   child: Text(

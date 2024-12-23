@@ -11,18 +11,17 @@ class ApiService {
   // Biến toàn cục để lưu thông tin UserData
   UserData? userData;
 
-  // Hàm để khởi tạo hoặc cập nhật UserData
   Future<void> initializeUserData() async {
-    if (userData == null) {
-      userData = await getUserData();
-    }
+    // if (userData == null) {
+    userData = await getUserData();
+    // }
   }
 
   // Hàm đảm bảo userData luôn được khởi tạo
   Future<void> _ensureUserDataInitialized() async {
-    if (userData == null) {
-      await initializeUserData();  // Khởi tạo userData chỉ khi cần thiết
-    }
+    // if (userData == null) {
+    await initializeUserData();  // Khởi tạo userData chỉ khi cần thiết
+    // }
   }
 
   // Fetch class list
@@ -103,7 +102,6 @@ class ApiService {
     }
   }
 
-  // Create class
   Future<Map<String, dynamic>?> createClass(ClassData classData) async {
     await _ensureUserDataInitialized();
     final httpUrl = Uri.http(baseUrl, '/it5023e/create_class');
@@ -123,16 +121,16 @@ class ApiService {
         httpUrl,
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',  // Ensure UTF-8 encoding
-          'Authorization': 'Bearer ${userData!.token}',  // Use the token from UserData
         },
         body: jsonEncode(requestBody),
       );
 
       if (response.statusCode == 200) {
+        // Decode and return the full response
         final Map<String, dynamic> resData = jsonDecode(utf8.decode(response.bodyBytes));
 
         if (resData['meta']['code'] == '1000') {
-          return resData['data'];
+          return resData; // Return the entire response
         } else {
           throw Exception('Error: ${resData['meta']['message']}');
         }
@@ -213,7 +211,7 @@ class ApiService {
         throw Exception('Failed to delete class. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error deleting class: $e');
+      //print('Error deleting class: $e');
       return false;
     }
   }

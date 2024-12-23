@@ -7,7 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
-import 'package:it4788_20241/utils/show_notifacation.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class AssignmentDetailViewModel extends ChangeNotifier {
   final assignmentService = AssignmentService();
@@ -101,14 +101,14 @@ class AssignmentDetailViewModel extends ChangeNotifier {
 
   Future<void> submitAssignment() async {
     if (isSubmitting == true) {
-      showNotification('Bài tập đang được nộp', true);
+      showNotification('Bài tập đang được nộp', Colors.green.withOpacity(0.9));
       return;
     }
     if (textController.text == '' && selectedFiles.isEmpty) {
-      showNotification('Vui lòng nhập bài làm của bạn', true);
+      showNotification('Vui lòng nhập bài làm của bạn', Colors.green.withOpacity(0.9));
       return ;
     }
-    showNotification('Vui lòng chờ trong giây lát', false);
+    showNotification('Vui lòng chờ trong giây lát', Colors.red.withOpacity(0.9));
 
     try {
       isSubmitting = true;
@@ -124,9 +124,9 @@ class AssignmentDetailViewModel extends ChangeNotifier {
       if (!_isDisposed) {
         notifyListeners();
       }
-      showNotification('Nộp bài thành công', false);
+      showNotification('Nộp bài thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
-      showNotification('Nộp bài thất bại', true);
+      showNotification('Nộp bài thất bại', Colors.red.withOpacity(0.9));
     }
   }
 
@@ -163,9 +163,9 @@ class AssignmentDetailViewModel extends ChangeNotifier {
           'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
       await notificationService.sendNotification(
           message, accountId, null, 'ASSIGNMENT_GRADE');
-      showNotification('Trả điểm thành công', false);
+      showNotification('Trả điểm thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
-      showNotification('Trả điểm thất bại', true);
+      showNotification('Trả điểm thất bại', Colors.red.withOpacity(0.9));
     } finally {
       notifyListeners();
     }

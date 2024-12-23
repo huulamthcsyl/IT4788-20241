@@ -4,7 +4,7 @@ import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/class_attendance/models/class_attendance_model.dart';
 import 'package:it4788_20241/class_attendance/repository/class_attendance_repository.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
-import 'package:it4788_20241/utils/show_notifacation.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class ClassAttendanceViewModel extends ChangeNotifier {
   late ClassData classData;
@@ -102,9 +102,9 @@ class ClassAttendanceViewModel extends ChangeNotifier {
     try {
       await takeAllAttendance();
       await setAttendanceStatus();
-      showNotification('Điểm danh thành công', false);
+      showNotification('Điểm danh thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
-      showNotification('Điểm danh thất bại', false);
+      showNotification('Điểm danh thất bại', Colors.red.withOpacity(0.9));
     } finally {
       notifyListeners();
     }

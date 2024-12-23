@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/class_list_viewmodel.dart';
+import '../widgets/class_detail_dialog.dart';
 
 class ClassListPage extends StatefulWidget {
   @override
@@ -8,11 +9,11 @@ class ClassListPage extends StatefulWidget {
 }
 
 class _ClassListPageState extends State<ClassListPage> {
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
-    _searchController.dispose();
+    final classListViewModel = Provider.of<ClassListViewModel>(context, listen: false);
+    classListViewModel.searchController.dispose(); // Giải phóng bộ nhớ từ ViewModel
     super.dispose();
   }
 
@@ -49,7 +50,7 @@ class _ClassListPageState extends State<ClassListPage> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _searchController,
+                    controller: classListViewModel.searchController,
                     decoration: InputDecoration(
                       labelText: 'Nhập mã học phần hoặc mã lớp',
                       labelStyle: TextStyle(color: Colors.red),
@@ -66,7 +67,7 @@ class _ClassListPageState extends State<ClassListPage> {
                       hintStyle: TextStyle(color: Colors.red, fontSize: 20.0),
                     ),
                     onSubmitted: (value) {
-                      classListViewModel.searchClasses(_searchController.text.trim());
+                      classListViewModel.searchClasses(classListViewModel.searchController.text.trim());
                     },
                   ),
                 ),
@@ -91,7 +92,12 @@ class _ClassListPageState extends State<ClassListPage> {
                         ],
                       ),
                       trailing: TextButton(
-                        onPressed: () => classListViewModel.showClassDetails(context, classInfo),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => ClassDetailsDialog(classInfo: classInfo),
+                          );
+                        },
                         child: Text('Chi tiết', style: TextStyle(color: Colors.red)),
                       ),
                     ),
