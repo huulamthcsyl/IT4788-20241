@@ -211,7 +211,7 @@ class ApiService {
         throw Exception('Failed to delete class. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error deleting class: $e');
+      //print('Error deleting class: $e');
       return false;
     }
   }
