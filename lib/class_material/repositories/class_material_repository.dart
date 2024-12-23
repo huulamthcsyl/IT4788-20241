@@ -10,31 +10,33 @@ class MaterialRepository {
 
   Future<List<ClassMaterial>> getClassMaterial(String? token, String classCode) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/get_material_list');
-      final response = await http.post(
-        httpUrl,
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
-        body: jsonEncode({
-          "token": token,
-          "class_id": classCode,
-        }),
-      );
+    final response = await http.post(
+      httpUrl,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: jsonEncode({
+        "token": token,
+        "class_id": classCode,
+      }),
+    );
 
-      if (response.statusCode == 200)
-      {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
-        if (responseData['code'] == "1000") {
-          List<dynamic> data = responseData['data'];
-          return data.map((item) => ClassMaterial.fromJson(item)).toList();
-        } else {
-          print('Error: ${responseData['message']}');
-          return [];
-        }
+    if (response.statusCode == 200) {
+      // Decode response body using utf8.decode()
+      final String responseBody = utf8.decode(response.bodyBytes);
+      final Map<String, dynamic> responseData = jsonDecode(responseBody);
+
+      if (responseData['code'] == "1000") {
+        List<dynamic> data = responseData['data'];
+        return data.map((item) => ClassMaterial.fromJson(item)).toList();
       } else {
-        print('Error: ${token} ${classCode}');
+        print('Error: ${responseData['message']}');
         return [];
       }
+    } else {
+      print('Error: ${token} ${classCode}');
+      return [];
+    }
   }
   Future<void> deleteMaterial({required String? token, required String material_id}) async {
     final httpUrl = Uri.http(BASE_API_URL, '/it5023e/delete_material');
@@ -80,7 +82,11 @@ class MaterialRepository {
     request.fields['classId'] = classId;
     request.fields['title'] = title;
     request.fields['description'] = description;
+<<<<<<< Updated upstream
     request.fields['materialType'] = materialType;
+=======
+    request.fields['materialType'] = materialType.split('.')[1];
+>>>>>>> Stashed changes
 
     try {
       var response = await request.send();
@@ -88,7 +94,7 @@ class MaterialRepository {
         var responseBody = await response.stream.bytesToString();
         print("Upload thành công: $responseBody");
       } else {
-        print("Upload thất bại: ${await response.stream.bytesToString()} ${classId} ${title} ${description} ${materialType}");
+        print("Upload thất bại: ${await response.stream.bytesToString()} ${classId} ${title} ${description} ${materialType.split('.')[1]}");
       }
     } catch (e) {
       print("Lỗi khi upload file: $e");
@@ -120,7 +126,11 @@ class MaterialRepository {
     request.fields['materialId'] = materialId;
     request.fields['title'] = title;
     request.fields['description'] = description;
+<<<<<<< Updated upstream
     request.fields['materialType'] = materialType;
+=======
+    request.fields['materialType'] = materialType.split('.')[1];
+>>>>>>> Stashed changes
 
     try {
       var response = await request.send();
@@ -128,7 +138,12 @@ class MaterialRepository {
         var responseBody = await response.stream.bytesToString();
         print("Lưu thành công: $responseBody");
       } else {
+<<<<<<< Updated upstream
         print("Lưu thất bại: ${await response.stream.bytesToString()} ${materialId} ${title} ${description} ${materialType}");
+=======
+        print("Lưu thất bại: ${await response.stream
+            .bytesToString()} ${materialId} ${title} ${description} ${materialType.split('.')[1]}");
+>>>>>>> Stashed changes
       }
     } catch (e) {
       print("Lỗi khi Lưu file: $e");

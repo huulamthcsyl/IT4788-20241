@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
+import 'package:it4788_20241/class_another_function/views/class_function_view.dart';
 import 'package:it4788_20241/class_attendance/viewmodels/class_attendance_viewmodel.dart';
 import 'package:it4788_20241/class_attendance/widgets/attendance_item.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
       length: 2,
       initialIndex: 1,
       child: Scaffold(
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(viewModel),
         body: Column(
           children: [
             _buildDateSelector(viewModel),
@@ -44,10 +45,19 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
       ),
     );
   }
-
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(ClassAttendanceViewModel viewModel) {
     return AppBar(
-      leading: const BackButton(color: Colors.white),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ClassFunctionPage(classData: viewModel.classData),
+            ),
+          );
+        },
+        icon: Icon(Icons.arrow_back, color: Colors.white,),
+      ),
       title: const Text("Danh sách điểm danh",
           style: TextStyle(color: Colors.white, fontSize: 20)),
       backgroundColor: Colors.red,
