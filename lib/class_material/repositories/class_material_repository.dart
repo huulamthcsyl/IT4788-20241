@@ -83,7 +83,11 @@ class MaterialRepository {
     request.fields['title'] = title;
     request.fields['description'] = description;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     request.fields['materialType'] = materialType;
+=======
+    request.fields['materialType'] = materialType.split('.')[1];
+>>>>>>> Stashed changes
 =======
     request.fields['materialType'] = materialType.split('.')[1];
 >>>>>>> Stashed changes
@@ -127,7 +131,11 @@ class MaterialRepository {
     request.fields['title'] = title;
     request.fields['description'] = description;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     request.fields['materialType'] = materialType;
+=======
+    request.fields['materialType'] = materialType.split('.')[1];
+>>>>>>> Stashed changes
 =======
     request.fields['materialType'] = materialType.split('.')[1];
 >>>>>>> Stashed changes
@@ -143,6 +151,9 @@ class MaterialRepository {
 =======
         print("Lưu thất bại: ${await response.stream
             .bytesToString()} ${materialId} ${title} ${description} ${materialType.split('.')[1]}");
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       }
     } catch (e) {
