@@ -188,6 +188,11 @@ class AssignmentListViewModel extends ChangeNotifier {
 
   Future<void> deleteAssignment(int assignmentId) async {
     try {
+      final stats = assignmentStats[assignmentId] ?? {'turnInCount': 0, 'gradeCount': 0};
+      if (stats['turnInCount']! > 0) {
+        showNotification('Không thể xóa bài tập đã có sinh viên nộp bài', Colors.red.withOpacity(0.9));
+        return ;
+      }
       await assignmentService.deleteAssignment(userData.token, assignmentId);
       showNotification('Xóa bài tập thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
