@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/classCtrl/service/api_service.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:provider/provider.dart';
+import '../../utils/show_notification.dart';
 
 class ClassCtrlViewModel extends ChangeNotifier {
   final ApiService _apiService = ApiService(); // API service instance
@@ -27,7 +28,7 @@ class ClassCtrlViewModel extends ChangeNotifier {
   bool get hasMore => _hasMore;
 
   Future<void> fetchClasses({int page = 0}) async {
-    _setLoading(true); // Start loading data
+    _setLoading(true);
     try {
       final response = await _apiService.getClassList(
         page: page,
@@ -45,25 +46,23 @@ class ClassCtrlViewModel extends ChangeNotifier {
 
         _hasMore = response.length == _pageSize;
         _errorMessage = null;
+        showNotification('Tải danh sách lớp thành công!', Colors.green);
       } else {
         _hasMore = false;
       }
     } catch (error) {
       _errorMessage = 'Không thể tải danh sách lớp: $error';
+      showNotification(_errorMessage!,  Colors.red);
     } finally {
-      _setLoading(false); // Ensure loading state is stopped after data is loaded
+      _setLoading(false);
     }
   }
 
-  // Set the loading state and notify listeners
   void _setLoading(bool value) {
-    // Đảm bảo rằng việc thay đổi trạng thái loading không kéo dài quá lâu
     if (value) {
-      // Chỉ thay đổi trạng thái khi bắt đầu gọi API
       _isLoading = true;
       notifyListeners();
     } else {
-      // Đảm bảo không để trạng thái loading lâu, cập nhật lại trạng thái ngay sau khi có kết quả
       Future.delayed(const Duration(milliseconds: 200), () {
         _isLoading = false;
         notifyListeners();
@@ -71,47 +70,49 @@ class ClassCtrlViewModel extends ChangeNotifier {
     }
   }
 
-  // Add a new class to the list
   void addClass(ClassData newClass) {
     _classes.add(newClass);
     notifyListeners();
   }
 
-  // Edit class details and update via API
   Future<void> editClass(int index, ClassData updatedClass) async {
     try {
       final success = await _apiService.editClassDetails(updatedClass);
       if (success) {
         _classes[index] = updatedClass;
+        showNotification('Cập nhật lớp thành công!', Colors.green);
         notifyListeners();
       } else {
         _errorMessage = 'Không thể cập nhật lớp';
-        notifyListeners();
+        showNotification(_errorMessage!,  Colors.red);
       }
     } catch (error) {
       _errorMessage = 'Không thể cập nhật lớp: $error';
+      showNotification(_errorMessage!,  Colors.red);
       notifyListeners();
     }
   }
 
-  // Delete class
   Future<void> deleteClass(String classId) async {
     try {
       final success = await _apiService.deleteClass(classId);
       if (success) {
         _classes.removeWhere((classData) => classData.classId == classId);
-        notifyListeners();
+        showNotification('Lớp học đã được xóa thành công!', Colors.green);
       } else {
         _errorMessage = 'Không thể xóa lớp';
-        notifyListeners();
+        showNotification(_errorMessage!, Colors.red);
       }
     } catch (error) {
       _errorMessage = 'Không thể xóa lớp: $error';
-      notifyListeners();
+      showNotification(_errorMessage!, Colors.red);
     }
+    // Reload the class list after the deletion attempt, regardless of success/failure
+
+    notifyListeners();  // Notify listeners to update the UI with the new class list
   }
 
-  // Phương thức lưu lớp
+
   ClassData saveClass() {
     return ClassData(
       classId: classId,
@@ -121,60 +122,55 @@ class ClassCtrlViewModel extends ChangeNotifier {
       endDate: endDate,
       maxStudents: maxStudents,
       classType: classType,
-      status: status,  // Trạng thái mặc định là 'Active'
-      studentAccounts: [], // Chưa có sinh viên
+      status: status,
+      studentAccounts: [],
     );
   }
 
-  // Phương thức cập nhật lớp
   Future<void> updateClass(ClassData classData) async {
     try {
       final success = await _apiService.editClassDetails(classData);
       if (success) {
+        showNotification('Cập nhật lớp thành công!',  Colors.green);
         notifyListeners();
       } else {
-        print('Failed to update class');
+        showNotification('Không thể cập nhật lớp.',  Colors.red);
       }
     } catch (e) {
-      print('Error updating class: $e');
+      showNotification('Lỗi khi cập nhật lớp: $e',  Colors.red);
     }
   }
 
-  // Fetch student list for a specific class
   Future<void> getStudentListForClass(String classId) async {
-    _setLoading(true); // Start loading
-
+    _setLoading(true);
     try {
-      // Gọi API để lấy thông tin lớp, bao gồm cả danh sách sinh viên
       final response = await _apiService.getClassInfo(classId: classId);
 
       if (response != null) {
-        // Lấy danh sách sinh viên từ response (nếu có)
         List<Student> studentList = (response['student_accounts'] as List<dynamic>? ?? [])
             .map((studentJson) => Student.fromJson(studentJson))
             .toList();
 
-        // Tìm vị trí lớp trong danh sách lớp
         final classIndex = _classes.indexWhere((classData) => classData.classId == classId);
 
         if (classIndex != -1) {
-          // Cập nhật danh sách sinh viên của lớp mà không sử dụng copyWith
           _classes[classIndex].studentAccounts = studentList;
           _errorMessage = null;
+          showNotification('Tải danh sách sinh viên thành công!',  Colors.green);
         } else {
           _errorMessage = 'Lớp không tồn tại.';
+          showNotification(_errorMessage!,  Colors.red);
         }
       } else {
         _errorMessage = 'Không thể tải danh sách sinh viên.';
+        showNotification(_errorMessage!,  Colors.red);
       }
     } catch (error) {
-      // Xử lý lỗi nếu có
       _errorMessage = 'Lỗi khi tải danh sách sinh viên: $error';
+      showNotification(_errorMessage!,  Colors.red);
     } finally {
-      _setLoading(false); // Đảm bảo trạng thái loading được dừng lại khi hoàn tất
+      _setLoading(false);
     }
-
-    // Notify listeners để giao diện cập nhật
     notifyListeners();
   }
 
@@ -188,28 +184,16 @@ class ClassCtrlViewModel extends ChangeNotifier {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Đóng hộp thoại
+                Navigator.pop(context);
               },
               child: const Text('Hủy'),
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context); // Đóng hộp thoại trước khi thực hiện hành động xóa
-
-                // Gọi phương thức xóa lớp
+                Navigator.pop(context);
                 await viewModel.deleteClass(classId);
-
-                // Thông báo kết quả
-                String message = viewModel.errorMessage == null
-                    ? 'Lớp học đã được xóa thành công!'
-                    : viewModel.errorMessage!;
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(message)),
-                );
-
-                // Luôn làm mới danh sách lớp, ngay cả khi xóa không thành công
-                context.read<ClassCtrlViewModel>().fetchClasses();
+                //context.read<ClassCtrlViewModel>().fetchClasses();
+                await fetchClasses();
               },
               child: const Text('Xóa'),
             ),
@@ -218,5 +202,4 @@ class ClassCtrlViewModel extends ChangeNotifier {
       },
     );
   }
-
 }
