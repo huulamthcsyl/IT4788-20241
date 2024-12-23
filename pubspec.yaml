@@ -50,6 +50,7 @@ dependencies:
   skeletonizer: ^1.4.2
   stomp_dart_client: ^2.1.0
   url_launcher: ^6.0.20
+  fluttertoast: ^8.0.9
 
   firebase_messaging: ^15.1.6
   firebase_core: ^3.9.0

@@ -6,7 +6,7 @@ class SubmissionDetailPopup extends StatefulWidget {
   final String? fileUrl;
   final double? grade;
   final ValueChanged<double> onGradeChange;
-  final VoidCallback onSubmit;
+  final Future<void> Function() onSubmit; // Change to Future<void>
 
   const SubmissionDetailPopup({
     super.key,
@@ -32,7 +32,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
     gradeController.text = widget.grade?.toString() ?? '';
   }
 
-  void handleSubmit() {
+  void handleSubmit() async {
     String gradeText = gradeController.text.replaceAll(',', '.');
     final double? newGrade = double.tryParse(gradeText);
     if (newGrade == null) {
@@ -41,7 +41,7 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
       });
     } else {
       widget.onGradeChange(newGrade);
-      widget.onSubmit();
+      await widget.onSubmit(); // Await the Future<void> function
       Navigator.of(context).pop();
     }
   }
@@ -49,7 +49,12 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Chi tiết bài làm'),
+      backgroundColor: const Color(0xFFFAFAFA),
+      // Set background color to a lighter shade
+      title: const Text(
+        'Chi tiết bài làm',
+        style: TextStyle(fontWeight: FontWeight.bold), // Make title bold
+      ),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,18 +93,41 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
                   ),
                 ),
               ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 8.0),
             const Text(
               'Điểm:',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            if (widget.grade == null) ...[
-              TextField(
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Background color
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(8.0), // Border radius
+              ),
+              child: TextField(
                 controller: gradeController,
                 keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
+                const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   hintText: 'Nhập điểm',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: InputBorder.none,
+                  // Remove the outline
+                  enabledBorder: InputBorder.none,
+                  // Remove the outline when enabled
+                  focusedBorder: InputBorder.none,
+                  // Remove the outline when focused
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: 16.0,
+                      horizontal: 12.0), // Add horizontal padding
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -107,17 +135,12 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
                   });
                 },
               ),
-              if (errorMessage != null) ...[
-                const SizedBox(height: 8.0),
-                Text(
-                  errorMessage!,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ],
-            ] else ...[
+            ),
+            if (errorMessage != null) ...[
+              const SizedBox(height: 8.0),
               Text(
-                '${widget.grade}',
-                style: const TextStyle(),
+                errorMessage!,
+                style: const TextStyle(color: Colors.red),
               ),
             ],
           ],
@@ -128,13 +151,38 @@ class SubmissionDetailPopupState extends State<SubmissionDetailPopup> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Thoát'),
-        ),
-        if (widget.grade == null)
-          ElevatedButton(
-            onPressed: handleSubmit,
-            child: const Text('Trả điểm'),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.redAccent.withOpacity(0.8),
+            // Background color for "Thoát" button
+            padding:
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
           ),
+          child: const Text(
+            'Thoát',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: handleSubmit,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green.withOpacity(0.8),
+            // Background color for "Trả điểm" button
+            padding:
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            textStyle: const TextStyle(fontSize: 18.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+          child: const Text(
+            'Trả điểm',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+        ),
       ],
     );
   }

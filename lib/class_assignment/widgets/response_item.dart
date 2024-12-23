@@ -9,9 +9,8 @@ class ResponseItem extends StatelessWidget {
   final String textResponse;
   final String? fileUrl;
   final String accountId;
-  final BuildContext context;
   final ValueChanged<double?> onGradeChange;
-  final ValueChanged<String> onSubmit;
+  final Future<void> Function(String) onSubmit; // Thay đổi thành Future<void>
 
   const ResponseItem({
     super.key,
@@ -22,9 +21,8 @@ class ResponseItem extends StatelessWidget {
     required this.textResponse,
     required this.fileUrl,
     required this.accountId,
-    required this.context,
     required this.onGradeChange,
-    required this.onSubmit,
+    required this.onSubmit, // Thay đổi thành Future<void>
   });
 
   String formatDate(String date) {
@@ -41,7 +39,7 @@ class ResponseItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         showDialog(
-          context: this.context,
+          context: context,
           builder: (context) {
             return SubmissionDetailPopup(
               name: name,
@@ -51,8 +49,8 @@ class ResponseItem extends StatelessWidget {
               onGradeChange: (double newGrade) {
                 onGradeChange(newGrade);
               },
-              onSubmit: () {
-                onSubmit(accountId);
+              onSubmit: () async {
+                await onSubmit(accountId); // Await onSubmit
               },
             );
           },

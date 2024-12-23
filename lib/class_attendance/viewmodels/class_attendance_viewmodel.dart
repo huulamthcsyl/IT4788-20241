@@ -4,6 +4,7 @@ import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/class_attendance/models/class_attendance_model.dart';
 import 'package:it4788_20241/class_attendance/repository/class_attendance_repository.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
+import 'package:it4788_20241/utils/show_notifacation.dart';
 
 class ClassAttendanceViewModel extends ChangeNotifier {
   late ClassData classData;
@@ -25,16 +26,14 @@ class ClassAttendanceViewModel extends ChangeNotifier {
       userData.token,
       classData.classId,
       selectedDate,
-      classData.studentAccounts.length,
+      classData.maxStudents,
     );
     updateAttendance();
     notifyListeners();
   }
 
   void updateAttendance() {
-    attendanceList = classData.studentAccounts.where((student) {
-      return attendanceData.any((data) => data.studentId == student.studentId);
-    }).map((student) {
+    attendanceList = classData.studentAccounts.map((student) {
       final attendance = attendanceData.firstWhere(
         (data) => data.studentId == student.studentId,
       );
@@ -80,7 +79,7 @@ class ClassAttendanceViewModel extends ChangeNotifier {
       userData.token,
       classData.classId,
       date,
-      classData.studentAccounts.length,
+      classData.maxStudents,
     );
     updateAttendance();
     notifyListeners();
@@ -100,8 +99,15 @@ class ClassAttendanceViewModel extends ChangeNotifier {
   }
 
   void saveAttendance() async {
-    await takeAllAttendance();
-    await setAttendanceStatus();
+    try {
+      await takeAllAttendance();
+      await setAttendanceStatus();
+      showNotification('Điểm danh thành công', false);
+    } catch (e) {
+      showNotification('Điểm danh thất bại', false);
+    } finally {
+      notifyListeners();
+    }
   }
 
   Future<void> takeAllAttendance() async {
@@ -115,8 +121,8 @@ class ClassAttendanceViewModel extends ChangeNotifier {
   }
 
   Future<void> setAttendanceStatus() async {
-    attendanceData = await attendanceRepo.fetchAttendanceList(userData.token,
-        classData.classId, selectedDate, classData.studentAccounts.length);
+    attendanceData = await attendanceRepo.fetchAttendanceList(
+        userData.token, classData.classId, selectedDate, classData.maxStudents);
 
     for (var attendance in attendanceData) {
       for (var student in attendanceList) {

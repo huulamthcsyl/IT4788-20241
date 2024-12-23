@@ -9,7 +9,8 @@ class CreateAssignmentDialog extends StatelessWidget {
   final ClassData classData;
   final AssignmentData? assignmentData;
 
-  const CreateAssignmentDialog({super.key, required this.classData, this.assignmentData});
+  const CreateAssignmentDialog(
+      {super.key, required this.classData, this.assignmentData});
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +19,54 @@ class CreateAssignmentDialog extends StatelessWidget {
       child: Consumer<CreateAssignmentViewModel>(
         builder: (context, viewModel, child) {
           return AlertDialog(
-            title: Text(assignmentData == null ? 'Tạo bài tập mới' : 'Chỉnh sửa bài tập'),
+            backgroundColor: const Color(0xFFFAFAFA),
+            // Set background color to a lighter shade
+            title: Text(
+              assignmentData == null ? 'Tạo bài tập mới' : 'Chỉnh sửa bài tập',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold), // Make title bold
+            ),
             content: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextField(
-                    controller: viewModel.titleController,
-                    decoration: InputDecoration(
-                      labelText: 'Tiêu đề',
-                      errorText: viewModel.titleError,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Background color
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(8.0), // Border radius
                     ),
-                    onChanged: (text) {
-                      viewModel.updateTitle(text);
-                    },
-                    readOnly: assignmentData != null, // Make the title read-only if editing
+                    child: TextField(
+                      controller: viewModel.titleController,
+                      decoration: InputDecoration(
+                        hintText: 'Tiêu đề',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: InputBorder.none,
+                        // Remove the outline
+                        enabledBorder: InputBorder.none,
+                        // Remove the outline when enabled
+                        focusedBorder: InputBorder.none,
+                        // Remove the outline when focused
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 12.0),
+                        // Add horizontal padding
+                        errorText: viewModel.titleError,
+                      ),
+                      onChanged: (text) {
+                        viewModel.updateTitle(text);
+                      },
+                      readOnly: assignmentData !=
+                          null, // Make the title read-only if editing
+                    ),
                   ),
                   const SizedBox(height: 16.0),
                   TextField(
@@ -48,10 +82,10 @@ class CreateAssignmentDialog extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 8.0),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () async {
                       FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
+                          await FilePicker.platform.pickFiles(
                         allowMultiple: true,
                         type: FileType.custom,
                         allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -64,7 +98,23 @@ class CreateAssignmentDialog extends StatelessWidget {
                         // User canceled the picker
                       }
                     },
-                    child: const Text('Chọn file đính kèm'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12.0),
+                      textStyle: const TextStyle(fontSize: 18.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    icon: const Icon(Icons.attach_file, color: Colors.black),
+                    label: const Text(
+                      'Chọn file đính kèm',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0),
+                    ),
                   ),
                   if (viewModel.selectedFiles.isNotEmpty) ...[
                     const SizedBox(height: 8.0),
@@ -81,7 +131,7 @@ class CreateAssignmentDialog extends StatelessWidget {
                                   fontSize: 16.0,
                                   fontFamily: 'Roboto',
                                   color: Color(0xFF212121),
-                                  fontWeight: FontWeight.bold,
+                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -96,7 +146,7 @@ class CreateAssignmentDialog extends StatelessWidget {
                       ),
                   ],
                   const SizedBox(height: 8.0),
-                  ElevatedButton(
+                  ElevatedButton.icon(
                     onPressed: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -121,15 +171,38 @@ class CreateAssignmentDialog extends StatelessWidget {
                         }
                       }
                     },
-                    child: Text('Chọn ngày đến hạn'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12.0),
+                      textStyle: const TextStyle(fontSize: 18.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    icon: const Icon(Icons.calendar_today, color: Colors.black),
+                    label: const Text(
+                      'Chọn hạn nộp',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0),
+                    ),
                   ),
                   if (viewModel.selectedDate != null)
-                    Text(
-                        'Ngày đến hạn: ${viewModel.formatDate(viewModel.selectedDate!)}'),
-                  if (viewModel.dateError != null)
-                    Text(
-                      viewModel.dateError!,
-                      style: TextStyle(color: Colors.red),
+                    Container(
+                      margin: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Text(
+                        viewModel.formatDate(viewModel.selectedDate!),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 16),
+                      ),
                     ),
                 ],
               ),
@@ -139,16 +212,54 @@ class CreateAssignmentDialog extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Hủy'),
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.redAccent.withOpacity(0.8),
+                  // Background color for "Hủy" button
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 12.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: const Text(
+                  'Hủy',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  viewModel.createAssignment();
-                  if (viewModel.titleError == null && viewModel.dateError == null) {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Text(assignmentData == null ? 'Tạo' : 'Cập nhật'),
+                onPressed: viewModel.isLoading
+                    ? null
+                    : () {
+                        viewModel.createAssignment(context);
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.withOpacity(0.8),
+                  // Background color for "Tạo" button
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 12.0),
+                  textStyle: const TextStyle(fontSize: 18.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                child: viewModel.isLoading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                          strokeWidth: 2.0,
+                        ),
+                      )
+                    : Text(
+                        assignmentData == null ? 'Tạo' : 'Cập nhật',
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w500),
+                      ),
               ),
             ],
           );

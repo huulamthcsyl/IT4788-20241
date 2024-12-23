@@ -71,6 +71,7 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
             if (viewModel.userData.role == "LECTURER")
               IconButton(
                 icon: const Icon(Icons.add),
+                color: Colors.white,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ClassMaterialUploadFilePage()));
                 },
