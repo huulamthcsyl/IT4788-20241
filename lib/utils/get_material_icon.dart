@@ -8,6 +8,8 @@ String getMaterialIcon(String material_type){
       return "assets/img/ppt_icon.png";
     case "DOC":
       return "assets/img/doc_icon.png";
+    case "TXT":
+      return "assets/img/txt_icon.png";
     default:
       return "assets/img/unknown_icon.png";
   }

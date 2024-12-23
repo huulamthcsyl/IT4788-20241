@@ -20,6 +20,18 @@ class AttendanceItem extends StatefulWidget {
 
 class AttendanceItemState extends State<AttendanceItem> {
   late String? _selectedStatus;
+  final Map<String, String> _statusMap = {
+    'PRESENT': 'Có mặt',
+    'EXCUSED_ABSENCE': 'Vắng mặt có phép',
+    'UNEXCUSED_ABSENCE': 'Vắng mặt không phép',
+  };
+
+  // Reverse map for display
+  final Map<String, String> _displayStatusMap = {
+    'Có mặt': 'PRESENT',
+    'Vắng mặt có phép': 'EXCUSED_ABSENCE',
+    'Vắng mặt không phép': 'UNEXCUSED_ABSENCE',
+  };
 
   @override
   void initState() {
@@ -31,16 +43,16 @@ class AttendanceItemState extends State<AttendanceItem> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
-      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -68,14 +80,16 @@ class AttendanceItemState extends State<AttendanceItem> {
           SizedBox(
             width: double.infinity,
             child: DropdownButton<String>(
-              value: _selectedStatus,
+              value: _statusMap[_selectedStatus],
               onChanged: (String? newValue) {
-                setState(() {
-                  _selectedStatus = newValue!;
-                });
-                widget.onStatusChange(newValue!);
+                if(newValue != null){
+                  setState(() {
+                    _selectedStatus = _displayStatusMap[newValue]!;
+                  });
+                  widget.onStatusChange(_displayStatusMap[newValue]!);
+                }
               },
-              items: <String>['PRESENT', 'EXCUSED_ABSENCE', 'UNEXCUSED_ABSENCE']
+              items: _statusMap.values
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

@@ -213,7 +213,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
     } else {
       return Expanded(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ListView.builder(
             itemCount: viewModel.filteredAttendanceList.length,
             itemBuilder: (context, index) {
