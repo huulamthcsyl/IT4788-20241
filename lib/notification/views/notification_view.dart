@@ -27,11 +27,10 @@ class _NotificationViewState extends State<NotificationView> {
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Thông báo',
+            'THÔNG BÁO',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -45,6 +44,7 @@ class _NotificationViewState extends State<NotificationView> {
           builderDelegate: PagedChildBuilderDelegate<NotificationData>(
             itemBuilder: (context, item, index) => NotificationTile(
               notificationData: item,
+              // refresh: viewModel.refresh(),
             )
           ),
         ),

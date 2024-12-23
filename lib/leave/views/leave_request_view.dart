@@ -15,31 +15,17 @@ class LeaveRequestPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.red,
-        title: Center(
-          child: Text('Nghỉ phép          ', style: TextStyle(color: Colors.white)),
-        ),
+        title:Text('GỬI ĐƠN NGHỈ PHÉP', style: TextStyle(color: Colors.white, fontSize: 20)),
+        centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Column(
           children: [
-            Container(
-              color: Colors.red, // Màu nền đỏ cho toàn bộ phần
-              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0), // Giảm khoảng cách trên và dưới
-              child: Center( // Đặt ảnh vào giữa
-                child: Image(
-                  image: AssetImage('assets/img/logo_hust_white.png'),
-                  width: MediaQuery.of(context).size.width * 0.4, // Chiều rộng bằng một nửa màn hình
-                ),
-              ),
-            ),
       Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text("Mã lớp :${classId}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-            SizedBox(width: 10,),
-            Text("Tên lớp :${className}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-            SizedBox(width: 10,),
+           SizedBox(width: 10,),
             TextField(
               controller: leaveRequestViewModel.titleController,
               decoration: InputDecoration(

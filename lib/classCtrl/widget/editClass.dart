@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:it4788_20241/classCtrl/models/class_data.dart';
 import 'package:it4788_20241/classCtrl/viewmodels/classCtrlForm_viewmodel.dart';
 import 'package:it4788_20241/auth/models/user_data.dart';
-import 'package:it4788_20241/classCtrl/models/class_data.dart';
 
 import '../viewmodels/classCtrl_viewmodel.dart';
 
@@ -26,10 +25,15 @@ class EditClassWidget extends StatelessWidget {
     viewModel.classType = classData.classType;
     viewModel.maxStudents = classData.maxStudents;
 
-    final TextEditingController startDateController = TextEditingController(text: viewModel.startDate);
-    final TextEditingController endDateController = TextEditingController(text: viewModel.endDate);
+    final TextEditingController startDateController =
+    TextEditingController(text: viewModel.startDate);
+    final TextEditingController endDateController =
+    TextEditingController(text: viewModel.endDate);
 
-    Future<void> _selectDate(BuildContext context, TextEditingController controller, bool isStartDate) async {
+    Future<void> _selectDate(
+        BuildContext context,
+        TextEditingController controller,
+        bool isStartDate) async {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -50,12 +54,12 @@ class EditClassWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: const Text('Sửa Lớp', style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+        title: const Text('CHỈNH SỬA THÔNG TIN LỚP',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )),
+        centerTitle:   true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
@@ -92,13 +96,34 @@ class EditClassWidget extends StatelessWidget {
                 }).toList(),
                 onChanged: (value) => viewModel.classType = value ?? '',
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  // Cập nhật lớp và gọi API
-                  await viewModel.updateClass(viewModel.saveClass());
-                  Navigator.pop(context);  // Quay lại trang trước
-                },
-                child: const Text('Lưu'),
+              const SizedBox(height: 20),
+              // Nút "Lưu"
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(9.0),
+                    ),
+                    elevation: 2.0,
+                    shadowColor: Colors.grey,
+                  ),
+                  onPressed: () async {
+                    // Cập nhật lớp và gọi API
+                    await viewModel.updateClass(viewModel.saveClass());
+                    Navigator.pop(context); // Quay lại trang trước
+                  },
+                  child: const Text(
+                    'LƯU',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

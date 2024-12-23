@@ -44,9 +44,9 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
-                fontWeight: FontWeight.bold
             ),
         ),
+        centerTitle: true,
         backgroundColor: Colors.red,
       ),
       body: Padding(

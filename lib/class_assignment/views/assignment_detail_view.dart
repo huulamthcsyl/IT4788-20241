@@ -57,8 +57,9 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
               title: Text(
                 widget.classData.className,
                 style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                    color: Colors.white, fontSize: 20),
               ),
+              centerTitle:  true,
               backgroundColor: Colors.red,
               iconTheme: const IconThemeData(color: Colors.white),
               leading: IconButton(

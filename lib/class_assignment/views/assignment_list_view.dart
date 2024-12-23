@@ -73,9 +73,10 @@ class AssignmentListViewState extends State<AssignmentListView> {
               className,
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontSize: 20
               ),
             ),
+            centerTitle: true,
             bottom: TabBar(
               onTap: (int index) {
                 final viewModel = Provider.of<AssignmentListViewModel>(context,

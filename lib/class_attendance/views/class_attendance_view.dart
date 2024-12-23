@@ -49,8 +49,9 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
     return AppBar(
       leading: const BackButton(color: Colors.white),
       title: const Text("Danh sách điểm danh",
-          style: TextStyle(color: Colors.white)),
+          style: TextStyle(color: Colors.white, fontSize: 20)),
       backgroundColor: Colors.red,
+      centerTitle: true,
       elevation: 4,
       actions: <Widget>[
         TextButton(

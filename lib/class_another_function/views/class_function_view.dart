@@ -59,9 +59,10 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
               className,
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontSize: 20
               ),
           ),
+          centerTitle: true,
           bottom: TabBar(
             onTap: (int index){
               setState(() {

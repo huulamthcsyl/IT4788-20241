@@ -39,6 +39,7 @@ class _viewSearchProfilePageState extends State<ViewSearchProfilePage> {
           },
         ),
         automaticallyImplyLeading: false,
+        centerTitle: true,
         title: Center(
           child: Text(
             (_profileviewmodel.searchUserData.role == "LECTURER"
@@ -46,7 +47,7 @@ class _viewSearchProfilePageState extends State<ViewSearchProfilePage> {
                 : "THÔNG TIN SINH VIÊN"),
             style: TextStyle(
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontSize: 20
             ),
           ),
         ),

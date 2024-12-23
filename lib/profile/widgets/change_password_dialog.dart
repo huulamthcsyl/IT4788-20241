@@ -17,7 +17,7 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   Widget build(BuildContext context) {
     final _profileviewmodel = Provider.of<ProfileViewModel>(context);
     return AlertDialog(
-      backgroundColor: Colors.black45,
+      backgroundColor: Colors.red,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: BorderSide(

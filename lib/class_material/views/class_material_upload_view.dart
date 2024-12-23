@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:it4788_20241/class_material/viewmodels/class_material_viewmodels.dart';
 import 'package:provider/provider.dart';
 
+import 'class_material_view.dart';
+
 class ClassMaterialUploadFilePage extends StatefulWidget {
   @override
   _ClassMaterialUploadFileState createState() => _ClassMaterialUploadFileState();
@@ -22,14 +24,25 @@ class _ClassMaterialUploadFileState extends State<ClassMaterialUploadFilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Upload tài liệu cho lớp: ${viewModel.classData.className}',
+          'UPLOAD TÀI LIỆU',
           style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
-              fontWeight: FontWeight.bold
           ),
         ),
+        centerTitle: true,
         backgroundColor: Colors.red,
+        leading: IconButton(
+          onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ClassMaterialPage(classData: viewModel.classData),
+                ),
+              );
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white,),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

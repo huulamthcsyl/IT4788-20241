@@ -64,9 +64,10 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
               className,
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontSize: 20
               ),
           ),
+          centerTitle: true,
           actions: <Widget>[
             if (viewModel.userData.role == "LECTURER")
               IconButton(

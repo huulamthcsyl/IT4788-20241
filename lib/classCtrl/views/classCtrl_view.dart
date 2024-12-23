@@ -4,6 +4,7 @@ import 'package:it4788_20241/classCtrl/viewmodels/classCtrl_viewmodel.dart';
 import 'package:it4788_20241/classCtrl/views/classCtrlForm_view.dart';
 import 'package:it4788_20241/classCtrl/widget/editClass.dart'; // Import trang sửa lớp
 import 'package:it4788_20241/classCtrl/views/class_detail_page.dart'; // Import trang chi tiết lớp
+import 'package:it4788_20241/home/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class ClassCtrlPage extends StatefulWidget {
@@ -39,55 +40,18 @@ class _ClassCtrlPageState extends State<ClassCtrlPage> {
             },
             icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
-        title: const Center(
-          child: Text(
-            'DANH SÁCH LỚP',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        title: Text(
+        'DANH SÁCH LỚP',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClassCtrlFormPage(
-                    onSave: (newClass) {
-                      context.read<ClassCtrlViewModel>().addClass(newClass);
-                    },
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
+      ), centerTitle: true,
       ),
       body: Column(
         children: [
           Expanded(
             child: _buildBody(viewModel),
-          ),
-          const SizedBox(height: 10.0),
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/class-list').then((_) {
-              // Làm mới dữ liệu khi quay lại từ danh sách chi tiết lớp
-              _fetchData();
-            }),
-            child: const Text(
-              'Thông tin danh sách các lớp',
-              style: TextStyle(
-                color: Colors.red,
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.red,
-                fontSize: 16,
-                fontWeight: FontWeight.bold
-              ),
-            ),
           ),
           const SizedBox(height: 10.0),
         ],

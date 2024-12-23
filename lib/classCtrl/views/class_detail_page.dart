@@ -45,11 +45,11 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
           },
           icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
+        centerTitle: true,
         title: Text(
           widget.classData.className,
           style: const TextStyle(color: Colors.white,
             fontSize: 20,
-            fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Colors.red,
