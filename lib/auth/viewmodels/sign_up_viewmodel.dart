@@ -18,6 +18,14 @@ class SignUpViewModel extends ChangeNotifier {
 
   String errorMessage = '';
 
+  void init(){
+    firstNameController.text = "";
+    secondNameController.text = "";
+    emailController.text = "";
+    passwordController.text = "";
+    confirmPasswordController.text = "";
+  }
+
   void updateEmail(String email) {
     signUpData.email = email;
     notifyListeners();

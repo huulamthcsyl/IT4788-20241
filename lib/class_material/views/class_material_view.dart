@@ -58,9 +58,15 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                   ),
                 );
             },
-            icon: Icon(Icons.arrow_back, color: Colors.black,),
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
           ),
-          title: Text(className),
+          title: Text(
+              className,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+          ),
           actions: <Widget>[
             if (viewModel.userData.role == "LECTURER")
               IconButton(
@@ -75,14 +81,15 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
               viewModel.onClickTabBar(index, context);
             },
             indicatorColor: Colors.red,
-            labelColor: Colors.black,
-            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            labelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
             tabs: [
               Tab(text: "Kiểm tra"),
               Tab(text: "Tài liệu"),
               Tab(text: "Khác")
             ],
           ),
+          backgroundColor: Colors.red,
         ),
         body: Consumer<ClassMaterialViewModel>(
           builder: (context, viewModel, child) {

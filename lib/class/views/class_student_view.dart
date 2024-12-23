@@ -22,12 +22,15 @@ class ClassStudentPage extends StatelessWidget {
                     }, icon: Icon(Icons.arrow_back, color: Colors.white)),
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.red,
-                title: Center(
-                  child: Text(
+                title: const Text(
                     'Danh sách lớp học',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),
                   ),
-                ),
+                centerTitle: true,
               ),
               body: Column(
                 children: [
@@ -39,11 +42,11 @@ class ClassStudentPage extends StatelessWidget {
                               viewModel.newClasses.isEmpty)
                               ? Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: Text(
+                            /*child: Text(
                               'Bạn chưa đăng ký lớp học nào',
                               style: TextStyle(
                                   color: Colors.red, fontSize: 18.0),
-                            ),
+                            ),*/
                           )
                               : Column(
                             children: [

@@ -39,7 +39,15 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chỉnh sửa tài liệu: ${classMaterial.ID}'),
+        title: Text(
+            'Chỉnh sửa tài liệu: ${classMaterial.ID}',
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+            ),
+        ),
+        backgroundColor: Colors.red,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
