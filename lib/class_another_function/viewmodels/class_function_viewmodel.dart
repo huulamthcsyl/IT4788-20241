@@ -62,7 +62,7 @@ class ClassFunctionViewModel extends ChangeNotifier
             Navigator.push((context), MaterialPageRoute(builder: (context) => ClassAttendanceView(classData: classData)));
             break;
           case 1:
-            Navigator.push((context), MaterialPageRoute(builder: (context) => LeaveRequestListPage(classId: classData.classId,)));
+            Navigator.push((context), MaterialPageRoute(builder: (context) => LeaveRequestListPage(classData: classData)));
         }
         break;
       case "STUDENT":

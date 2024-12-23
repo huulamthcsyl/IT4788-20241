@@ -3,11 +3,12 @@ import 'package:it4788_20241/leave/models/leave_request_model.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:it4788_20241/leave/repositories/leave_request_repository.dart';
 import '../../auth/models/user_data.dart';
+import '../../classCtrl/models/class_data.dart';
 
 class LeaveRequestListViewModel extends ChangeNotifier {
   final LeaveRequestRepository _repository = LeaveRequestRepository();
   List<LeaveRequest> _leavereqs = [];
-  String classcode = '';
+  ClassData classData = ClassData(classId: '', classCode: '', className: '', maxStudents: 0, classType: '', status: '', studentAccounts: []);
 
   UserData userData = UserData(
     id: '',
@@ -49,7 +50,7 @@ class LeaveRequestListViewModel extends ChangeNotifier {
         return;
       }
       print("Fetching leave requests with token: ${userData.token}");
-      _leavereqs = await _repository.getLeaveRequests(userData.token, classcode);
+      _leavereqs = await _repository.getLeaveRequests(userData.token, classData.classId);
       notifyListeners();
     } catch (e) {
       print("Error fetching leave requests: $e");

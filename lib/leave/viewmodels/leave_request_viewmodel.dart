@@ -5,6 +5,7 @@ import 'package:it4788_20241/leave/repositories/leave_request_repository.dart';
 import 'dart:io';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import '../../auth/models/user_data.dart';
+import '../../classCtrl/models/class_data.dart';
 
 class LeaveRequestViewModel extends ChangeNotifier {
   final titleController = TextEditingController();
@@ -17,6 +18,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
   LeaveRequestViewModel() {
     initUserData();
   }
+  ClassData classData = ClassData(classId: '', classCode: '', className: '', maxStudents: 0, classType: '', status: '', studentAccounts: []);
 
   UserData userData = UserData(
     id: '',

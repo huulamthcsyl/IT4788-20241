@@ -4,6 +4,7 @@ import 'package:it4788_20241/class_material/models/class_material_model.dart';
 import 'package:provider/provider.dart';
 
 import '../viewmodels/class_material_viewmodels.dart';
+import 'class_material_view.dart';
 
 class ClassMaterialEditPage extends StatefulWidget {
   final ClassMaterial classMaterial;
@@ -40,7 +41,7 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            'Chỉnh sửa tài liệu: ${classMaterial.ID}',
+            'Chỉnh sửa tài liệu',
             style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
@@ -48,6 +49,17 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
         ),
         centerTitle: true,
         backgroundColor: Colors.red,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ClassMaterialPage(classData: viewModel.classData),
+              ),
+            );
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white,),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,10 +67,12 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text("ID Tài liệu: ${classMaterial.ID}", style: TextStyle(fontSize: 18),),
+              SizedBox(height: 32,),
               TextField(
                 controller: viewModel.titleController,
                 decoration: InputDecoration(
-                  labelText: 'Title [${classMaterial.material_name}]',
+                  labelText: 'Tiêu đề [${classMaterial.material_name}]',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -73,11 +87,11 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 32),
               TextField(
                 controller: viewModel.descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Description [${classMaterial.description}]',
+                  labelText: 'Ghi chú [${classMaterial.description}]',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: BorderSide(color: Colors.red, width: 2.0),
@@ -139,7 +153,7 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                   ),
                   child: viewModel.isUploading
                       ? CircularProgressIndicator(color: Colors.white)
-                      : Text('Lưu thay đổi'),
+                      : Text('Lưu'),
                 ),
               ),
               if (viewModel.isUploading)

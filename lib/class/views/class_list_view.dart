@@ -33,6 +33,12 @@ class _ClassListPageState extends State<ClassListPage> {
         backgroundColor: Colors.red,
         iconTheme: IconThemeData(color: Colors.white),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/');
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white,),
+        ),
       ),
       backgroundColor: Colors.white,
       body: Padding(

@@ -102,7 +102,7 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
       itemBuilder: (context, index) {
         final item = listTitle[index];
         return Container(
-          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+          margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
@@ -129,7 +129,7 @@ class _ClassFunctionPageState extends State<ClassFunctionPage>
                     Expanded(
                       child: Center(
                         child: Text(
-                          item.toUpperCase(),
+                          item,
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),

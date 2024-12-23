@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:it4788_20241/leave/viewmodels/leave_request_list_viewmodel.dart';
 
+import '../../classCtrl/models/class_data.dart';
+import '../../class_another_function/views/class_function_view.dart';
 import '../widgets/leave_request_dialog.dart';
 
 class LeaveRequestListPage extends StatefulWidget {
-  final String classId;
-  LeaveRequestListPage({required this.classId});
+  final ClassData classData;
+  LeaveRequestListPage({required this.classData});
 
   @override
   _LeaveRequestListPageState createState() => _LeaveRequestListPageState();
@@ -15,13 +17,14 @@ class LeaveRequestListPage extends StatefulWidget {
 
 class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
   DateTime _selectedDate = DateTime.now();
-
+  late ClassData classData;
   @override
   void initState() {
     super.initState();
+    this.classData = widget.classData;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<LeaveRequestListViewModel>(context, listen: false);
-      viewModel.classcode = widget.classId;
+      viewModel.classData = widget.classData;
     });
   }
 
@@ -34,7 +37,17 @@ class _LeaveRequestListPageState extends State<LeaveRequestListPage> {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(color: Colors.white),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ClassFunctionPage(classData: viewModel.classData),
+                ),
+              );
+            },
+            icon: Icon(Icons.arrow_back, color: Colors.white,),
+          ),
           title: Text("Danh sách đơn xin nghỉ", style: TextStyle(color: Colors.white, fontSize: 20)),
           centerTitle: true,
           backgroundColor: Colors.red,
