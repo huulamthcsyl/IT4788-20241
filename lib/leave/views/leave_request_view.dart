@@ -128,9 +128,6 @@ class LeaveRequestPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await leaveRequestViewModel.submitRequest(classId);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Gửi đơn xin nghỉ thành công!')),
-                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Màu nền đỏ

@@ -8,6 +8,7 @@ import '../../auth/models/user_data.dart';
 import '../../classCtrl/models/class_data.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/class/repositories/class_repository.dart';
+import 'package:it4788_20241/utils/show_notification.dart';
 
 class LeaveRequestViewModel extends ChangeNotifier {
   final titleController = TextEditingController();
@@ -93,7 +94,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
 
     if (title.isEmpty || reason.isEmpty || date.isEmpty || proofImage == null) {
       // Hiển thị thông báo lỗi nếu có trường nào còn trống
-      print("Yêu cầu chưa đầy đủ");
+      showNotification("Điền đầy đủ thông tin", Colors.yellow);
       return;
     }
 
@@ -108,7 +109,7 @@ class LeaveRequestViewModel extends ChangeNotifier {
       );
 
       if (response['meta']['code'] == "1000") {
-        print("Yêu cầu nghỉ phép thành công");
+        showNotification("Gửi đơn xin nghỉ thành công", Colors.green);
         print("Absence Request ID: ${response['data']['absence_request_id']}");
         // Gọi hàm gửi thông báo sau khi gửi yêu cầu thành công
         await notifyLecturer(classId, title, File(proofImage!.path));
