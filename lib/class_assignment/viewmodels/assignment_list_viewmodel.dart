@@ -10,6 +10,7 @@ import 'package:it4788_20241/class_another_function/views/class_function_view.da
 import 'package:it4788_20241/auth/models/user_data.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:it4788_20241/utils/show_notifacation.dart';
 
 class AssignmentAndSubmission {
   final AssignmentData assignment;
@@ -196,18 +197,6 @@ class AssignmentListViewModel extends ChangeNotifier {
 
     }
 
-  }
-
-  void showNotification(String msg, bool isError) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        // gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: isError == true ? Colors.red.withOpacity(0.8) : Colors.green.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
   }
 
   String formatDate(String date) {

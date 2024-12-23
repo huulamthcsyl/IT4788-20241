@@ -50,7 +50,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
       leading: const BackButton(color: Colors.white),
       title: const Text("Danh sách điểm danh",
           style: TextStyle(color: Colors.white)),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.red,
       elevation: 4,
       actions: <Widget>[
         TextButton(
@@ -59,7 +59,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
                 .saveAttendance();
           },
           child: const Text(
-            'Save',
+            'Lưu',
             style: TextStyle(color: Colors.white, fontSize: 20.0),
           ),
         ),
@@ -76,7 +76,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
@@ -88,7 +88,10 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
               ),
               child: Text(
                 "Ngày: ${DateFormat('dd/MM/yyyy').format(viewModel.selectedDate)}",
-                style: const TextStyle(fontSize: 16, color: Colors.black87),
+                style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ),
@@ -106,7 +109,7 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               elevation: 3,
               shape: RoundedRectangleBorder(
@@ -114,7 +117,10 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
               ),
             ),
             icon: const Icon(Icons.calendar_today, size: 18),
-            label: const Text("Chọn ngày"),
+            label: const Text(
+              "Chọn ngày",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
         ],
       ),
@@ -124,14 +130,39 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
   Widget _buildSearchBar(ClassAttendanceViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: TextField(
-        onChanged: (value) {
-          viewModel.updateSearchQuery(value);
-        },
-        decoration: const InputDecoration(
-          labelText: 'Tìm kiếm theo email',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white, // Background color
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(20.0), // Border radius
+        ),
+        child: TextField(
+          onChanged: (value) {
+            viewModel.updateSearchQuery(value);
+          },
+          decoration: const InputDecoration(
+            hintText: 'Tìm kiếm theo email',
+            filled: true,
+            fillColor: Colors.white,
+            // Background color inside the TextField
+            border: InputBorder.none,
+            // Remove the outline
+            enabledBorder: InputBorder.none,
+            // Remove the outline when enabled
+            focusedBorder: InputBorder.none,
+            // Remove the outline when focused
+            prefixIcon: Icon(Icons.search, color: Colors.black),
+            contentPadding: EdgeInsets.symmetric(vertical: 16.0), // Center vertically
+          ),
+          style: const TextStyle(color: Colors.black),
+          textInputAction: TextInputAction.search,
         ),
       ),
     );
@@ -148,12 +179,31 @@ class ClassAttendanceViewState extends State<ClassAttendanceView> {
                 'Không có thông tin điểm danh.',
                 style: TextStyle(fontSize: 16, color: Colors.black54),
               ),
+              const SizedBox(height: 8.0),
               if (viewModel.attendanceList.isEmpty)
                 ElevatedButton(
                   onPressed: () {
                     viewModel.clearSearchAndResetAttendance();
                   },
-                  child: const Text('Điểm danh'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    // Background color
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 12.0),
+                    // Button size
+                    textStyle: const TextStyle(fontSize: 18.0),
+                    // Font size
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(8.0), // Border radius
+                    ),
+                  ),
+                  child: const Text(
+                    'Điểm danh',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
             ],
           ),

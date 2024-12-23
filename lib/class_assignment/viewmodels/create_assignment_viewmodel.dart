@@ -6,6 +6,7 @@ import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:it4788_20241/class_assignment/models/assignment_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:it4788_20241/utils/show_notifacation.dart';
 
 class CreateAssignmentViewModel extends ChangeNotifier {
   late UserData userData;
@@ -108,18 +109,6 @@ class CreateAssignmentViewModel extends ChangeNotifier {
         notifyListeners();
       }
     }
-  }
-
-  void showNotification(String msg, bool isError) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        // gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: isError == true ? Colors.red.withOpacity(0.8) : Colors.green.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
   }
 
   String formatDate(DateTime dateTime) {

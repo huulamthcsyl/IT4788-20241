@@ -8,6 +8,7 @@ import 'package:it4788_20241/class_assignment/services/assignment_service.dart';
 import 'package:it4788_20241/notification/services/notification_services.dart';
 import 'package:it4788_20241/utils/get_data_user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:it4788_20241/utils/show_notifacation.dart';
 
 class AssignmentDetailViewModel extends ChangeNotifier {
   final assignmentService = AssignmentService();
@@ -47,18 +48,6 @@ class AssignmentDetailViewModel extends ChangeNotifier {
     if (!_isDisposed) {
       notifyListeners();
     }
-  }
-
-  void showNotification(String msg, bool isError) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        // gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: isError == true ? Colors.red.withOpacity(0.8) : Colors.green.withOpacity(0.8),
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
   }
 
   String formatDate(String date) {
@@ -107,6 +96,10 @@ class AssignmentDetailViewModel extends ChangeNotifier {
   }
 
   Future<void> submitAssignment() async {
+    if (assignment.isSubmitted == true) {
+      showNotification('Bài tập đã được nộp', true);
+      return ;
+    }
     try {
       String submissionId = await assignmentService.submitAssignment(
         userData.token,
@@ -147,11 +140,19 @@ class AssignmentDetailViewModel extends ChangeNotifier {
     }
     try {
       await assignmentService.fetchAssignmentResponse(userData.token, assignment.id, grade, submission.id);
+      for (var response in responseList) {
+        if (response.id == submission.id) {
+          response.grade = grade;
+        }
+      }
+      updateSearchQuery(searchQuery);
       String message = 'Bài tập ${assignment.title}, lớp ${classData.className} đã được trả điểm.';
       await notificationService.sendNotification(message, accountId, null, 'ASSIGNMENT_GRADE');
       showNotification('Trả điểm thành công', false);
     } catch (e) {
       showNotification('Trả điểm thất bại', true);
+    } finally {
+      notifyListeners();
     }
   }
 }

@@ -162,7 +162,7 @@ class AssignmentListViewState extends State<AssignmentListView> {
                                   .updateSearchQuery(value);
                             },
                             decoration: const InputDecoration(
-                              hintText: 'Nhập tên bài tập để tìm kiếm',
+                              hintText: 'Tìm kiếm theo tên bài tập',
                               filled: true,
                               fillColor: Colors.white,
                               // Background color inside the TextField

@@ -30,7 +30,8 @@ class AssignmentDetailView extends StatefulWidget {
 
 class AssignmentDetailViewState extends State<AssignmentDetailView> {
   Future<void> _refreshData() async {
-    final viewModel = Provider.of<AssignmentDetailViewModel>(context, listen: false);
+    final viewModel =
+        Provider.of<AssignmentDetailViewModel>(context, listen: false);
     await viewModel.initialize(); // Re-fetch data
   }
 
@@ -45,22 +46,28 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AssignmentDetailViewModel(widget.assignment, widget.submission, widget.classData),
+      create: (_) => AssignmentDetailViewModel(
+          widget.assignment, widget.submission, widget.classData),
       child: Builder(
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
               title: Text(
                 widget.classData.className,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
               backgroundColor: Colors.red,
               iconTheme: const IconThemeData(color: Colors.white),
               actions: <Widget>[
-                if (widget.status == 'UPCOMING' && widget.submission.submissionTime == '' && widget.role == 'STUDENT')
+                if (widget.status == 'UPCOMING' &&
+                    widget.submission.submissionTime == '' &&
+                    widget.role == 'STUDENT')
                   TextButton(
                     onPressed: () {
-                      Provider.of<AssignmentDetailViewModel>(context, listen: false).submitAssignment();
+                      Provider.of<AssignmentDetailViewModel>(context,
+                              listen: false)
+                          .submitAssignment();
                     },
                     child: const Text(
                       'Nộp bài',
@@ -71,7 +78,9 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
             ),
             backgroundColor: Colors.white,
             body: FutureBuilder(
-              future: Provider.of<AssignmentDetailViewModel>(context, listen: false).initialize(),
+              future:
+                  Provider.of<AssignmentDetailViewModel>(context, listen: false)
+                      .initialize(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -89,7 +98,8 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (widget.role == 'STUDENT') _buildSubmissionStatus(viewModel),
+                                if (widget.role == 'STUDENT')
+                                  _buildSubmissionStatus(viewModel),
                                 const SizedBox(height: 8.0),
                                 _buildAssignmentTitle(viewModel),
                                 const SizedBox(height: 8.0),
@@ -99,17 +109,22 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
                                 const SizedBox(height: 8.0),
                                 _buildReferenceMaterials(viewModel),
                                 const SizedBox(height: 8.0),
-                                if (widget.role == 'STUDENT') _buildMyWorkSection(viewModel),
+                                if (widget.role == 'STUDENT')
+                                  _buildMyWorkSection(viewModel),
                                 const SizedBox(height: 8.0),
-                                if (widget.role == 'STUDENT') _buildGradeSection(viewModel),
+                                if (widget.role == 'STUDENT')
+                                  _buildGradeSection(viewModel),
                                 if (widget.role == 'LECTURER') ...[
                                   const Text(
                                     'Danh sách nộp bài:',
-                                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   _buildSearchBar(viewModel),
                                 ],
-                                if (widget.role == 'LECTURER') _buildResponseList(context, viewModel),
+                                if (widget.role == 'LECTURER')
+                                  _buildResponseList(context, viewModel),
                               ],
                             ),
                           ),
@@ -129,13 +144,13 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
   Widget _buildSubmissionStatus(AssignmentDetailViewModel viewModel) {
     return viewModel.assignment.isSubmitted
         ? Text(
-      'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
-      style: const TextStyle(color: Colors.red, fontSize: 16.0),
-    )
+            'Đã nộp bài vào ${viewModel.formatDate(viewModel.submission.submissionTime)}',
+            style: const TextStyle(color: Colors.red, fontSize: 16.0),
+          )
         : const Text(
-      'Chưa nộp bài',
-      style: TextStyle(color: Colors.red, fontSize: 16.0),
-    );
+            'Chưa nộp bài',
+            style: TextStyle(color: Colors.red, fontSize: 16.0),
+          );
   }
 
   Widget _buildAssignmentTitle(AssignmentDetailViewModel viewModel) {
@@ -180,21 +195,21 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
         ),
         viewModel.assignment.fileUrl.isNotEmpty
             ? InkWell(
-          onTap: () async {
-            await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
-          },
-          child: Text(
-            viewModel.assignment.fileUrl,
-            style: const TextStyle(
-                fontSize: 16.0,
-                color: Colors.blue,
-                decoration: TextDecoration.underline),
-          ),
-        )
+                onTap: () async {
+                  await launchUrl(Uri.parse(viewModel.assignment.fileUrl));
+                },
+                child: Text(
+                  viewModel.assignment.fileUrl,
+                  style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline),
+                ),
+              )
             : const Text(
-          'Không có',
-          style: TextStyle(fontSize: 16.0),
-        ),
+                'Không có',
+                style: TextStyle(fontSize: 16.0),
+              ),
       ],
     );
   }
@@ -279,7 +294,7 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
               ElevatedButton.icon(
                 onPressed: () async {
                   FilePickerResult? result =
-                  await FilePicker.platform.pickFiles(
+                      await FilePicker.platform.pickFiles(
                     allowMultiple: true,
                     type: FileType.custom,
                     allowedExtensions: ['jpg', 'pdf', 'doc'],
@@ -328,28 +343,55 @@ class AssignmentDetailViewState extends State<AssignmentDetailView> {
   Widget _buildSearchBar(AssignmentDetailViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextField(
-        controller: viewModel.searchController,
-        onChanged: (value) {
-          viewModel.updateSearchQuery(value);
-        },
-        decoration: const InputDecoration(
-          labelText: 'Tìm kiếm theo tên',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white, // Background color
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.circular(20.0), // Border radius
+        ),
+        child: TextField(
+          onChanged: (value) {
+            viewModel.updateSearchQuery(value);
+          },
+          decoration: const InputDecoration(
+            hintText: 'Tìm kiếm theo tên sinh viên',
+            filled: true,
+            fillColor: Colors.white,
+            // Background color inside the TextField
+            border: InputBorder.none,
+            // Remove the outline
+            enabledBorder: InputBorder.none,
+            // Remove the outline when enabled
+            focusedBorder: InputBorder.none,
+            // Remove the outline when focused
+            prefixIcon: Icon(Icons.search, color: Colors.black),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 16.0), // Center vertically
+          ),
+          style: const TextStyle(color: Colors.black),
+          textInputAction: TextInputAction.search,
         ),
       ),
     );
   }
 
-  Widget _buildResponseList(BuildContext context, AssignmentDetailViewModel viewModel) {
+  Widget _buildResponseList(
+      BuildContext context, AssignmentDetailViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 8.0),
         for (var response in viewModel.filteredResponseList)
           ResponseItem(
-            name: '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
+            name:
+                '${response.studentAccount?.firstName} ${response.studentAccount?.lastName}',
             email: '${response.studentAccount?.email}',
             submissionTime: response.submissionTime,
             grade: response.grade,
