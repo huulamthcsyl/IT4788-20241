@@ -220,7 +220,6 @@ class _ClassMaterialPageState extends State<ClassMaterialPage> {
                 title: Text('Sao chép liên kết'),
                 onTap: () {
                   FlutterClipboard.copy(classMaterial.material_link).then((value) {
-                    // (Tùy chọn) Hành động sau khi copy thành công, ví dụ:
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Đã sao chép vào clipboard!')),
                     );
