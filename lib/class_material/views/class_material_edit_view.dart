@@ -140,6 +140,12 @@ class _ClassMaterialEditState extends State<ClassMaterialEditPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     viewModel.editFile();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Chỉnh sửa tài liệu thành công!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
