@@ -19,12 +19,11 @@ class ChatOverviewViewModel extends ChangeNotifier {
     _layoutViewModel.getUnreadMessageCount();
   }
 
-  void fetchListConversation() {
+  void fetchListConversation() async {
+    final newItems = await _chatService.getListConversation(0, 100);
     listConversation.clear();
-    _chatService.getListConversation(0, 100).then((value) {
-      listConversation.addAll(value);
-      notifyListeners();
-    });
+    listConversation.addAll(newItems);
+    notifyListeners();
   }
 
   Future<void> refresh() async {
