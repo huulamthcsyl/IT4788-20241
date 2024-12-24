@@ -86,6 +86,23 @@ class LeaveRequestViewModel extends ChangeNotifier {
     }
   }
 
+  bool isDateAfterToday(String dateString) {
+    try {
+      // Chuyển đổi chuỗi ngày tháng sang đối tượng DateTime
+      DateTime date = DateFormat('dd-MM-yyyy').parse(dateString);
+
+      // Lấy ngày hiện tại
+      DateTime today = DateTime.now();
+
+      // So sánh ngày đã chọn với ngày hiện tại (bỏ qua phần thời gian)
+      return date.isAfter(DateTime(today.year, today.month, today.day));
+    } catch (e) {
+      // Xử lý lỗi nếu chuỗi ngày tháng không hợp lệ
+      print("Invalid date format: $e");
+      return false; // Hoặc có thể throw exception tùy theo yêu cầu
+    }
+  }
+
   // Hàm xử lý submit yêu cầu nghỉ phép
   Future<void> submitRequest(String classId) async {
     String title = titleController.text;
@@ -95,6 +112,11 @@ class LeaveRequestViewModel extends ChangeNotifier {
     if (title.isEmpty || reason.isEmpty || date.isEmpty || proofImage == null) {
       // Hiển thị thông báo lỗi nếu có trường nào còn trống
       showNotification("Điền đầy đủ thông tin", Colors.yellow);
+      return;
+    }
+
+    if (!isDateAfterToday(date)) {
+      showNotification("Ngày đã chọn phải lớn hơn ngày hiện tại", Colors.red);
       return;
     }
 
