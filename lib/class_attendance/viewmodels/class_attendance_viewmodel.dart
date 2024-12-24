@@ -33,17 +33,22 @@ class ClassAttendanceViewModel extends ChangeNotifier {
   }
 
   void updateAttendance() {
-    attendanceList = classData.studentAccounts.map((student) {
-      final attendance = attendanceData.firstWhere(
-        (data) => data.studentId == student.studentId,
-      );
-      return {
-        'name': '${student.firstName} ${student.lastName}',
-        'email': student.email,
-        'status': attendance.status,
-        'studentId': student.studentId,
-      };
-    }).toList();
+    if (attendanceData.isEmpty) {
+      attendanceList = [];
+    } else {
+      attendanceList = classData.studentAccounts.map((student) {
+        final attendance = attendanceData.firstWhere(
+              (data) => data.studentId == student.studentId,
+        );
+        return {
+          'name': '${student.firstName} ${student.lastName}',
+          'email': student.email,
+          'status': attendance.status,
+          'studentId': student.studentId,
+        };
+      }).toList();
+    }
+
     filteredAttendanceList = attendanceList;
     notifyListeners();
   }
@@ -92,6 +97,7 @@ class ClassAttendanceViewModel extends ChangeNotifier {
         'name': '${student.firstName} ${student.lastName}',
         'email': student.email,
         'status': 'PRESENT',
+        'studentId': student.studentId
       };
     }).toList();
     filteredAttendanceList = attendanceList;
@@ -99,8 +105,13 @@ class ClassAttendanceViewModel extends ChangeNotifier {
   }
 
   void saveAttendance() async {
+    if (attendanceList.isEmpty) {
+      showNotification('Vui lòng điểm danh trước khi lưu', Colors.red.withOpacity(0.9));
+      return;
+    }
     try {
       await takeAllAttendance();
+
       await setAttendanceStatus();
       showNotification('Điểm danh thành công', Colors.green.withOpacity(0.9));
     } catch (e) {
@@ -116,7 +127,7 @@ class ClassAttendanceViewModel extends ChangeNotifier {
     }).toList();
 
     await attendanceRepo.takeAttendance(
-        userData.token, classData.classId, selectedDate, studentList);
+        userData.token, classData.classId, selectedDate, []);
     // Perform any additional operations with studentList if needed
   }
 
